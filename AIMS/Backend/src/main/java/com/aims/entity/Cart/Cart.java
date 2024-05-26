@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "cart")
 public class Cart {
     @Id
-    private String cartId;
+    private String id;
     private List<CartItem> listCartItem;
     private double totalPrice;
 
