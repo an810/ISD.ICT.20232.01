@@ -36,7 +36,7 @@ export const CartProvider = ({ children }) => {
               quantity: 1,
             },
           ])
-     }, [item]);
+     }, []);
 
     return (
         <CartContext.Provider

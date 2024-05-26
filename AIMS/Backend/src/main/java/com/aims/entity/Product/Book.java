@@ -1,20 +1,22 @@
-package com.aims.entity.Media;
+package com.aims.entity.Product;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Date;
 
 @Document(collection = "product")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CD extends Media{
-    String artist;
-    String recordLabel;
-    String musicType;
-    Date releasedDate;
-    String form;
+public class Book extends Product {
+    String author;
+    String coverType;
+    String publisher;
+    Date publishDate;
+    int numOfPages;
+    String language;
+    String bookCategory;
 }

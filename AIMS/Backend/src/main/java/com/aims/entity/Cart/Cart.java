@@ -1,76 +1,62 @@
 package com.aims.entity.Cart;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.aims.entity.Media.Media;
-import com.aims.exception.MediaNotAvailableException;
+import com.aims.exception.ProductNotAvailableException;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Data
+@AllArgsConstructor
+@Document(collection = "cart")
 public class Cart {
+    @Id
+    private String cartId;
+    private List<CartItem> listCartItem;
+    private double totalPrice;
 
-    private List<CartMedia> listCartMedia;
-    private static Cart cartInstance;
+//    private static Cart cartInstance;
+//
+//    public static Cart getCart(){
+//        if(cartInstance == null) cartInstance = new Cart();
+//        return cartInstance;
+//    }
 
-    public static Cart getCart(){
-        if(cartInstance == null) cartInstance = new Cart();
-        return cartInstance;
+    public List<CartItem> getItems() {
+        return listCartItem;
+    }
+    public void addCartItem(CartItem cm){
+        listCartItem.add(cm);
     }
 
-    private Cart(){
-        listCartMedia = new ArrayList<>();
-    }
-
-    public void addCartMedia(CartMedia cm){
-        listCartMedia.add(cm);
-    }
-
-    public void removeCartMedia(CartMedia cm){
-        listCartMedia.remove(cm);
-    }
-
-    public List getListMedia(){
-        return listCartMedia;
+    public void removeCartMedia(CartItem cartItem){
+        listCartItem.remove(cartItem);
     }
 
     public void emptyCart(){
-        listCartMedia.clear();
+        listCartItem.clear();
     }
 
-    public int getTotalMedia(){
-        int total = 0;
-        for (Object obj : listCartMedia) {
-            CartMedia cm = (CartMedia) obj;
-            total += cm.getQuantity();
-        }
-        return total;
-    }
+//    public void checkAvailabilityOfProduct() throws ProductNotAvailableException{
+//        boolean allAvai = true;
+//        for (CartItem object : listCartItem) {
+//            CartItem cartItem = (CartItem) object;
+//            int requiredQuantity = cartItem.getQuantity();
+//            int availQuantity = cartItem.getProduct().getQuantity();
+//            if (requiredQuantity > availQuantity) allAvai=false;
+//        }
+//        if (!allAvai) throw new ProductNotAvailableException("Some media not available");
+//    }
 
-    public int calSubtotal(){
-        int total = 0;
-        for (Object obj : listCartMedia) {
-            CartMedia cm = (CartMedia) obj;
-            total += cm.getPrice()*cm.getQuantity();
-        }
-        return total;
-    }
-
-    public void checkAvailabilityOfProduct() throws SQLException{
-        boolean allAvai = true;
-        for (Object object : listCartMedia) {
-            CartMedia cartMedia = (CartMedia) object;
-            int requiredQuantity = cartMedia.getQuantity();
-            int availQuantity = cartMedia.getMedia().getQuantity();
-            if (requiredQuantity > availQuantity) allAvai = false;
-        }
-        if (!allAvai) throw new MediaNotAvailableException("Some media not available");
-    }
-
-    public CartMedia checkMediaInCart(Media media){
-        for (CartMedia cartMedia : listCartMedia) {
-            if (cartMedia.getMedia().getId() == media.getId()) return cartMedia;
-        }
-        return null;
-    }
+//    public int setTotalPrice(){
+//        int totalPrice = 0;
+//        for (CartItem cartItem : listCartItem) {
+//            totalPrice += cartItem.getPrice() * cartItem.getQuantity();
+//        }
+//        return totalPrice;
+//    }
 
 }

@@ -1,28 +1,22 @@
 package com.aims.entity.Order;
 
-import com.aims.entity.Media.Media;
-import com.aims.utils.Constants;
+import com.aims.entity.DeliveryInfo.DeliveryInfo;
 import lombok.Getter;
 import lombok.Setter;
-import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Setter
 @Getter
 @Document(collection = "order")
 public class Order {
-    private int shippingFees;
-    private Media[] media;
-    private String userId;
-    private String userName;
-    private String userEmail;
-    private String userAddress;
-    private String userPhone;
-
+    @Id
+    private String orderId;
+    private List<OrderItem> listOrderItem;
+    private DeliveryInfo deliveryInfo;
+    private int totalAmount;
 
 //    public Order(){
 //        this.listOrderMedia = new ArrayList<>();

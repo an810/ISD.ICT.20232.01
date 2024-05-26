@@ -6,13 +6,13 @@ package com.aims.exception;;
  *
  * @author nguyenlm
  */
-public class AimsException extends RuntimeException {
+public class AIMSException extends RuntimeException {
 
-    public AimsException() {
+    public AIMSException() {
 
     }
 
-    public AimsException(String message) {
+    public AIMSException(String message) {
         super(message);
     }
 }

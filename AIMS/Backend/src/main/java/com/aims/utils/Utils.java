@@ -15,13 +15,12 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.logging.Logger;
 
-/**
- * @author nguyenlm Contains helper functions
- */
+
 public class Utils {
 
     public static DateFormat DATE_FORMATER = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     static Logger LOGGER = getLogger(Utils.class.getName());
+
     static {
         System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-4s] [%1$tF %1$tT] [%2$-7s] %5$s %n");
     }
@@ -36,26 +35,13 @@ public class Utils {
         return defaultFormat.format(num);
     }
 
-    /**
-     * Return a {@link java.lang.String String} that represents the current time in the format of yyyy-MM-dd HH:mm:ss.
-     *
-     * @author hieudm
-     * @return the current time as {@link java.lang.String String}.
-     */
+
     public static String getToday() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         return dateFormat.format(date);
     }
 
-    /**
-     * Return a {@link java.lang.String String} that represents the cipher text
-     * encrypted by md5 algorithm.
-     *
-     * @author hieudm vnpay
-     * @param message - plain text as {@link java.lang.String String}.
-     * @return cipher text as {@link java.lang.String String}.
-     */
     public static String md5(String message) {
         String digest = null;
         try {
@@ -77,18 +63,18 @@ public class Utils {
     public static void processDeliveryInfo(Order order) throws InterruptedException, IOException {
         LOGGER.info("Process Delivery Info");
         HashMap<String, String> info = new HashMap<>();
-        info.put("customerName", order.getUserName());
-        info.put("customerPhone", order.getUserPhone());
-        info.put("customerEmail", order.getUserEmail());
-        info.put("customerAddress",order.getUserAddress());
+        info.put("customerName", order.getDeliveryInfo().getReceiverName());
+        info.put("customerPhone", order.getDeliveryInfo().getPhoneNumber());
+        info.put("customerAddress",order.getDeliveryInfo().getAddress());
         LOGGER.info(info.toString());
         Validates.validateDeliveryInfo(info);
     }
-//    public static int calculateShippingFee(Order order) {
-//        Random rand = new Random();
-//        int fees = (int) (((rand.nextFloat() * 10) / 100) * order.getAmount());
-//        LOGGER.info("Order Amount: " + order.getAmount() + " -- Shipping Fees: " + fees);
-//        return fees;
-//    }
+
+    public static int calculateShippingFee(Order order) {
+        Random rand = new Random();
+        int fees = (int) (((rand.nextFloat() * 10) / 100) * order.getTotalAmount());
+        LOGGER.info("Order Amount: " + order.getTotalAmount() + " -- Shipping Fees: " + fees);
+        return fees;
+    }
 
 }

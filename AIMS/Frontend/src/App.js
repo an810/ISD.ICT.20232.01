@@ -8,7 +8,12 @@ import RushOrder from "./pages/RushOrder";
 import Payment from "./pages/Payment";
 import Result from "./pages/Result";
 import { CartProvider } from "./providers/CartContext";
+import axios from "axios";
+
+axios.defaults.baseURL = "http://localhost:8080/api/v1/home/";
+
 function App() {
+
   return (
     <div>
       <CartProvider>

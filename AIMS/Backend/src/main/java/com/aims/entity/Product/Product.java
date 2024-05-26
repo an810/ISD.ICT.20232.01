@@ -1,10 +1,9 @@
-package com.aims.entity.Media;
+package com.aims.entity.Product;
 
 import com.aims.utils.Utils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,17 +13,17 @@ import java.util.logging.Logger;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "product")
-public class Media {
-    private static Logger LOGGER = Utils.getLogger(Media.class.getName());
+public class Product {
+    private static Logger LOGGER = Utils.getLogger(Product.class.getName());
     @Id
     protected String id;
-    protected String name;
-    protected String cat;
-    protected int value; // the real price of product (eg: 450)
-    protected int price; // the price which will be displayed on browser (eg: 500)
+    protected String title;
+    protected String category;
+    protected double importPrice; // the real price of product (eg: 450)
+    protected double sellPrice; // the price which will be displayed on browser (eg: 500)
     protected int quantity;
     protected String type;
     protected String imageURL;
-    private boolean supportRush;
+    private boolean rushDeliverySupport;
 }
 

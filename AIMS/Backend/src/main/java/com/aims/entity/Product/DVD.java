@@ -1,8 +1,7 @@
-package com.aims.entity.Media;
+package com.aims.entity.Product;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
@@ -11,7 +10,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DVD extends Media{
+public class DVD extends Product {
     String discType;
     String director;
     String runtime;
