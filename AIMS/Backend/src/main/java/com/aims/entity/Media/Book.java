@@ -2,7 +2,6 @@ package com.aims.entity.Media;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,7 +11,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Book extends Media{
+public class Book extends Product {
     String author;
     String coverType;
     String publisher;

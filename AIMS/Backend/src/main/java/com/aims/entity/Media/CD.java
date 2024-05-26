@@ -2,7 +2,6 @@ package com.aims.entity.Media;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
@@ -11,7 +10,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CD extends Media{
+public class CD extends Product {
     String artist;
     String recordLabel;
     String musicType;
