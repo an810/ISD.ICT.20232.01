@@ -5,7 +5,7 @@ const Home = () => {
     const [productData, setProductData] = useState([]);
 
     React.useEffect(() => {
-        axios.get("/all")
+        axios.get("/home/all")
         .then((response) => {
             setProductData(response.data);
         }).catch((error) => {

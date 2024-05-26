@@ -3,44 +3,16 @@ import { createContext, useEffect, useState } from "react";
 export const CartContext = createContext([]);
 
 export const CartProvider = ({ children }) => { 
+    const cartId = "6652d55e801ec577200fcc3f";
+  
     const [item, setItem] = useState([]);
 
-    useEffect(() => {
-        setItem([
-            {
-              name: "Product 1",
-              price: 100,
-              stock: 10,
-              image: "https://via.placeholder.com/150",
-              quantity: 1,
-            },
-            {
-              name: "Product 2",
-              price: 200,
-              stock: 10,
-              image: "https://via.placeholder.com/150",
-              quantity: 1,
-            },
-            {
-              name: "Product 3",
-              price: 300,
-              stock: 10,
-              image: "https://via.placeholder.com/150",
-              quantity: 1,
-            },
-            {
-              name: "Product 4",
-              price: 300,
-              stock: 10,
-              image: "https://via.placeholder.com/150",
-              quantity: 1,
-            },
-          ])
-     }, []);
+    useEffect(() => { }, []);
+
 
     return (
         <CartContext.Provider
-          value={{ item, setItem}}
+          value={{ item, setItem, cartId}}
         >
           {children}
         </CartContext.Provider>

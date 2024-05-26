@@ -31,6 +31,10 @@ public class CartServiceImpl implements CartService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
+        if (cart.getListCartItem() == null) {
+            cart.setListCartItem(new ArrayList<>());
+        }
+
         Optional<CartItem> existingItem = cart.getListCartItem().stream()
                 .filter(item -> item.getProduct().getId().equals(product.getId()))
                 .findFirst();

@@ -10,7 +10,7 @@ import Result from "./pages/Result";
 import { CartProvider } from "./providers/CartContext";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:8080/api/v1/home/";
+axios.defaults.baseURL = "http://localhost:8080/api/v1/";
 
 function App() {
 

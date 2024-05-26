@@ -1,8 +1,21 @@
-import React from "react";
-
+import React, {useContext} from "react";
+import axios from "axios";
+import { CartContext } from "../providers/CartContext";
 const ItemCard = (props) => {
+  const {cartId} = useContext(CartContext);
+
   const { product } = props;
-  console.log(product.image );
+  console.log(product.id);
+
+  const handleAddToCart = () => {
+    console.log(cartId + " " + product.id);
+    axios.post(`/cart/${cartId}/add/?productId=${product.id}&quantity=1`).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.error("Error adding to cart: ", error);
+    })
+  }
+
   return (
     <div className="bg-gray-100 rounded-lg shadow-md p-4">
       <img
@@ -16,7 +29,7 @@ const ItemCard = (props) => {
           <p className="text-gray-600 mb-2">${product.sellPrice}</p>
           <p className="text-gray-600 mb-4">Stock: {product.stock}</p>
         </div>
-        <button className=" text-white font-semibold py-2 px-4 rounded-3xl bg-gray-500 h-10 	">
+        <button className=" text-white font-semibold py-2 px-4 rounded-3xl bg-gray-500 h-10" onClick={handleAddToCart}>
           Add to Cart
         </button>
       </div>
