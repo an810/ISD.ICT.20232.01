@@ -2,7 +2,6 @@ package com.aims.entity.Cart;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.aims.exception.ProductNotAvailableException;
 import lombok.AllArgsConstructor;
@@ -39,19 +38,6 @@ public class Cart {
 
     public void emptyCart(){
         listCartItem.clear();
-    }
-
-    public void addProductToCart(Product product, int quantity) {
-        Optional<CartItem> existingCartItem = listCartItem.stream()
-                .filter(cartItem -> cartItem.getProduct().getId().equals(product.getId()))
-                .findFirst();
-
-        if (existingCartItem.isPresent()) {
-            CartItem cartItem = existingCartItem.get();
-            cartItem.setQuantity(cartItem.getQuantity() + quantity);
-        } else {
-            listCartItem.add(new CartItem(product, quantity));
-        }
     }
 
 //    public void checkAvailabilityOfProduct() throws ProductNotAvailableException{
