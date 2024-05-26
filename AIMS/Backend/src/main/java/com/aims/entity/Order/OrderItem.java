@@ -1,7 +1,7 @@
 package com.aims.entity.Order;
 
 
-import com.aims.entity.Media.Product;
+import com.aims.entity.Product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

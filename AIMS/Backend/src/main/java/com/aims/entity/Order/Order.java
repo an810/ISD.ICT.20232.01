@@ -1,7 +1,6 @@
 package com.aims.entity.Order;
 
 import com.aims.entity.DeliveryInfo.DeliveryInfo;
-import com.aims.entity.Media.Product;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;

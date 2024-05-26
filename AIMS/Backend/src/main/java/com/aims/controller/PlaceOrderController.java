@@ -26,14 +26,14 @@ public class PlaceOrderController {
         return orderService.processOrder(order);
     }
 
-    @GetMapping("/check-cart")
-    public ResponseEntity<String> checkCart(@RequestBody Cart cart) {
-        try {
-            cart.checkAvailabilityOfProduct();
-        } catch (ProductNotAvailableException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>("All products are available", HttpStatus.OK);
-    }
+//    @GetMapping("/check-cart")
+//    public ResponseEntity<String> checkCart(@RequestBody Cart cart) {
+//        try {
+//            cart.checkAvailabilityOfProduct();
+//        } catch (ProductNotAvailableException e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+//        }
+//        return new ResponseEntity<>("All products are available", HttpStatus.OK);
+//    }
 
 }

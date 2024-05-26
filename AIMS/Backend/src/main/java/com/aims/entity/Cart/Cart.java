@@ -6,14 +6,17 @@ import java.util.List;
 import com.aims.exception.ProductNotAvailableException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @AllArgsConstructor
 @Document(collection = "cart")
 public class Cart {
+    @Id
     private String cartId;
     private List<CartItem> listCartItem;
+    private double totalPrice;
 
 //    private static Cart cartInstance;
 //
@@ -22,10 +25,9 @@ public class Cart {
 //        return cartInstance;
 //    }
 
-    private Cart(){
-        listCartItem = new ArrayList<>();
+    public List<CartItem> getItems() {
+        return listCartItem;
     }
-
     public void addCartItem(CartItem cm){
         listCartItem.add(cm);
     }
@@ -49,12 +51,12 @@ public class Cart {
 //        if (!allAvai) throw new ProductNotAvailableException("Some media not available");
 //    }
 
-    public int calculateSubTotal(){
-        int subTotal = 0;
-        for (CartItem cartItem : listCartItem) {
-            subTotal += cartItem.getPrice() * cartItem.getQuantity();
-        }
-        return subTotal;
-    }
+//    public int setTotalPrice(){
+//        int totalPrice = 0;
+//        for (CartItem cartItem : listCartItem) {
+//            totalPrice += cartItem.getPrice() * cartItem.getQuantity();
+//        }
+//        return totalPrice;
+//    }
 
 }

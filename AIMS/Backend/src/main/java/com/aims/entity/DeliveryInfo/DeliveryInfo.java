@@ -22,5 +22,4 @@ public class DeliveryInfo {
     private String instruction;
     private boolean isRushDelivery;
     private LocalTime rushDeliveryTime;
-
 }

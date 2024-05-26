@@ -1,6 +1,6 @@
 package com.aims.service.impl;
 
-import com.aims.entity.Media.Product;
+import com.aims.entity.Product.Product;
 import com.aims.repository.ProductRepository;
 import com.aims.service.ProductService;
 import org.bson.types.ObjectId;
@@ -19,7 +19,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll();
     }
     @Override
-    public Optional<Product> findProductById(ObjectId id){
+    public Optional<Product> findProductById(String id){
         return productRepository.findById(id);
     }
 }

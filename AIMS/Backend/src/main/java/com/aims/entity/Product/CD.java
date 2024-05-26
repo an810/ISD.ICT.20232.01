@@ -1,4 +1,4 @@
-package com.aims.entity.Media;
+package com.aims.entity.Product;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,12 +10,10 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DVD extends Product {
-    String discType;
-    String director;
-    String runtime;
-    String studio;
-    String subtitles;
+public class CD extends Product {
+    String artist;
+    String recordLabel;
+    String musicType;
     Date releasedDate;
-    String filmType;
+    String form;
 }

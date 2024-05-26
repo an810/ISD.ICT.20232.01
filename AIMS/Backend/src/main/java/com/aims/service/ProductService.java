@@ -1,6 +1,6 @@
 package com.aims.service;
 
-import com.aims.entity.Media.Product;
+import com.aims.entity.Product.Product;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface ProductService {
     public List<Product> findAllProduct();
 
-    public Optional<Product> findProductById(ObjectId id);
+    public Optional<Product> findProductById(String id);
 }

@@ -1,4 +1,4 @@
-package com.aims.entity.Media;
+package com.aims.entity.Product;
 
 import com.aims.utils.Utils;
 import lombok.AllArgsConstructor;
@@ -19,8 +19,8 @@ public class Product {
     protected String id;
     protected String title;
     protected String category;
-    protected int importPrice; // the real price of product (eg: 450)
-    protected int sellPrice; // the price which will be displayed on browser (eg: 500)
+    protected double importPrice; // the real price of product (eg: 450)
+    protected double sellPrice; // the price which will be displayed on browser (eg: 500)
     protected int quantity;
     protected String type;
     protected String imageURL;

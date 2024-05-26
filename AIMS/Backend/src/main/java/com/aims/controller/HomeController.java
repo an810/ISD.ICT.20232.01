@@ -3,7 +3,7 @@ package com.aims.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.aims.entity.Media.Product;
+import com.aims.entity.Product.Product;
 import com.aims.service.ProductService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class HomeController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Product>> getMovies() {
-        List<Product> productList = productService.findAllMedia();
+        List<Product> productList = productService.findAllProduct();
         if (productList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -30,7 +30,7 @@ public class HomeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> findMediaById(@PathVariable String id) {
-        Optional<Product> media = productService.findMediaById(new ObjectId(id));
+        Optional<Product> media = productService.findProductById(id);
         return media.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
