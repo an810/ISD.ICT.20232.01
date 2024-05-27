@@ -70,10 +70,10 @@ public class Utils {
         Validates.validateDeliveryInfo(info);
     }
 
-    public static int calculateShippingFee(Order order) {
+    public static double calculateShippingFee(Double total) {
         Random rand = new Random();
-        int fees = (int) (((rand.nextFloat() * 10) / 100) * order.getTotalAmount());
-        LOGGER.info("Order Amount: " + order.getTotalAmount() + " -- Shipping Fees: " + fees);
+        double fees = (double) (((rand.nextFloat() * 10) / 100) * total);
+        LOGGER.info("Order Amount: " + total + " -- Shipping Fees: " + fees);
         return fees;
     }
 

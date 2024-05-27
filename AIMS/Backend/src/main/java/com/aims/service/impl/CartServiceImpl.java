@@ -3,6 +3,7 @@ package com.aims.service.impl;
 import com.aims.entity.Cart.Cart;
 import com.aims.entity.Cart.CartItem;
 import com.aims.entity.Product.Product;
+import com.aims.exception.ProductNotAvailableException;
 import com.aims.repository.CartRepository;
 import com.aims.repository.ProductRepository;
 import com.aims.service.CartService;
@@ -10,16 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
 @Service
 public class CartServiceImpl implements CartService {
-    @Autowired
-    private CartRepository cartRepository;
+    private final CartRepository cartRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
+    public CartServiceImpl(CartRepository cartRepository, ProductRepository productRepository) {
+        this.cartRepository = cartRepository;
+        this.productRepository = productRepository;
+    }
 
     public Cart getCart(String cartId) {
         // Ensure the cart is properly initialized
@@ -29,7 +33,7 @@ public class CartServiceImpl implements CartService {
     public Cart addCartProduct(String cartId, String productId, int quantity) {
         Cart cart = getCart(cartId);
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ProductNotAvailableException("Product not found"));
 
         if (cart.getListCartItem() == null) {
             cart.setListCartItem(new ArrayList<>());
@@ -65,6 +69,24 @@ public class CartServiceImpl implements CartService {
         cart.getListCartItem().clear();
         cart.setTotalPrice(0);
         return cartRepository.save(cart);
+    }
+
+    public List<Product> checkCartProducts(String cartId) {
+        Cart cart = getCart(cartId);
+        List<Product> products = new ArrayList<>();
+        for (CartItem item : cart.getListCartItem()) {
+            Product product = productRepository.findById(item.getProduct().getId())
+                    .orElseThrow(() -> new ProductNotAvailableException("Product not found"));
+            if (product.getQuantity() < item.getQuantity()) {
+                products.add(product);
+            }
+        }
+        return products;
+    }
+
+    public List<CartItem> getAllCartItems(String cartId) {
+        Cart cart = getCart(cartId);
+        return cart.getListCartItem();
     }
 
 }
