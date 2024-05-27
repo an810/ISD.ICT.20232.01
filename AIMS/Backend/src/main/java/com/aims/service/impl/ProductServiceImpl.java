@@ -1,6 +1,7 @@
 package com.aims.service.impl;
 
 import com.aims.entity.Product.Product;
+import com.aims.exception.ProductNotAvailableException;
 import com.aims.repository.ProductRepository;
 import com.aims.service.ProductService;
 import org.bson.types.ObjectId;
@@ -22,4 +23,25 @@ public class ProductServiceImpl implements ProductService {
     public Optional<Product> findProductById(String id){
         return productRepository.findById(id);
     }
+
+    @Override
+    public Product addProduct(Product product){
+        return productRepository.save(product);
+    }
+
+    @Override
+    public Product updateProduct(Product product){
+        if(productRepository.existsById(product.getId())){
+            return productRepository.save(product);
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteProduct(String id) {
+        if (productRepository.existsById(id))
+            productRepository.deleteById(id);
+        else throw new ProductNotAvailableException("Product not found");
+    }
+
 }

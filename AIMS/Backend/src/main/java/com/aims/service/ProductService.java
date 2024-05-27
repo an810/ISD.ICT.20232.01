@@ -9,7 +9,11 @@ import java.util.Optional;
 
 @Service
 public interface ProductService {
-    public List<Product> findAllProduct();
+    List<Product> findAllProduct();
 
-    public Optional<Product> findProductById(String id);
+    Optional<Product> findProductById(String id);
+    Product addProduct(Product product);
+    Product updateProduct(Product product);
+    void deleteProduct(String id);
+
 }
