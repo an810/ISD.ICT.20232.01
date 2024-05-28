@@ -9,6 +9,8 @@ import Payment from "./pages/Payment";
 import Result from "./pages/Result";
 import { CartProvider } from "./providers/CartContext";
 import axios from "axios";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 axios.defaults.baseURL = "http://localhost:8080/api/v1/";
 
@@ -17,6 +19,7 @@ function App() {
   return (
     <div>
       <CartProvider>
+        <ToastContainer />
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />

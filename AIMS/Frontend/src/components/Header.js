@@ -37,7 +37,7 @@ const Header = () => {
               </span>
             </button>
             <div>Your cart</div>
-            <div className="ml-2 text-red-600 ">({item.length})</div>
+            <div className="ml-2 text-red-600 ">({item?.length ? item.length : 0})</div>
           </div>
         </Link>
       </div>
