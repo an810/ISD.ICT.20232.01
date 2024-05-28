@@ -7,7 +7,6 @@ import com.aims.exception.ProductNotAvailableException;
 import com.aims.repository.CartRepository;
 import com.aims.repository.ProductRepository;
 import com.aims.service.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class CartServiceImpl implements CartService {
         }
 
         cart.setTotalPrice(cart.getListCartItem().stream()
-                .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
+                .mapToDouble(item -> item.getProduct().getSellPrice() * item.getQuantity())
                 .sum());
         return cartRepository.save(cart);
     }
@@ -59,7 +58,7 @@ public class CartServiceImpl implements CartService {
         Cart cart = getCart(cartId);
         cart.getListCartItem().removeIf(item -> item.getProduct().getId().equals(productId));
         cart.setTotalPrice(cart.getListCartItem().stream()
-                .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
+                .mapToDouble(item -> item.getProduct().getSellPrice() * item.getQuantity())
                 .sum());
         return cartRepository.save(cart);
     }
