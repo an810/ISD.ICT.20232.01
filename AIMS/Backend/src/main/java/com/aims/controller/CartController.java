@@ -1,17 +1,23 @@
 package com.aims.controller;
 
 import com.aims.entity.Cart.Cart;
+import com.aims.entity.Product.Product;
 import com.aims.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/cart")
-
 public class CartController {
-    @Autowired
-    private CartService cartService;
+
+    private final CartService cartService;
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
+    }
 
     @GetMapping("/{cartId}")
     public Cart getCart(@PathVariable String cartId) {
@@ -32,4 +38,10 @@ public class CartController {
     public Cart clearCart(@PathVariable String cartId) {
         return cartService.clearCart(cartId);
     }
+
+    @GetMapping("/check-cart")
+    public List<Product> checkCart(@RequestParam String cartId) {
+        return cartService.checkCartProducts(cartId);
+    }
+
 }

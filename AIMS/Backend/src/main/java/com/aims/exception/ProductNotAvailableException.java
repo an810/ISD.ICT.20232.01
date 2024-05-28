@@ -3,8 +3,6 @@ package com.aims.exception;;
 /**
  * The MediaNotAvailableException wraps all unchecked exceptions You can use this
  * exception to inform
- *
- * @author nguyenlm
  */
 public class ProductNotAvailableException extends AIMSException {
 
