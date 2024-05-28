@@ -35,8 +35,7 @@ public class OrderServiceImpl implements OrderService {
         order.setListOrderItem(orderItems);
         order.setDeliveryInfo(deliveryInfo);
         double total = orderItems.stream().mapToDouble(item -> item.getQuantity() * item.getPrice()).sum();
-        order.setTotalAmount(total);
-        order.setShippingFees(Utils.calculateShippingFee(total));
+        order.setTotalAmount(total + deliveryInfo.getShippingFees());
         return orderRepository.save(order);
     }
 }

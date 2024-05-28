@@ -18,6 +18,5 @@ public class Order {
     private String cartId;
     private List<OrderItem> listOrderItem;
     private DeliveryInfo deliveryInfo;
-    private double shippingFees;
     private double totalAmount;
 }

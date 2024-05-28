@@ -19,4 +19,13 @@ public class DeliveryInfoController {
         return deliveryInfoService.create(deliveryInfo);
     }
 
+    @GetMapping("/{id}")
+    public DeliveryInfo getDeliveryInfo(@PathVariable String id) {
+        return deliveryInfoService.getDeliveryInfo(id);
+    }
+
+    @GetMapping("/shipping-fee")
+    public Double getShippingFee(@RequestParam String province, @RequestParam boolean isRushDelivery) {
+        return deliveryInfoService.calculateShippingFee(province, isRushDelivery);
+    }
 }
