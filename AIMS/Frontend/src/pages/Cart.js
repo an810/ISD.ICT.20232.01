@@ -22,7 +22,7 @@ const Cart = () => {
             <div className=" font-bold my-10 text-xl">Shopping Cart</div>
 
             <div>
-              {item.map((product) => (
+              {item?.map((product) => (
                 <CartCard product={product} />
               ))}
             </div>
