@@ -20,7 +20,7 @@ public class HomeController {
     private ProductService productService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Product>> getMovies() {
+    public ResponseEntity<List<Product>> getItemList() {
         List<Product> productList = productService.findAllProduct();
         if (productList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

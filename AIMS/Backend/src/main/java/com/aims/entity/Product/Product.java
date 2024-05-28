@@ -23,7 +23,7 @@ public class Product {
     protected double sellPrice; // the price which will be displayed on browser (eg: 500)
     protected int quantity;
     protected String type;
-    protected String imageURL;
+    protected String image;
     private boolean rushDeliverySupport;
 }
 
