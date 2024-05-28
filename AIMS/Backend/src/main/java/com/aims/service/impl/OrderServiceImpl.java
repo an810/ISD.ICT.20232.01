@@ -28,15 +28,14 @@ public class OrderServiceImpl implements OrderService {
     public Order createOrder(String cartId, DeliveryInfo deliveryInfo) {
         List<CartItem> cartItems = cartService.getAllCartItems(cartId);
         List<OrderItem> orderItems = cartItems.stream()
-                .map(cartItem -> new OrderItem(cartItem.getProduct(), cartItem.getQuantity(), cartItem.getProduct().getSellPrice()))
+                .map(cartItem -> new OrderItem(cartItem.getProduct(), cartItem.getQuantity(), cartItem.getProduct().getPrice()))
                 .toList();
         Order order = new Order();
         order.setCartId(cartId);
         order.setListOrderItem(orderItems);
         order.setDeliveryInfo(deliveryInfo);
         double total = orderItems.stream().mapToDouble(item -> item.getQuantity() * item.getPrice()).sum();
-        order.setTotalAmount(total);
-        order.setShippingFees(Utils.calculateShippingFee(total));
+        order.setTotalAmount(total + deliveryInfo.getShippingFees());
         return orderRepository.save(order);
     }
 }
