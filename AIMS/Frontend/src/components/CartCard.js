@@ -7,7 +7,7 @@ const CartCard = (props) => {
       <div className="flex justify-between mt-6 items-center ml-6">
         <div>
           <p className="text-red-600 mb-2 text-2xl">${product.product.importPrice}</p>
-          <h2 className="text-xl font-semibold mb-2">{product.product.title}</h2>
+          <h2 className="text-xl font-semibold mb-2 w-32	">{product.product.title}</h2>
           <p className="text-gray-600 mb-4">Stock: {product.stock}</p>
         </div>
 
