@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
     public Order createOrder(String cartId, DeliveryInfo deliveryInfo) {
         List<CartItem> cartItems = cartService.getAllCartItems(cartId);
         List<OrderItem> orderItems = cartItems.stream()
-                .map(cartItem -> new OrderItem(cartItem.getProduct(), cartItem.getQuantity(), cartItem.getProduct().getSellPrice()))
+                .map(cartItem -> new OrderItem(cartItem.getProduct(), cartItem.getQuantity(), cartItem.getProduct().getPrice()))
                 .toList();
         Order order = new Order();
         order.setCartId(cartId);

@@ -20,7 +20,7 @@ public class Product {
     protected String title;
     protected String category;
     protected double importPrice; // the real price of product (eg: 450)
-    protected double sellPrice; // the price which will be displayed on browser (eg: 500)
+    protected Float price; // the price which will be displayed on browser (eg: 500)
     protected int quantity;
     protected String type;
     protected String image;
