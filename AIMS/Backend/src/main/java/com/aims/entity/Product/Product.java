@@ -18,7 +18,7 @@ public class Product {
     @Id
     protected String id;
     protected String title;
-    protected String category;
+    protected String cat;
     protected double importPrice; // the real price of product (eg: 450)
     protected Float price; // the price which will be displayed on browser (eg: 500)
     protected int quantity;

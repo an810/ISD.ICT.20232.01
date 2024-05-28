@@ -25,9 +25,12 @@ const ItemCard = (props) => {
       />
       <div className="flex justify-between mt-6 items-center	">
         <div>
+          <span className="flex">
           <h2 className="text-xl font-semibold mb-2">{product.title}</h2>
+          <p className="text-gray-600 text-sm mb-2"> - {product.cat}</p>
+          </span>
           <p className="text-gray-600 mb-2">${product.price}</p>
-          <p className="text-gray-600 mb-4">Stock: {product.stock}</p>
+          <p className="text-gray-600 mb-4">Stock: <a>{product.quantity ? 'Available(' + product.quantity + ')' : 'Out of stock'}</a></p>
         </div>
         <button className=" text-white font-semibold py-2 px-4 rounded-3xl bg-gray-500 h-10" onClick={handleAddToCart}>
           Add to Cart
