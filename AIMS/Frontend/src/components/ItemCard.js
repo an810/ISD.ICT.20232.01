@@ -3,15 +3,19 @@ import axios from "axios";
 import { CartContext } from "../providers/CartContext";
 import {toast} from "react-toastify";
 const ItemCard = (props) => {
-  const {cartId, setItem} = useContext(CartContext);
-
   const { product } = props;
-  console.log(product);
+  const {cartId, setItem, setTotalPrice} = useContext(CartContext);
+  const qty = 1;
 
   const handleAddToCart = () => {
-    console.log(cartId + " " + product.id);
-    axios.post(`/cart/${cartId}/add?productId=${product.id}&quantity=1`).then((response) => {
+    if(product.quantity < qty) {
+      toast.error("Out of stock");
+      return;
+    }    
+
+    axios.post(`/cart/${cartId}/add?productId=${product.id}&quantity=${qty}`).then((response) => {
       setItem(response.data.listCartItem);
+      setTotalPrice(response.data.totalPrice);
       toast.success("Added to cart");
     }).catch((error) => {
       toast.error("Error adding to cart");

@@ -4,20 +4,22 @@ export const CartContext = createContext([]);
 
 export const CartProvider = ({ children }) => { 
     const cartId = "665440a6ce247243f9072091";
-  
+
     const [item, setItem] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [shippingPrice, setShippingPrice] = useState(0);
+    
     useEffect(() => {
       axios.get("/cart/" + cartId)
         .then((response) => { 
+          console.log(response.data)
           setItem(response.data.listCartItem);
           setTotalPrice(response.data.totalPrice);
         })
         .catch((error) => {
           console.error("Error getting cart: ", error);
         });
-    }, []);
+     }, []);
 
 
     return (

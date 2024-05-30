@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DeliveryInfoRepository extends MongoRepository<DeliveryInfo, String> {
-    // You can define additional query methods here if needed
 }

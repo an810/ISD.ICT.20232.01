@@ -1,28 +1,66 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Summary from "../components/Summary";
+import { CartContext } from "../providers/CartContext";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Shipping = () => {
+  const { cartId, setShippingPrice } = useContext(CartContext);
+
+  const navigate = useNavigate();
+  const [isShippingData, setIsShippingData] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
     province: "",
     address: "",
-    instructions: ""
+    instructions: "",
   });
 
+  useEffect(() => { 
+    setShippingPrice(0);
+  }, [setShippingPrice]);
+  
+  const getShippingPrice = (e) => {
+    e.preventDefault();
+    axios.get(`delivery-info/shipping-fee?province=${formData.province}&isRushDelivery=false`).then((response) => {
+      setIsShippingData(true);
+      toast.success("Shipping fee is " + response.data);
+      setShippingPrice(response.data);
+    }).catch((error) => {
+      toast.error("Error placing order");
+    });
+  }
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({
       ...formData,
-      [id]: value
+      [id]: value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    axios
+      .post(`place-order?cartId=${cartId}`, {
+        receiverName: formData.name,
+        phoneNumber: formData.phone,
+        address: formData.address,
+        province: formData.province,
+        rushDelivery: false,
+        instruction: formData.instructions,
+      })
+      .then((response) => {
+        toast.success("Order placed successfully");
+        navigate("/payment");
+      })
+      .catch((error) => {
+        toast.error("Error placing order");
+      });
   };
 
   return (
@@ -104,6 +142,21 @@ const Shipping = () => {
             ></textarea>
 
             <div className="flex pl-10 mt-10">
+              {isShippingData ? (
+                <button
+                  type="submit"
+                  className="bg-black text-white px-20 py-2 rounded-xl mr-4"
+                >
+                  Place Order
+                </button>
+              ) : (
+                <button
+                  onClick = {getShippingPrice}
+                  className="bg-black text-white px-20 py-2 rounded-xl mr-4"
+                >
+                  Submit data
+                </button>
+              )}
               <button
                 type="submit"
                 className="bg-black text-white px-20 py-2 rounded-xl mr-4"

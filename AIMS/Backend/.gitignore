@@ -8,10 +8,12 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/httpRequests/
 *.iws
 *.iml
 *.ipr
 
+Backend/.idea/httpRequests/
 ### Eclipse ###
 .apt_generated
 .classpath
@@ -36,3 +38,5 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+.gitignore

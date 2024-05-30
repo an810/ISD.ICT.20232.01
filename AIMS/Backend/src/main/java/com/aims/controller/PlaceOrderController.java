@@ -20,7 +20,4 @@ public class PlaceOrderController {
     public Order placeOrder(@RequestParam String cartId, @RequestBody DeliveryInfo deliveryInfo) {
         return orderService.createOrder(cartId, deliveryInfo);
     }
-
-
-
 }
