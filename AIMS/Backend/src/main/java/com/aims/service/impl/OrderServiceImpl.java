@@ -25,12 +25,12 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItem> orderItems = cartItems.stream()
                 .map(cartItem -> new OrderItem(cartItem.getProduct(), cartItem.getQuantity(), cartItem.getProduct().getSellPrice()))
                 .toList();
+        double totalAmount = orderItems.stream().mapToDouble(item -> item.getQuantity() * item.getPrice()).sum() + deliveryInfo.getShippingFees();
         Order order = new Order();
         order.setCartId(cartId);
         order.setListOrderItem(orderItems);
         order.setDeliveryInfo(deliveryInfo);
-        double total = orderItems.stream().mapToDouble(item -> item.getQuantity() * item.getPrice()).sum();
-        order.setTotalAmount(total + deliveryInfo.getShippingFees());
+        order.setTotalAmount(totalAmount);
         return orderRepository.save(order);
     }
 }
