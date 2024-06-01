@@ -15,11 +15,42 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final CartServiceImpl cartService;
 
+    /**
+     * 
+     * Data coupling:
+     * data coupling with OrderRepository and CartServiceImpl
+     * Explanation: OrderServiceImpl depends on specific instances of OrderRepository and CartServiceImpl.
+     * 
+     * @param orderRepository
+     * @param cartService
+     */
     public OrderServiceImpl(OrderRepository orderRepository, CartServiceImpl cartService) {
         this.orderRepository = orderRepository;
         this.cartService = cartService;
     }
 
+    /**
+     * Control coupling:
+     * Method call on cartService
+     * Explanation: OrderServiceImpl directly calls getAllCartItems on CartServiceImpl.
+     * 
+     * Data coulping:
+     * Creating OrderItem objects based on CartItem objects
+     * Explanation: Transform the logic from CartItem to OrderItem is tightly integrated within the service.
+     * 
+     * Control coupling:
+     *  Calculating the total amount including shipping fees
+     *  Explanation: The service handles business logic for calculating the total amount.
+     *  
+     *  Data coupling:
+     *  Setting up Order object with all necessary details
+     *  Explanation: The service class directly manipulates the Order object, which is data coupling.
+     *  
+     *  Control coupling
+     *  Method call on orderRepository
+     *  Explanation: The service directly interacts with OrderRepository to save the order.
+     *  
+     */
     public Order createOrder(String cartId, DeliveryInfo deliveryInfo) {
         List<CartItem> cartItems = cartService.getAllCartItems(cartId);
         List<OrderItem> orderItems = cartItems.stream()
