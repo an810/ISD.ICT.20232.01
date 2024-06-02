@@ -1,10 +1,9 @@
 package com.aims.service.impl;
 
-import com.aims.entity.Product.Product;
+import com.aims.entity.product.Product;
 import com.aims.exception.ProductNotAvailableException;
 import com.aims.repository.ProductRepository;
 import com.aims.service.ProductService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

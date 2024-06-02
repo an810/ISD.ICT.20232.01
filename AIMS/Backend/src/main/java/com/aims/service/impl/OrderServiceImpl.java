@@ -1,9 +1,9 @@
 package com.aims.service.impl;
 
-import com.aims.entity.Cart.CartItem;
-import com.aims.entity.DeliveryInfo.DeliveryInfo;
-import com.aims.entity.Order.Order;
-import com.aims.entity.Order.OrderItem;
+import com.aims.entity.cart.CartItem;
+import com.aims.entity.delivery.DeliveryInfo;
+import com.aims.entity.order.Order;
+import com.aims.entity.order.OrderItem;
 import com.aims.repository.OrderRepository;
 import com.aims.service.OrderService;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItem> orderItems = cartItems.stream()
                 .map(cartItem -> new OrderItem(cartItem.getProduct(), cartItem.getQuantity(), cartItem.getProduct().getSellPrice()))
                 .toList();
-        double totalAmount = orderItems.stream().mapToDouble(item -> item.getQuantity() * item.getPrice()).sum() + deliveryInfo.getShippingFees();
+        int totalAmount = orderItems.stream().mapToInt(item -> item.getQuantity() * item.getPrice()).sum() + deliveryInfo.getShippingFees();
         Order order = new Order();
         order.setCartId(cartId);
         order.setListOrderItem(orderItems);

@@ -1,7 +1,7 @@
 package com.aims.controller;
 
-import com.aims.entity.DeliveryInfo.DeliveryInfo;
-import com.aims.entity.Order.Order;
+import com.aims.entity.delivery.DeliveryInfo;
+import com.aims.entity.order.Order;
 import com.aims.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 

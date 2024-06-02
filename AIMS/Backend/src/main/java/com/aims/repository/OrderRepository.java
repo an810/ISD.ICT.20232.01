@@ -1,6 +1,6 @@
 package com.aims.repository;
 
-import com.aims.entity.Order.Order;
+import com.aims.entity.order.Order;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

@@ -3,9 +3,8 @@ package com.aims.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.aims.entity.Product.Product;
+import com.aims.entity.product.Product;
 import com.aims.service.ProductService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
