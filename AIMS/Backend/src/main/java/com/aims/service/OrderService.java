@@ -1,7 +1,7 @@
 package com.aims.service;
 
-import com.aims.entity.DeliveryInfo.DeliveryInfo;
-import com.aims.entity.Order.Order;
+import com.aims.entity.delivery.DeliveryInfo;
+import com.aims.entity.order.Order;
 import org.springframework.stereotype.Service;
 
 @Service

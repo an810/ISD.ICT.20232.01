@@ -1,6 +1,6 @@
 package com.aims.repository;
 
-import com.aims.entity.DeliveryInfo.DeliveryInfo;
+import com.aims.entity.delivery.DeliveryInfo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,8 +1,8 @@
 package com.aims.service.impl;
 
-import com.aims.entity.Cart.Cart;
-import com.aims.entity.Cart.CartItem;
-import com.aims.entity.Product.Product;
+import com.aims.entity.cart.Cart;
+import com.aims.entity.cart.CartItem;
+import com.aims.entity.product.Product;
 import com.aims.exception.ProductNotAvailableException;
 import com.aims.repository.CartRepository;
 import com.aims.repository.ProductRepository;

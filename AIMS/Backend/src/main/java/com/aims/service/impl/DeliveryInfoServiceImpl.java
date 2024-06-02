@@ -1,7 +1,7 @@
 package com.aims.service.impl;
 
 
-import com.aims.entity.DeliveryInfo.DeliveryInfo;
+import com.aims.entity.delivery.DeliveryInfo;
 import com.aims.repository.DeliveryInfoRepository;
 import com.aims.service.DeliveryInfoService;
 import com.aims.utils.Constants;

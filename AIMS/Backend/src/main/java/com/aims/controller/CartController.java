@@ -1,10 +1,8 @@
 package com.aims.controller;
 
-import com.aims.entity.Cart.Cart;
-import com.aims.entity.Product.Product;
+import com.aims.entity.cart.Cart;
+import com.aims.entity.product.Product;
 import com.aims.service.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

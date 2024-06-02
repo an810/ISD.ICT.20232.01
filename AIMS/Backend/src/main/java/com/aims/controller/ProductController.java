@@ -1,6 +1,6 @@
 package com.aims.controller;
 
-import com.aims.entity.Product.Product;
+import com.aims.entity.product.Product;
 import com.aims.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
