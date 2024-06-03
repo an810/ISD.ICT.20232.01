@@ -17,6 +17,9 @@ public class DeliveryInfoServiceImpl implements DeliveryInfoService {
      * creates data coupling with the DeliveryInfoRepository
      * Explanation: DeliveryInfoServiceImpl depends on the specific instance of DeliveryInfoRepository.
      * 
+     * Functional cohesion:
+     * The constructor initializes the repository
+     * 
      * @param deliveryInfoRepository
      */
     public DeliveryInfoServiceImpl(DeliveryInfoRepository deliveryInfoRepository) {
@@ -28,6 +31,9 @@ public class DeliveryInfoServiceImpl implements DeliveryInfoService {
      * Control coupling
      * Method call on deliveryInfoRepository
      * Explanation: DeliveryInfoServiceImpl directly calls the save method on DeliveryInfoRepository.
+     * 
+     * Functional Cohesion: 
+     * Method handles creating a delivery info entry
      * 
      */
     @Override
@@ -41,6 +47,9 @@ public class DeliveryInfoServiceImpl implements DeliveryInfoService {
      * Method call on deliveryInfoRepository
      * Explanation: DeliveryInfoServiceImpl directly calls the save method on DeliveryInfoRepository.
      * 
+     * Functional Cohesion:
+     * Method handles retrieving delivery info by ID
+     * 
      */
     @Override
     public DeliveryInfo getDeliveryInfo(String id) {
@@ -51,6 +60,12 @@ public class DeliveryInfoServiceImpl implements DeliveryInfoService {
      * Data coupling:
      * Using constants directly for shipping fee calculation
      * Explanation: The method relies on constants defined in the Constants class for determining shipping fees.
+     * 
+     * Functional Cohesion: 
+     * Method calculates shipping fee based on province and rush delivery flag
+     * 
+     * Communicational Cohesion: 
+     * Uses constants for province names and shipping fees
      * 
      */
     @Override

@@ -13,6 +13,12 @@ import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+	/**
+	 * 
+     * Functional Cohesion: 
+     * Constructor initializes the repository
+     * 
+     */
     @Autowired
     private ProductRepository productRepository;
     
@@ -21,6 +27,9 @@ public class ProductServiceImpl implements ProductService {
      * Control coupling:
      * Method call on productRepository
      * Explanation: The service directly checks each product's availability by interacting with ProductRepository.
+     * 
+     * Functional Cohesion: 
+     * Method retrieves all products from the repository
      * 
      */
     @Override
@@ -34,6 +43,9 @@ public class ProductServiceImpl implements ProductService {
      * Method call on productRepository
      * Explanation: The service directly checks each product's availability by interacting with ProductRepository.
      * 
+     * Functional Cohesion:
+     * Method retrieves a product by its ID
+     * 
      */
     @Override
     public Optional<Product> findProductById(String id){
@@ -46,6 +58,9 @@ public class ProductServiceImpl implements ProductService {
      * Method call on productRepository
      * Explanation: The service directly checks each product's availability by interacting with ProductRepository.
      * 
+     * Functional Cohesion: 
+     * Method adds a new product to the repository
+     * 
      */
     @Override
     public Product addProduct(Product product){
@@ -57,6 +72,9 @@ public class ProductServiceImpl implements ProductService {
      * Control coupling:
      * Method call on productRepository
      * Explanation: The service directly checks each product's availability by interacting with ProductRepository.
+     * 
+     * Functional Cohesion: 
+     * Method updates an existing product if it exists.
      * 
      */
     @Override
@@ -72,6 +90,9 @@ public class ProductServiceImpl implements ProductService {
      * Control coupling:
      * Method call on productRepository
      * Explanation: The service directly checks each product's availability by interacting with ProductRepository.
+     * 
+     * Functional Cohesion: 
+     * Method deletes a product by its ID if it exists
      * 
      */
     @Override

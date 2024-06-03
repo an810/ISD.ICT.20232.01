@@ -20,10 +20,14 @@ public class CartServiceImpl implements CartService {
     private final ProductRepository productRepository;
 
     /** 
+     * 
      * Data coupling:
      * Data coupling between CartServiceImpl and the repository classes
      * -> any change in the repository classes can affect CartServiceImpl. * 
      * Explanation: The CartServiceImpl class depends on specific instances of CartRepository and ProductRepository.
+     * 
+     * Functional cohesion:
+     * Explanation: The constructor initializes the repositories.
      * 
      */
     public CartServiceImpl(CartRepository cartRepository, ProductRepository productRepository) {
@@ -35,6 +39,9 @@ public class CartServiceImpl implements CartService {
      * Control coupling:
      * This control coupling implies that CartServiceImpl is responsible for controlling the data retrieval process from CartRepository.
      * Explanation: The CartServiceImpl class directly calls the findById method on CartRepository.
+     * 
+     * Functional cohesion:
+     * Method performs a single task of retrieving or initializing a cart.
      * 
      */
     public Cart getCart(String cartId) {
@@ -54,6 +61,12 @@ public class CartServiceImpl implements CartService {
      * Control coupling:
      * Method call on cartRepository
      * Explanation: The CartServiceImpl class saves the updated cart back to the CartRepository.
+     * 
+     * Functional Cohesion: 
+     * Method handles adding a product to the cart.
+     * 
+     * Sequential Cohesion: 
+     * Steps to add a product are performed in sequence.
      * 
      */
     public Cart addCartProduct(String cartId, String productId, int quantity) {
@@ -90,6 +103,12 @@ public class CartServiceImpl implements CartService {
      * Method call on cartRepository
      * Explanation: The service directly saves the modified cart back to the repository, controlling the persistence flow.
      * 
+     * Functional Cohesion: 
+     * Method handles removing a product from the cart.
+     * 
+     * Sequential Cohesion: 
+     * Steps to remove a product are performed in sequence.
+     * 
      */
     public Cart removeCartProduct(String cartId, String productId) {
         Cart cart = getCart(cartId);
@@ -110,6 +129,12 @@ public class CartServiceImpl implements CartService {
      * Method call on cartRepository
      * Explanation: The service manages the persistence of the cleared cart, indicating control over the repository interaction.
      * 
+     * Functional Cohesion: 
+     * Method handles clearing the cart.
+     * 
+     * Sequential Cohesion: 
+     * Steps to clear the cart are performed in sequence.
+     * 
      */
     public Cart clearCart(String cartId) {
         Cart cart = getCart(cartId);
@@ -123,6 +148,12 @@ public class CartServiceImpl implements CartService {
      * Control coupling:
      * Method call on productRepository
      * Explanation: The service directly checks each product's availability by interacting with ProductRepository.
+     * 
+     * Functional Cohesion: 
+     * Method handles checking product availability in the cart.
+     * 
+     * Communicational Cohesion: 
+     * Works with cart items and product data.
      * 
      */
     public List<Product> checkCartProducts(String cartId) {
@@ -138,6 +169,13 @@ public class CartServiceImpl implements CartService {
         return products;
     }
 
+    /**
+     * Functional Cohesion: 
+     * Method handles retrieving all cart items.
+     * 
+     * Communicational Cohesion: 
+     * Works with cart data.
+     */
     public List<CartItem> getAllCartItems(String cartId) {
         Cart cart = getCart(cartId);
         return cart.getListCartItem();

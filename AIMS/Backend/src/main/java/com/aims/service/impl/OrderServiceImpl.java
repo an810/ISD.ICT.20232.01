@@ -21,6 +21,8 @@ public class OrderServiceImpl implements OrderService {
      * data coupling with OrderRepository and CartServiceImpl
      * Explanation: OrderServiceImpl depends on specific instances of OrderRepository and CartServiceImpl.
      * 
+     * Functional Cohesion
+     * 
      * @param orderRepository
      * @param cartService
      */
@@ -50,6 +52,15 @@ public class OrderServiceImpl implements OrderService {
      *  Method call on orderRepository
      *  Explanation: The service directly interacts with OrderRepository to save the order.
      *  
+     *  Functional Cohesion: 
+     *  Method handles creating an order
+     *  
+     *  Sequential Cohesion: 
+     *  Steps to create an order are performed in sequence
+     *  
+     *  Communicational Cohesion: 
+     *  Works with cart items and delivery info data
+     * 
      */
     public Order createOrder(String cartId, DeliveryInfo deliveryInfo) {
         List<CartItem> cartItems = cartService.getAllCartItems(cartId);
