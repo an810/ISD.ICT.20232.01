@@ -13,7 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
+/**
+ * SOLID Principle violations:
+ * 
+ * Single Responsibility Principle (SRP):
+ * responsible for various operations such as adding, removing, and clearing products, calculating total price, and checking product availability
+ * 
+ * Interface Segregation Principle (ISP):
+ * clients should not be forced to depend on interfaces they do not use (Cart Service)
+ */
 @Service
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;

@@ -11,6 +11,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * SOLID Principle violations:
+ * 
+ * Single Responsibility Principle (SRP):
+ * responsible for multiple operations related to product management: finding, adding, updating, and deleting products
+ * 
+ * Dependency Injection Principle (DIP)
+ * field injection makes the dependencies less visible and harder to test
+ */
 @Service
 public class ProductServiceImpl implements ProductService {
 	/**

@@ -10,6 +10,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * SOLID principles violations:
+ * 
+ * Single Responsibility Principle (SRP):
+ * responsible for creating orders and interacting with the cart service to get cart items
+ * 
+ * Dependency Inversion Principle (DIP):
+ * directly depends on CartServiceImpl rather than an abstraction 
+ */
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;

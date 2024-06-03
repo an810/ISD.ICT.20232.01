@@ -7,6 +7,18 @@ import com.aims.service.DeliveryInfoService;
 import com.aims.utils.Constants;
 import org.springframework.stereotype.Service;
 
+/**
+ * SOLID Principle violations:
+ * 
+ * Single Responsibility Principle (SRP):
+ * responsible for both managing delivery information and calculating shipping fees
+ * Explanation: 
+ * calculating shipping fees could be handled by a dedicated service or utility class
+ * 
+ * Open/Closed Principle (OCP):
+ * hardcoded
+ * 
+ */
 @Service
 public class DeliveryInfoServiceImpl implements DeliveryInfoService {
 
