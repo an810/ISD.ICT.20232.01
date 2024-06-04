@@ -14,7 +14,7 @@ public class Cart {
     @Id
     private String id;
     private List<CartItem> listCartItem;
-    private double totalPrice;
+    private int totalPrice;
 
 
 //    public void checkAvailabilityOfProduct() throws ProductNotAvailableException{
