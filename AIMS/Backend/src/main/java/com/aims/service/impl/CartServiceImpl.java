@@ -49,7 +49,7 @@ public class CartServiceImpl implements CartService {
         }
 
         cart.setTotalPrice(cart.getListCartItem().stream()
-                .mapToDouble(item -> item.getProduct().getSellPrice() * item.getQuantity())
+                .mapToInt(item -> item.getProduct().getSellPrice() * item.getQuantity())
                 .sum());
         return cartRepository.save(cart);
     }
@@ -58,7 +58,7 @@ public class CartServiceImpl implements CartService {
         Cart cart = getCart(cartId);
         cart.getListCartItem().removeIf(item -> item.getProduct().getId().equals(productId));
         cart.setTotalPrice(cart.getListCartItem().stream()
-                .mapToDouble(item -> item.getProduct().getSellPrice() * item.getQuantity())
+                .mapToInt(item -> item.getProduct().getSellPrice() * item.getQuantity())
                 .sum());
         return cartRepository.save(cart);
     }
