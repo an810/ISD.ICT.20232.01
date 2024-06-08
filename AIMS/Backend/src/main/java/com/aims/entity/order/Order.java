@@ -22,4 +22,5 @@ public class Order {
     private List<OrderItem> listOrderItem;
     private DeliveryInfo deliveryInfo;
     private int totalAmount;
+    private String status;
 }

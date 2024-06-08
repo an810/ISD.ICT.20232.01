@@ -4,6 +4,7 @@ package com.aims.controller;
 import com.aims.entity.payment.PaymentTransaction;
 import com.aims.entity.payment.RefundTransaction;
 import com.aims.repository.PaymentTransactionRepository;
+import com.aims.repository.RefundTransactionRepository;
 import com.aims.subsystem.vnpay.VNPayService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +18,12 @@ public class PaymentController {
 
     private final VNPayService vnpayService;
     private final PaymentTransactionRepository paymentTransactionRepository;
+    private final RefundTransactionRepository refundTransactionRepository;
 
-    public PaymentController(VNPayService vnpayService,PaymentTransactionRepository paymentTransactionRepository) {
+    public PaymentController(VNPayService vnpayService,PaymentTransactionRepository paymentTransactionRepository, RefundTransactionRepository refundTransactionRepository) {
         this.vnpayService = vnpayService;
         this.paymentTransactionRepository = paymentTransactionRepository;
+        this.refundTransactionRepository = refundTransactionRepository;
     }
 
     @GetMapping("/pay")
@@ -35,17 +38,17 @@ public class PaymentController {
     @GetMapping("/refund")
     public RefundTransaction refund(@RequestBody PaymentTransaction paymentTransaction) {
         try {
-            return vnpayService.refund(paymentTransaction);
+            RefundTransaction refundTransaction = vnpayService.refund(paymentTransaction);
+            return refundTransactionRepository.save(refundTransaction);
         } catch (IOException e) {
             return new RefundTransaction();
         }
     }
 
-    @GetMapping("/get-payment-transaction")
-    public PaymentTransaction getResponse(@RequestBody Map<String, String> response) {
-        PaymentTransaction paymentTransaction = vnpayService.getPaymentTransaction(response);
-        paymentTransactionRepository.save(paymentTransaction);
-        return paymentTransaction;
+    @PostMapping("/save-payment-transaction")
+    public PaymentTransaction saveTransaction(@RequestBody Map<String, String> response) {
+        PaymentTransaction paymentTransaction = vnpayService.savePaymentTransaction(response);
+        return paymentTransactionRepository.save(paymentTransaction);
     }
 
 }

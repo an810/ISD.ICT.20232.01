@@ -10,7 +10,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class RefundResponse {
     Map<String, String> response;
-    public RefundTransaction getRefundTransaction(){
+    public RefundTransaction getRefundTransactionResponse(){
         if (response == null) {
             return null;
         }

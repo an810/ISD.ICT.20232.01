@@ -4,8 +4,11 @@ import com.aims.entity.cart.CartItem;
 import com.aims.entity.delivery.DeliveryInfo;
 import com.aims.entity.order.Order;
 import com.aims.entity.order.OrderItem;
+import com.aims.exception.AIMSException;
+import com.aims.exception.OrderNotFoundException;
 import com.aims.repository.OrderRepository;
 import com.aims.service.OrderService;
+import com.aims.utils.Constants;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +34,27 @@ public class OrderServiceImpl implements OrderService {
         order.setListOrderItem(orderItems);
         order.setDeliveryInfo(deliveryInfo);
         order.setTotalAmount(totalAmount);
+        order.setStatus(Constants.ORDER_STATUS_PENDING);
         return orderRepository.save(order);
     }
+
+    public Order getOrder(String orderId) {
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if (order != null) {
+            return order;
+        } else {
+            throw new OrderNotFoundException("Order not found");
+        }
+    }
+
+    public Order updateStatusOrder(String orderId, String status) {
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if (order != null) {
+            order.setStatus(status);
+            return orderRepository.save(order);
+        } else {
+            throw new OrderNotFoundException("Order not found");
+        }
+    }
+
 }

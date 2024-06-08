@@ -14,5 +14,5 @@ public interface ProductService {
     Product addProduct(Product product);
     Product updateProduct(Product product);
     void deleteProduct(String id);
-
+    Product updatePrice(String productId, int newPrice);
 }

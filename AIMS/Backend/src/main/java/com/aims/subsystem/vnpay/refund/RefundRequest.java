@@ -24,7 +24,7 @@ import java.util.TimeZone;
 import static com.aims.subsystem.vnpay.VNPayConfig.vnp_Version;
 
 public class RefundRequest {
-    private PaymentTransaction paymentTransaction;
+    private final PaymentTransaction paymentTransaction;
 
     public RefundRequest(PaymentTransaction paymentTransaction) {
         this.paymentTransaction = paymentTransaction;
@@ -63,7 +63,7 @@ public class RefundRequest {
                 "02", vnp_TxnRef, String.valueOf(amountVNPay), "", vnp_TransactionDate,
                 VNPayConfig.website_name, vnp_CreateDate, vnp_IpAddr, orderInfor);
 
-        String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.secretKey, hash_Data.toString());
+        String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.secretKey, hash_Data);
 
         vnp_Params.put("vnp_SecureHash", vnp_SecureHash);
 
@@ -92,7 +92,7 @@ public class RefundRequest {
             response.append(output);
         }
         in.close();
-        System.out.println(response.toString());
+        System.out.println(response);
         return response.toString();
     }
 
