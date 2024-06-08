@@ -16,7 +16,7 @@ public class PayResponse {
     private Map<String, String> response;
 
 
-    public PaymentTransaction getPaymentTransaction() {
+    public PaymentTransaction savePaymentTransaction() {
         if (response == null) {
             return null;
         }

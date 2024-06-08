@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 @NoArgsConstructor
 @Document(collection = "product")
 public class Product {
-    private static Logger LOGGER = Utils.getLogger(Product.class.getName());
+//    private static Logger LOGGER = Utils.getLogger(Product.class.getName());
     @Id
     protected String id;
     protected String title;

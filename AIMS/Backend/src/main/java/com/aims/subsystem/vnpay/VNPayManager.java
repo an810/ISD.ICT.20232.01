@@ -16,8 +16,8 @@ import java.util.*;
 @Service
 public class VNPayManager {
 
-    public PaymentTransaction getPaymentTransaction(Map<String, String> response) {
-        return new PayResponse(response).getPaymentTransaction();
+    public PaymentTransaction savePaymentTransaction(Map<String, String> response) {
+        return new PayResponse(response).savePaymentTransaction();
     }
 
     public String generateUrl(int amount, String orderId) throws IOException{
@@ -32,6 +32,6 @@ public class VNPayManager {
         Type type = new com.google.gson.reflect.TypeToken<HashMap<String, String>>() {}.getType();
         HashMap<String, String> resultHashmap = gson.fromJson(response, type);
         RefundResponse refundResponseVNPay = new RefundResponse(resultHashmap);
-        return refundResponseVNPay.getRefundTransaction();
+        return refundResponseVNPay.getRefundTransactionResponse();
     }
 }

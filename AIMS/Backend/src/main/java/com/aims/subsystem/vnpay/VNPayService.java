@@ -28,8 +28,8 @@ public class VNPayService implements IPaySubsystem {
     }
 
     @Override
-    public PaymentTransaction getPaymentTransaction(Map<String,String> response) {
-        return vnpayManager.getPaymentTransaction(response);
+    public PaymentTransaction savePaymentTransaction(Map<String,String> response) {
+        return vnpayManager.savePaymentTransaction(response);
     }
 
 

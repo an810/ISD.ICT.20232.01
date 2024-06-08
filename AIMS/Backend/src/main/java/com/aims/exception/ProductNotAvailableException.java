@@ -6,8 +6,6 @@ package com.aims.exception;;
  */
 public class ProductNotAvailableException extends AIMSException {
 
-    private static final long serialVersionUID = 1091337136123906298L;
-
     public ProductNotAvailableException() {
 
     }
