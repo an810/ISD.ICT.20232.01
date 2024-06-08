@@ -12,7 +12,6 @@ export const CartProvider = ({ children }) => {
     useEffect(() => {
       axios.get("/cart/" + cartId)
         .then((response) => { 
-          console.log(response.data)
           setItem(response.data.listCartItem);
           setTotalPrice(response.data.totalPrice);
         })

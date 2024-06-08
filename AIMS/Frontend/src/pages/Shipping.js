@@ -5,13 +5,16 @@ import { CartContext } from "../providers/CartContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import {
+  RegionDropdown,
+} from "react-country-region-selector";
+import { processString } from "../utils";
 
 const Shipping = () => {
-  const { cartId, setShippingPrice } = useContext(CartContext);
+  const { cartId, setShippingPrice, shippingPrice } = useContext(CartContext);
 
   const navigate = useNavigate();
   const [isShippingData, setIsShippingData] = useState(false);
-
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -20,21 +23,37 @@ const Shipping = () => {
     address: "",
     instructions: "",
   });
-
-  useEffect(() => { 
-    setShippingPrice(0);
-  }, [setShippingPrice]);
   
-  const getShippingPrice = (e) => {
-    e.preventDefault();
-    axios.get(`delivery-info/shipping-fee?province=${formData.province}&isRushDelivery=false`).then((response) => {
-      setIsShippingData(true);
-      toast.success("Shipping fee is " + response.data);
-      setShippingPrice(response.data);
-    }).catch((error) => {
-      toast.error("Error placing order");
+  function selectRegion(val) {
+    setFormData({
+      ...formData,
+      province: val,
     });
   }
+
+  useEffect(() => {
+    setShippingPrice(0);
+  }, [setShippingPrice]);
+
+  const getShippingPrice = (e) => {
+    e.preventDefault();
+    if (formData.province === "") {
+      toast.error("Please select a province");
+      return;
+    }
+    axios
+      .get(
+        `delivery-info/shipping-fee?province=${processString(formData.province)}&isRushDelivery=false`
+      )
+      .then((response) => {
+        setIsShippingData(true);
+        toast.success("Shipping fee is " + response.data);
+        setShippingPrice(response.data);
+      })
+      .catch((error) => {
+        toast.error("Error placing order");
+      });
+  };
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({
@@ -45,6 +64,12 @@ const Shipping = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    for (const key in formData) {
+      if (formData[key] === "") {
+      toast.error(`${key.charAt(0).toUpperCase() + key.slice(1)} is required`);
+      return;
+      }
+    }
     axios
       .post(`place-order?cartId=${cartId}`, {
         receiverName: formData.name,
@@ -53,10 +78,15 @@ const Shipping = () => {
         province: formData.province,
         rushDelivery: false,
         instruction: formData.instructions,
+        shippingFees: shippingPrice,
       })
       .then((response) => {
+        console.log(response.data);
         toast.success("Order placed successfully");
-        navigate("/payment");
+        navigate("/payment", {state : {
+          orderId: response.data.orderId,
+          totalAmount: response.data.totalAmount,
+        }});
       })
       .catch((error) => {
         toast.error("Error placing order");
@@ -72,7 +102,7 @@ const Shipping = () => {
       </div>
       <div className="px-40">
         <form onSubmit={handleSubmit} className="flex justify-between">
-          <div className="flex flex-col">
+          <div className="flex flex-col mr-10">
             <div className="font-bold my-10 text-xl">Delivery Form</div>
 
             <label htmlFor="name" className="text-lg font-bold mb-2">
@@ -84,6 +114,7 @@ const Shipping = () => {
               value={formData.name}
               onChange={handleChange}
               className="border border-gray-300 px-4 py-2 mb-4 rounded-xl"
+              required
             />
 
             <label htmlFor="phone" className="text-lg font-bold mb-2">
@@ -95,6 +126,7 @@ const Shipping = () => {
               value={formData.phone}
               onChange={handleChange}
               className="border border-gray-300 px-4 py-2 mb-4 rounded-xl"
+              required
             />
 
             <label htmlFor="email" className="text-lg font-bold mb-2">
@@ -106,17 +138,20 @@ const Shipping = () => {
               value={formData.email}
               onChange={handleChange}
               className="border border-gray-300 px-4 py-2 mb-4 rounded-xl"
+              required
             />
 
             <label htmlFor="province" className="text-lg font-bold mb-2">
               Province
             </label>
-            <input
-              type="text"
-              id="province"
+
+            <RegionDropdown
+              country={"Vietnam"}
               value={formData.province}
-              onChange={handleChange}
+              onChange={(val) => selectRegion(val)}
               className="border border-gray-300 px-4 py-2 mb-4 rounded-xl"
+              defaultOptionLabel={"Select a province"} 
+              required
             />
 
             <label htmlFor="address" className="text-lg font-bold mb-2">
@@ -128,6 +163,7 @@ const Shipping = () => {
               value={formData.address}
               onChange={handleChange}
               className="border border-gray-300 px-4 py-2 mb-4 rounded-xl"
+              required
             />
 
             <label htmlFor="instructions" className="text-lg font-bold mb-2">
@@ -151,7 +187,7 @@ const Shipping = () => {
                 </button>
               ) : (
                 <button
-                  onClick = {getShippingPrice}
+                  onClick={getShippingPrice}
                   className="bg-black text-white px-20 py-2 rounded-xl mr-4"
                 >
                   Submit data

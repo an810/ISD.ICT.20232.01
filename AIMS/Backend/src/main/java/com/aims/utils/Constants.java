@@ -17,7 +17,7 @@ public class Constants {
 
     // Central Vietnam
     public static final String[] CENTRAL_VIETNAM = {
-            "ThanhHoa", "NgheAn", "HaTinh", "QuangBinh", "QuangTri", "ThuaThienHue",
+            "ThanhHoa", "NgheAn", "HaTinh", "QuangBinh", "QuangTri", "ThuaThien-Hue",
             "DaNang", "QuangNam", "QuangNgai", "BinhDinh", "PhuYen", "KhanhHoa",
             "NinhThuan", "BinhThuan", "KonTum", "GiaLai", "DakLak", "DakNong", "LamDong"
     };
