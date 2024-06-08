@@ -73,7 +73,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void login(String username, String password) {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findAll().stream()
+                .filter(u -> u.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
         if (user != null) {
             if (user.getPassword().equals(password)) {
                 return;
