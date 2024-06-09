@@ -2,10 +2,10 @@ package com.aims.utils;
 
 public class Constants {
     public final static float PERCENT_VAT = 10;
-    public final static float RUSH_SHIPPING_FEE = 50;
-    public final static float SHIPPING_FEE_NORTHERN_VIETNAM = 20;
-    public final static float SHIPPING_FEE_CENTRAL_VIETNAM = 25;
-    public final static float SHIPPING_FEE_SOUTHERN_VIETNAM = 30;
+    public final static float RUSH_SHIPPING_FEE = 5000;
+    public final static float SHIPPING_FEE_NORTHERN_VIETNAM = 2000;
+    public final static float SHIPPING_FEE_CENTRAL_VIETNAM = 2500;
+    public final static float SHIPPING_FEE_SOUTHERN_VIETNAM = 3000;
     // Northern Vietnam
     public static final String[] NORTHERN_VIETNAM = {
             "HaNoi", "HaGiang", "CaoBang", "BacKan", "TuyenQuang", "LaoCai",
