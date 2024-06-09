@@ -41,7 +41,7 @@ public class PaymentController {
         }
     }
 
-    @GetMapping("/get-payment-transaction")
+    @PostMapping("/get-payment-transaction")
     public PaymentTransaction getResponse(@RequestBody Map<String, String> response) {
         PaymentTransaction paymentTransaction = vnpayService.getPaymentTransaction(response);
         paymentTransactionRepository.save(paymentTransaction);
