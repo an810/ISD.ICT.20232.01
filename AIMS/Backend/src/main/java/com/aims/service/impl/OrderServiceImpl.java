@@ -28,7 +28,8 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItem> orderItems = cartItems.stream()
                 .map(cartItem -> new OrderItem(cartItem.getProduct(), cartItem.getQuantity(), cartItem.getProduct().getSellPrice()))
                 .toList();
-        int totalAmount = orderItems.stream().mapToInt(item -> item.getQuantity() * item.getPrice()).sum() + deliveryInfo.getShippingFees();
+        int totalAmount = orderItems.stream().mapToInt(item -> item.getQuantity() * item.getPrice()).sum();
+        totalAmount += totalAmount * Constants.PERCENT_VAT/100  + deliveryInfo.getShippingFees();
         Order order = new Order();
         order.setCartId(cartId);
         order.setListOrderItem(orderItems);
