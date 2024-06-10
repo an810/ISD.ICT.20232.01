@@ -20,18 +20,13 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public void login(@RequestParam String username, @RequestParam String password) {
-        userService.login(username, password);
+    public void login(@RequestParam String username, @RequestParam String password, @RequestParam String role) {
+        userService.login(username, password, role);
     }
 
-    @PostMapping("/create-admin")
-    public User createUser(@RequestParam String username, @RequestParam String password) {
-        return userService.createUser(username, password, Constants.ROLE_ADMIN);
-    }
-
-    @PostMapping("/create-product-manager")
-    public User createProductManager(@RequestParam String username, @RequestParam String password) {
-        return userService.createUser(username, password, Constants.ROLE_PRODUCT_MANAGER);
+    @PostMapping("/create")
+    public User createUser(@RequestParam String username, @RequestParam String password, @RequestParam String role) {
+        return userService.createUser(username, password, role);
     }
 
     @DeleteMapping("/delete")

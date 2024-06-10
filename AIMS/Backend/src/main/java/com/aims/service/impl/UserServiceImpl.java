@@ -2,9 +2,11 @@ package com.aims.service.impl;
 
 import com.aims.entity.user.User;
 import com.aims.exception.IncorrectPasswordException;
+import com.aims.exception.IncorrectRoleException;
 import com.aims.exception.UserNotFoundException;
 import com.aims.repository.UserRepository;
 import com.aims.service.UserService;
+import com.aims.utils.Constants;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -72,19 +74,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void login(String username, String password) {
+    public void login(String username, String password, String role) {
         User user = userRepository.findAll().stream()
                 .filter(u -> u.getUsername().equals(username))
                 .findFirst()
                 .orElse(null);
         if (user != null) {
-            if (user.getPassword().equals(password)) {
-                return;
+            if (user.getRole().equals(role)) {
+                if (user.getPassword().equals(password)) {
+                    return;
+                } else {
+                    throw new IncorrectPasswordException("Incorrect password");
+                }
             } else {
-                throw new IncorrectPasswordException("Incorrect password");
+                throw new IncorrectRoleException("Incorrect role");
             }
+
         } else {
             throw new UserNotFoundException("User not found");
         }
     }
+
 }
