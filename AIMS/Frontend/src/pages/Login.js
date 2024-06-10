@@ -1,13 +1,26 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { Link } from 'react-router-dom';
-const {useNavigate} = require("react-router-dom");
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { UserContext } from '../providers/UserContext';
 const Login = () => {
+    const {setIsAuthen} = useContext(UserContext);
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const handleSubmit = (e) => { 
         e.preventDefault();
-        console.log(userName, password)
+        axios.get(`user/login?username=${userName}&password=${password}&role=product_manager`).then((response) => {
+            if(response.status === 200) {
+                toast.success('Logged in successfully');
+                navigate('/product');
+                setIsAuthen("product_manager");
+            }
+        }).catch((error) => {
+            toast.error('Error logging in');
+            console.log(error);
+        });
     }
 
     return (
@@ -23,7 +36,7 @@ const Login = () => {
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
                             <label htmlFor="email-address" className="sr-only">Email address</label>
-                            <input id="email-address" name="email" type="email" autoComplete="email" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address" value={userName} onChange={(e)=> setUserName(e.target.value)} />
+                            <input id="email-address" name="text" type="text" autoComplete="text" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address" value={userName} onChange={(e)=> setUserName(e.target.value)} />
                         </div>
                         <div>
                             <label htmlFor="password" className="sr-only">Password</label>

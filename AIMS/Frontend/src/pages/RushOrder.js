@@ -15,7 +15,7 @@ const RushOrder = () => {
     toTime: "",
     instructions: state.formData.instructions,
   });
-
+  
   const getShippingPrice = (e) => {
     e.preventDefault();
     for (const key in rushOrderData) {
@@ -54,7 +54,7 @@ const RushOrder = () => {
 
   const handleRushOrder = () => {
     console.log(rushOrderData);
-  }
+  };
 
   return (
     <div>
@@ -106,22 +106,21 @@ const RushOrder = () => {
           <Summary />
         </div>
         <div className="flex pl-10 mt-40">
-
-        {isShippingData ? (
-                <button
-                onClick={handleRushOrder}
-                  className="bg-black text-white px-20 py-2 rounded-xl mr-4"
-                >
-                  Place Order
-                </button>
-              ) : (
-                <button
-                  onClick={getShippingPrice}
-                  className="bg-black text-white px-20 py-2 rounded-xl mr-4"
-                >
-                  Submit data
-                </button>
-              )}
+          {isShippingData ? (
+            <button
+              onClick={handleRushOrder}
+              className="bg-black text-white px-20 py-2 rounded-xl mr-4"
+            >
+              Place Order
+            </button>
+          ) : (
+            <button
+              onClick={getShippingPrice}
+              className="bg-black text-white px-20 py-2 rounded-xl mr-4"
+            >
+              Submit data
+            </button>
+          )}
 
           <Link to="/shipping">
             <div className="bg-black text-white px-20 py-2 rounded-xl mr-4">

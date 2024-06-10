@@ -23,7 +23,7 @@ function App() {
 
   return (
     <div>
-      <UserProvider>≈
+      <UserProvider>
       <CartProvider>
         <ToastContainer />
         <Routes>

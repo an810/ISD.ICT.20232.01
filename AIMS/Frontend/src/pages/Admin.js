@@ -1,89 +1,165 @@
-import React, {useState} from 'react';
-import Modal from 'react-modal';
-
-Modal.setAppElement('#root'); 
+import React, { useEffect, useState, useContext } from "react";
+import Modal from "react-modal";
+import { UserContext } from "../providers/UserContext";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
+Modal.setAppElement("#root");
 const Admin = () => {
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const { isAuthen } = useContext(UserContext);
+  const [users, setUsers] = useState([]);
+  const [selectedRole, setSelectedRole] = useState("");
+  const [username, setUsername] = useState([]);
+  const [password, setPassword] = useState([]);
 
-    const openModal = () => {
-        setModalIsOpen(true);
-    };
+  const fetchUsers = () => {
+    axios
+      .get("user/all")
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
-    const closeModal = () => {
+  useEffect(() => {
+    if (!isAuthen) {
+      toast.error("You are not authorized to view this page");
+      navigate("/");
+    }
+  }, [isAuthen, navigate]);
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const handleRoleChange = (e) => {
+    setSelectedRole(e.target.value);
+  };
+
+  const handleDelteUser = (id) => {
+    axios
+      .delete(`user/delete?userId=${id}`)
+      .then((response) => {
+        fetchUsers();
+        toast.success("User deleted successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  const handleCreateNewUser = (e) => {
+    e.preventDefault();
+    axios
+      .post(
+        `user/create?username=${username}&password=${password}&role=${selectedRole}`
+      )
+      .then((response) => {
         setModalIsOpen(false);
-    };
+        fetchUsers();
+        toast.success("User created successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-    return (
-        <div className="p-6">
-            <div className="flex justify-end mb-4">
-                <button className="border px-4 py-2 mr-2">
-                    Change password
-                </button>
+  return (
+    <div className="p-6">
+      <h1 className="text-2xl mb-4">User</h1>
 
-                <button className="border px-4 py-2">
-                    Log out
-                </button>
-            </div>
+      <button onClick={openModal} className="border px-4 py-2 mb-4 font-bold">
+        Add user
+      </button>
 
-            <h1 className="text-2xl mb-4">
-                User
-            </h1>
-
-            <button onClick={openModal} className="border px-4 py-2 mb-4">
-                Add user
-            </button>
-
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                contentLabel="Add User"
-                className="m-4 p-4 border border-gray-300 rounded-md bg-white mt-40"
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Add User"
+        className="m-4 p-4 border-2  border-gray-300 rounded-md bg-gray-50 mt-40"
+      >
+        <h2 className="mb-4 font-bold">Add User</h2>
+        <form onSubmit={handleCreateNewUser}>
+          <label className="block mb-2">
+            Username
+            <input
+              type="text"
+              className="border px-2 py-1 w-full"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </label>
+          <label className="block mb-2">
+            Password
+            <input
+              type="password"
+              className="border px-2 py-1 w-full"
+              username={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+          <label className="block mb-4">
+            Role
+            <select
+              value={selectedRole}
+              onChange={handleRoleChange}
+              className="border px-2 py-1 w-full"
             >
-                <h2 className="mb-4">Add User</h2>
-                <form>
-                    <label className="block mb-2">
-                        Username
-                        <input type="text" className="border px-2 py-1 w-full" />
-                    </label>
-                    <label className="block mb-2">
-                        Password
-                        <input type="password" className="border px-2 py-1 w-full" />
-                    </label>
-                    <label className="block mb-4">
-                        Role
-                        <input type="text" className="border px-2 py-1 w-full" />
-                    </label>
-                    <button type="button" onClick={closeModal} className="border px-4 py-2 mr-2">
-                        Cancel
-                    </button>
-                    <button type="submit" className="border px-4 py-2">
-                        Save
-                    </button>
-                </form>
-            </Modal>
+              <option value="">Select Role</option>
+              <option value="admin">Admin</option>
+              <option value="product_manager">Product Manager</option>
+            </select>
+          </label>
+          <button
+            type="button"
+            onClick={closeModal}
+            className="border px-4 py-2 mr-2"
+          >
+            Cancel
+          </button>
+          <button type="submit" className="border px-4 py-2">
+            Save
+          </button>
+        </form>
+      </Modal>
 
-            <table className="w-full table-auto bordernpm install react-modal">
-                <thead>
-                    <tr>
-                        <th className="px-4 py-2">Id</th>
-                        <th className="px-4 py-2">UserName</th>
-                        <th className="px-4 py-2">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td className="border px-4 py-2">1</td>
-                        <td className="border px-4 py-2">User1</td>
-                        <td className="border px-4 py-2 flex justify-around">
-                            <button className="border px-2 py-1">Select Role</button>
-                            <button className="border px-2 py-1">Block</button>
-                            <button className="border px-2 py-1">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    )
-}
+      <table className="w-full table-auto bordernpm install react-modal">
+        <thead>
+          <tr>
+            <th className="px-4 py-2">Id</th>
+            <th className="px-4 py-2">UserName</th>
+            <th className="px-4 py-2">Role</th>
+            <th className="px-4 py-2">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => {
+            return (
+              <tr key={user.id}>
+                <td className="border px-4 py-2">{user.id}</td>
+                <td className="border px-4 py-2">{user.username}</td>
+                <td className="border px-4 py-2">{user.role}</td>
+
+                <td className="border px-4 py-2 flex justify-around">
+                  <button className="border px-2 py-1" onClick={()=>handleDelteUser(user.id)}>Delete</button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 export default Admin;

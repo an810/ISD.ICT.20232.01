@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import ItemCard from "../components/ItemCard";
 import axios from "axios";
 const Home = () => {
     const [productData, setProductData] = useState([]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         axios.get("/home/all")
         .then((response) => {
             setProductData(response.data);
