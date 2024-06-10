@@ -5,14 +5,11 @@ import { CartContext } from "../providers/CartContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import {
-  RegionDropdown,
-} from "react-country-region-selector";
+import { RegionDropdown } from "react-country-region-selector";
 import { processString } from "../utils";
 
 const Shipping = () => {
   const { cartId, setShippingPrice, shippingPrice } = useContext(CartContext);
-
   const navigate = useNavigate();
   const [isShippingData, setIsShippingData] = useState(false);
   const [formData, setFormData] = useState({
@@ -23,7 +20,7 @@ const Shipping = () => {
     address: "",
     instructions: "",
   });
-  
+
   function selectRegion(val) {
     setFormData({
       ...formData,
@@ -35,15 +32,39 @@ const Shipping = () => {
     setShippingPrice(0);
   }, [setShippingPrice]);
 
+  function handleRushOrder(e) {
+    e.preventDefault();
+    for (const key in formData) {
+      if (formData[key] === "") {
+        toast.error(
+          `${key.charAt(0).toUpperCase() + key.slice(1)} is required`
+        );
+        return;
+      }
+    }
+
+    if(formData.province !== "Hà Nội") {
+      toast.error("Rush delivery is only available in Hanoi");
+      return;
+    } else { }
+    navigate("/rush-order", { state: { formData: formData } });
+  }
+
   const getShippingPrice = (e) => {
     e.preventDefault();
-    if (formData.province === "") {
-      toast.error("Please select a province");
-      return;
+    for (const key in formData) {
+      if (formData[key] === "") {
+        toast.error(
+          `${key.charAt(0).toUpperCase() + key.slice(1)} is required`
+        );
+        return;
+      }
     }
     axios
       .get(
-        `delivery-info/shipping-fee?province=${processString(formData.province)}&isRushDelivery=false`
+        `delivery-info/shipping-fee?province=${processString(
+          formData.province
+        )}&isRushDelivery=false`
       )
       .then((response) => {
         setIsShippingData(true);
@@ -66,8 +87,10 @@ const Shipping = () => {
     e.preventDefault();
     for (const key in formData) {
       if (formData[key] === "") {
-      toast.error(`${key.charAt(0).toUpperCase() + key.slice(1)} is required`);
-      return;
+        toast.error(
+          `${key.charAt(0).toUpperCase() + key.slice(1)} is required`
+        );
+        return;
       }
     }
     axios
@@ -83,10 +106,12 @@ const Shipping = () => {
       .then((response) => {
         console.log(response.data);
         toast.success("Order placed successfully");
-        navigate("/payment", {state : {
-          orderId: response.data.orderId,
-          totalAmount: response.data.totalAmount,
-        }});
+        navigate("/payment", {
+          state: {
+            orderId: response.data.orderId,
+            totalAmount: response.data.totalAmount,
+          },
+        });
       })
       .catch((error) => {
         toast.error("Error placing order");
@@ -150,7 +175,7 @@ const Shipping = () => {
               value={formData.province}
               onChange={(val) => selectRegion(val)}
               className="border border-gray-300 px-4 py-2 mb-4 rounded-xl"
-              defaultOptionLabel={"Select a province"} 
+              defaultOptionLabel={"Select a province"}
               required
             />
 
@@ -199,13 +224,17 @@ const Shipping = () => {
               >
                 Continue
               </button>
-              <Link to="/rush-order">
-                <div className="bg-black text-white px-20 py-2 rounded-xl mr-4">
-                  Place Rush Order
-                </div>
-              </Link>
+
+              <button
+                className="bg-black text-white px-20 py-2 rounded-xl mr-4"
+                onClick={handleRushOrder}
+              >
+                Place Rush Order
+              </button>
               <Link to="/">
-                <div className="px-20 py-2 rounded-xl border">Cancel all</div>
+                <button className="px-20 py-2 rounded-xl border">
+                  Cancel all
+                </button>
               </Link>
             </div>
           </div>

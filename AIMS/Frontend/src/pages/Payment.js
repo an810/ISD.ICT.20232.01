@@ -17,7 +17,7 @@ const Payment = () => {
     }
 
     axios
-      .get(`payment/pay?amount=${totalAmount * 10000}&orderId=${orderId}`)
+      .get(`payment/pay?amount=${totalAmount}&orderId=${orderId}`)
       .then((response) => {
        setUrl(response.data);
       })

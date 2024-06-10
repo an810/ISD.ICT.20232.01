@@ -19,7 +19,6 @@ const ItemCard = (props) => {
       toast.success("Added to cart");
     }).catch((error) => {
       toast.error("Error adding to cart");
-      console.error("Error adding to cart: ", error);
     })
   }
 
@@ -36,8 +35,7 @@ const ItemCard = (props) => {
           <h2 className="text-xl font-semibold mb-2 max-w-24 text-ellipsis overflow-hidden	whitespace-nowrap">{product.title}</h2>
           <p className="text-gray-600 text-sm mb-2">{product.cat}</p>
           </span>
-          <p className="text-gray-600 mb-2">${product.importPrice}</p>
-          <p className="text-gray-600 sm mb-2 line-through italic">${product.sellPrice}</p>
+          <p className="text-gray-600 mb-2">${product.sellPrice}</p>
           <p className="text-gray-600 text-xs mb-4 italic">Stock: <div>{product.quantity ? 'Available(' + product.quantity + ')' : 'Out of stock'}</div></p>
         </div>
         <button className=" text-white font-semibold py-2 px-4 rounded-3xl bg-gray-500 h-10" onClick={handleAddToCart}>

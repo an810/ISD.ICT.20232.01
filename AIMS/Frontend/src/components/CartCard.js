@@ -1,6 +1,5 @@
 const CartCard = (props) => {
   const { product } = props;
-  console.log(product);
 
   return (
     <div className="border rounded shadow-md flex-row w-fit flex mb-4">
@@ -18,10 +17,7 @@ const CartCard = (props) => {
       <div className="flex justify-between mt-6 items-center ml-6">
         <div>
           <p className="text-black mb-2 text-2xl">
-            ${product.product.importPrice}{" "}
-            <div className="text-red-600 mb-2 text-sm line-through">
-              ${product.product.sellPrice}{" "}
-            </div>{" "}
+            ${product.product.sellPrice}
           </p>
           <h2 className="text-xl font-semibold mb-2 w-32	">
             {product.product.title}
