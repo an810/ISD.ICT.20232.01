@@ -4,6 +4,9 @@ public class Constants {
     public final static String ROLE_ADMIN = "admin";
     public final static String ROLE_PRODUCT_MANAGER = "product_manager";
 
+    public final static int SUCCESS_CODE = 1;
+    public final static int ERROR_CODE = 0;
+
     public final static String ORDER_STATUS_PENDING = "pending";
     public final static String ORDER_STATUS_REJECTED = "rejected";
     public final static String ORDER_STATUS_PROCESSING = "processing";

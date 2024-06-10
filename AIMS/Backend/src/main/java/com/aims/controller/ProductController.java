@@ -1,10 +1,13 @@
 package com.aims.controller;
 
 import com.aims.entity.product.Product;
+import com.aims.entity.response.AIMSResponse;
 import com.aims.service.ProductService;
+import com.aims.utils.Constants;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -15,30 +18,53 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<AIMSResponse<List<Product>>> getAllProducts() {
+        List<Product> products = productService.findAllProduct();
+        AIMSResponse<List<Product>> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Get all products successfully", products);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/add")
-    public Product addProduct(@RequestBody Product product) {
-        return productService.addProduct(product);
+    public ResponseEntity<AIMSResponse<Product>> addProduct(@RequestBody Product product) {
+        Product prod = productService.addProduct(product);
+        AIMSResponse<Product> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Add product successfully", prod);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public Optional<Product> findProduct(@PathVariable String id) {
-        return productService.findProductById(id);
+    public ResponseEntity<AIMSResponse<Product>> findProduct(@PathVariable String id) {
+        Product product = productService.findProductById(id);
+        AIMSResponse<Product> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Get product successfully", product);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/update")
-    public Product updateProduct(@RequestBody Product product) {
-        return productService.updateProduct(product);
+    public ResponseEntity<AIMSResponse<Product>> updateProduct(@RequestBody Product product) {
+        Product newProduct = productService.updateProduct(product);
+        AIMSResponse<Product> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Update product successfully", newProduct);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteProduct(@PathVariable String id) {
+    public ResponseEntity<AIMSResponse<Void>> deleteProduct(@PathVariable String id) {
         productService.deleteProduct(id);
+        AIMSResponse<Void> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Delete product successfully");
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/update-price/{id}")
-    public Product updatePrice(@PathVariable String id, @RequestParam int newPrice) {
-        return productService.updatePrice(id, newPrice);
+    public ResponseEntity<AIMSResponse<Product>> updatePrice(@PathVariable String id, @RequestParam int newPrice) {
+        Product newProduct = productService.updatePrice(id, newPrice);
+        AIMSResponse<Product> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Update price successfully", newProduct);
+        return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/check-availability/{id}")
+    public ResponseEntity<AIMSResponse<Boolean>> checkAvailableProduct(@PathVariable String id, @RequestParam int quantity) {
+        Boolean avail = productService.checkAvailableProduct(id, quantity);
+        AIMSResponse<Boolean> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Check availability successfully", avail);
+        return ResponseEntity.ok(response);
+    }
 
 }

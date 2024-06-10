@@ -21,9 +21,15 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAllProduct() {
         return productRepository.findAll();
     }
+
     @Override
-    public Optional<Product> findProductById(String id){
-        return productRepository.findById(id);
+    public Product findProductById(String id){
+        Product product = productRepository.findById(id).orElse(null);
+        if (product != null) {
+            return product;
+        } else {
+            throw new ProductNotAvailableException("Product not found");
+        }
     }
 
     @Override
@@ -56,6 +62,16 @@ public class ProductServiceImpl implements ProductService {
             }
             product.setSellPrice(newPrice);
             return productRepository.save(product);
+        } else {
+            throw new ProductNotAvailableException("Product not found");
+        }
+    }
+
+    @Override
+    public boolean checkAvailableProduct(String productId, int quantity) {
+        Product product = productRepository.findById(productId).orElse(null);
+        if (product != null) {
+            return product.getQuantity() >= quantity;
         } else {
             throw new ProductNotAvailableException("Product not found");
         }

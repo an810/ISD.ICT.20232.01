@@ -1,7 +1,11 @@
 package com.aims.controller;
 
+import com.aims.entity.cart.Cart;
 import com.aims.entity.delivery.DeliveryInfo;
+import com.aims.entity.response.AIMSResponse;
 import com.aims.service.DeliveryInfoService;
+import com.aims.utils.Constants;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,17 +19,23 @@ public class DeliveryInfoController {
     }
 
     @PostMapping("/add")
-    public DeliveryInfo addDeliveryInfo(@RequestBody DeliveryInfo deliveryInfo) {
-        return deliveryInfoService.create(deliveryInfo);
+    public ResponseEntity<AIMSResponse<DeliveryInfo>>  addDeliveryInfo(@RequestBody DeliveryInfo deliveryInfo) {
+        DeliveryInfo data = deliveryInfoService.create(deliveryInfo);
+        AIMSResponse<DeliveryInfo> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Create delivery info successfully", data);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public DeliveryInfo getDeliveryInfo(@PathVariable String id) {
-        return deliveryInfoService.getDeliveryInfo(id);
+    public ResponseEntity<AIMSResponse<DeliveryInfo>> getDeliveryInfo(@PathVariable String id) {
+        DeliveryInfo data = deliveryInfoService.getDeliveryInfo(id);
+        AIMSResponse<DeliveryInfo> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Get delivery info successfully", data);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/shipping-fee")
-    public Double getShippingFee(@RequestParam String province, @RequestParam boolean isRushDelivery) {
-        return deliveryInfoService.calculateShippingFee(province, isRushDelivery);
+    public ResponseEntity<AIMSResponse<Integer>> getShippingFee(@RequestParam String province, @RequestParam boolean isRushDelivery) {
+        Integer fee = deliveryInfoService.calculateShippingFee(province, isRushDelivery);
+        AIMSResponse<Integer> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Calculate shipping fee successfully", fee);
+        return ResponseEntity.ok(response);
     }
 }
