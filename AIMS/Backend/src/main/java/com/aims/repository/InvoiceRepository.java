@@ -1,9 +1,9 @@
 package com.aims.repository;
 
-import com.aims.entity.payment.RefundTransaction;
+import com.aims.entity.invoice.Invoice;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RefundTransactionRepository extends MongoRepository<RefundTransaction, String> {
+public interface InvoiceRepository extends MongoRepository<Invoice, String> {
 }

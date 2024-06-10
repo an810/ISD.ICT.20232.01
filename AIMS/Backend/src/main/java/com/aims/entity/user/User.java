@@ -1,4 +1,4 @@
-package com.aims.entity;
+package com.aims.entity.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,9 +14,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class User {
     @Id
-    private ObjectId id;
-    private String userName;
-    private String userEmail;
-    private String userAddress;
-    private String userPhone;
+    private String id;
+    private String username;
+    private String password;
+    private String role;
+    private Boolean blockStatus;
 }

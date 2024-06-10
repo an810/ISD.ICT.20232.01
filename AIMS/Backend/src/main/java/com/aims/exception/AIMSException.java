@@ -13,6 +13,6 @@ public class AIMSException extends RuntimeException {
     }
 
     public AIMSException(String message) {
-        super("Something went wrong! Please try again later.");
+        super(message);
     }
 }

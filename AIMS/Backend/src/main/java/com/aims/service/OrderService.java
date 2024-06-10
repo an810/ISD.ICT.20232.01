@@ -8,4 +8,8 @@ import org.springframework.stereotype.Service;
 public interface OrderService {
 
     Order createOrder(String cartId, DeliveryInfo deliveryInfo);
+    Order getOrder(String orderId);
+    Order updateStatusOrder(String orderId, String status);
+
+
 }

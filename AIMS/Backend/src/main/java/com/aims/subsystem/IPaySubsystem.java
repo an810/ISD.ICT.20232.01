@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface IPaySubsystem {
 
-    PaymentTransaction getPaymentTransaction(Map<String, String> response) throws PaymentException, AIMSException, IOException;
+    PaymentTransaction savePaymentTransaction(Map<String, String> response) throws PaymentException, AIMSException, IOException;
     String generateUrl(int amount, String orderId) throws IOException;
     RefundTransaction refund(PaymentTransaction paymentTransaction) throws IOException;
 

@@ -1,11 +1,21 @@
 package com.aims.utils;
 
 public class Constants {
-    public final static float PERCENT_VAT = 10;
-    public final static float RUSH_SHIPPING_FEE = 5000;
-    public final static float SHIPPING_FEE_NORTHERN_VIETNAM = 2000;
-    public final static float SHIPPING_FEE_CENTRAL_VIETNAM = 2500;
-    public final static float SHIPPING_FEE_SOUTHERN_VIETNAM = 3000;
+    public final static String ROLE_ADMIN = "admin";
+    public final static String ROLE_PRODUCT_MANAGER = "product_manager";
+
+    public final static String ORDER_STATUS_PENDING = "pending";
+    public final static String ORDER_STATUS_REJECTED = "rejected";
+    public final static String ORDER_STATUS_PROCESSING = "processing";
+    public final static String ORDER_STATUS_CANCELLED = "cancelled";
+    public final static String ORDER_STATUS_DELIVERED = "delivered";
+
+
+    public final static int PERCENT_VAT = 10;
+    public final static int RUSH_SHIPPING_FEE = 50000;
+    public final static int SHIPPING_FEE_NORTHERN_VIETNAM = 20000;
+    public final static int SHIPPING_FEE_CENTRAL_VIETNAM = 25000;
+    public final static int SHIPPING_FEE_SOUTHERN_VIETNAM = 30000;
     // Northern Vietnam
     public static final String[] NORTHERN_VIETNAM = {
             "HaNoi", "HaGiang", "CaoBang", "BacKan", "TuyenQuang", "LaoCai",
