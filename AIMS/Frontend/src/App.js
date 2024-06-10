@@ -12,6 +12,7 @@ import AdminLogin from "./pages/AdminLogin";
 import Admin from "./pages/Admin";
 import ProductManager from "./pages/ProductManager";
 import { CartProvider } from "./providers/CartContext";
+import { UserProvider } from "./providers/UserContext";
 import axios from "axios";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,6 +23,7 @@ function App() {
 
   return (
     <div>
+      <UserProvider>≈
       <CartProvider>
         <ToastContainer />
         <Routes>
@@ -39,6 +41,7 @@ function App() {
           </Route>
         </Routes>
       </CartProvider>
+      </UserProvider>
     </div>
   );
 }
