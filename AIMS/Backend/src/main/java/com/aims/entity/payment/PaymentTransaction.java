@@ -17,7 +17,7 @@ public class PaymentTransaction {
     private String transactionId;
     private String orderId;
     private String errorCode; // code response from bank
-    private double amount;
+    private long amount;
     private String transactionNum;
     private String transactionContent;
     private String message;
