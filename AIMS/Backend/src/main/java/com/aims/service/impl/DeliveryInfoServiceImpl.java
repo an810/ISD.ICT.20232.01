@@ -26,8 +26,8 @@ public class DeliveryInfoServiceImpl implements DeliveryInfoService {
     }
 
     @Override
-    public Double calculateShippingFee(String province, boolean isRushDelivery) {
-        double shippingFee = 0.0;
+    public Integer calculateShippingFee(String province, boolean isRushDelivery) {
+        int shippingFee = 0;
         for (String provinceName : Constants.NORTHERN_VIETNAM) {
             if (province.equalsIgnoreCase(provinceName)) {
                 shippingFee = Constants.SHIPPING_FEE_NORTHERN_VIETNAM;

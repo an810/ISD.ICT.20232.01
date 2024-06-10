@@ -3,6 +3,7 @@ package com.aims.service.impl;
 import com.aims.entity.user.User;
 import com.aims.exception.IncorrectPasswordException;
 import com.aims.exception.IncorrectRoleException;
+import com.aims.exception.UserExistedException;
 import com.aims.exception.UserNotFoundException;
 import com.aims.repository.UserRepository;
 import com.aims.service.UserService;
@@ -21,12 +22,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(String username, String password, String role) {
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setRole(role);
-        user.setBlockStatus(false);
-        return userRepository.save(user);
+        User existedUser = userRepository.findAll().stream()
+                .filter(u -> u.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
+        if (existedUser != null) {
+            throw new UserExistedException("User existed in the system");
+        } else {
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setRole(role);
+            user.setBlockStatus(false);
+            return userRepository.save(user);
+        }
+
     }
 
     @Override

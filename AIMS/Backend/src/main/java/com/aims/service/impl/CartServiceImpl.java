@@ -70,19 +70,6 @@ public class CartServiceImpl implements CartService {
         return cartRepository.save(cart);
     }
 
-    public List<Product> checkCartProducts(String cartId) {
-        Cart cart = getCart(cartId);
-        List<Product> products = new ArrayList<>();
-        for (CartItem item : cart.getListCartItem()) {
-            Product product = productRepository.findById(item.getProduct().getId())
-                    .orElseThrow(() -> new ProductNotAvailableException("Product not found"));
-            if (product.getQuantity() < item.getQuantity()) {
-                products.add(product);
-            }
-        }
-        return products;
-    }
-
     public List<CartItem> getAllCartItems(String cartId) {
         Cart cart = getCart(cartId);
         return cart.getListCartItem();
