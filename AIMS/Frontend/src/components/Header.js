@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import { CartContext } from "../providers/CartContext";
@@ -25,9 +25,11 @@ const Header = () => {
         <button className="mr-4">
           <span>Help</span>
         </button>
-        <button className="mr-4">
-          <span>Profile</span>
-        </button>
+        <Link to="login" className="flex items-center">
+          <button className="mr-4">
+            <span>Login</span>
+          </button>
+        </Link>
 
         <Link to="/cart">
           <div className="flex items-center rounded-2xl bg-gray-200 px-4 py-2">
@@ -37,7 +39,9 @@ const Header = () => {
               </span>
             </button>
             <div>Your cart</div>
-            <div className="ml-2 text-red-600 ">({item?.length ? item.length : 0})</div>
+            <div className="ml-2 text-red-600 ">
+              ({item?.length ? item.length : 0})
+            </div>
           </div>
         </Link>
       </div>

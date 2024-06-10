@@ -7,6 +7,10 @@ import Shipping from "./pages/Shipping";
 import RushOrder from "./pages/RushOrder";
 import Payment from "./pages/Payment";
 import Result from "./pages/Result";
+import Login from "./pages/Login";
+import AdminLogin from "./pages/AdminLogin";
+import Admin from "./pages/Admin";
+import ProductManager from "./pages/ProductManager";
 import { CartProvider } from "./providers/CartContext";
 import axios from "axios";
 import {ToastContainer} from "react-toastify";
@@ -28,6 +32,10 @@ function App() {
             <Route path="rush-order" element={<RushOrder />} />
             <Route path="payment" element={<Payment />} />
             <Route path="result" element={<Result />} />
+            <Route path="login" element={<Login />} />
+            <Route path="admin/login" element={<AdminLogin />} />
+            <Route path="admin" element={<Admin />} />
+            <Route path="product" element={<ProductManager/>} />
           </Route>
         </Routes>
       </CartProvider>
