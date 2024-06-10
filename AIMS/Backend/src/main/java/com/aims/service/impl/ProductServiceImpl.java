@@ -1,8 +1,14 @@
 package com.aims.service.impl;
 
+import com.aims.entity.product.Book;
+import com.aims.entity.product.CD;
+import com.aims.entity.product.DVD;
 import com.aims.entity.product.Product;
 import com.aims.exception.PriceInflationException;
 import com.aims.exception.ProductNotAvailableException;
+import com.aims.repository.BookRepository;
+import com.aims.repository.CDRepository;
+import com.aims.repository.DVDRepository;
 import com.aims.repository.ProductRepository;
 import com.aims.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +20,15 @@ import java.util.Optional;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
-    public ProductServiceImpl(ProductRepository productRepository) {
+    private final CDRepository cdRepository;
+    private final DVDRepository dvdRepository;
+    private final BookRepository bookRepository;
+    public ProductServiceImpl(ProductRepository productRepository, CDRepository cdRepository,
+                              DVDRepository dvdRepository, BookRepository bookRepository) {
         this.productRepository = productRepository;
+        this.cdRepository = cdRepository;
+        this.dvdRepository = dvdRepository;
+        this.bookRepository = bookRepository;
     }
     @Override
     public List<Product> findAllProduct() {
@@ -32,17 +45,55 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+
+
     @Override
-    public Product addProduct(Product product){
-        return productRepository.save(product);
+    public Product addCD(CD product){
+        return cdRepository.save(product);
     }
 
     @Override
-    public Product updateProduct(Product product){
-        if(productRepository.existsById(product.getId())){
-            return productRepository.save(product);
+    public Product addBook(Book product){
+        return bookRepository.save(product);
+    }
+
+    @Override
+    public Product addDVD(DVD product){
+        return dvdRepository.save(product);
+    }
+
+
+    @Override
+    public Product updateCD(String id, CD product){
+        CD product1 = cdRepository.findById(id).orElse(null);
+        if (product1 != null) {
+            cdRepository.delete(product1);
+            return cdRepository.save(product);
+        } else {
+            throw new ProductNotAvailableException("Product not found");
         }
-        return null;
+    }
+
+    @Override
+    public Product updateBook(String id, Book product){
+        Book product1 = bookRepository.findById(id).orElse(null);
+        if (product1 != null) {
+            bookRepository.delete(product1);
+            return bookRepository.save(product);
+        } else {
+            throw new ProductNotAvailableException("Product not found");
+        }
+    }
+
+    @Override
+    public Product updateDVD(String id, DVD product){
+        DVD product1 = dvdRepository.findById(id).orElse(null);
+        if (product1 != null) {
+            dvdRepository.delete(product1);
+            return dvdRepository.save(product);
+        } else {
+            throw new ProductNotAvailableException("Product not found");
+        }
     }
 
     @Override
