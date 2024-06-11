@@ -8,7 +8,6 @@ import { removeItemFromLocalStorage } from "../utils";
 const Header = () => {
   const { item } = useContext(CartContext);
   const { isAuthen, setIsAuthen } = useContext(UserContext);
-  console.log(isAuthen);
   const navigate = useNavigate();
   const handleLogout = () => {
     setIsAuthen(false);
@@ -83,9 +82,11 @@ const Header = () => {
       </header>
       {isAuthen && (
         <div className="flex justify-end mb-4 px-10">
-          <button className="border-2 rounded-2xl px-4 py-2 mr-2">
-            Change password
-          </button>
+          <Link to="change-password">
+            <button className="border-2 rounded-2xl px-4 py-2 mr-2">
+              Change password
+            </button>
+          </Link>
 
           <button
             onClick={handleLogout}

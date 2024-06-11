@@ -12,6 +12,7 @@ import AdminLogin from "./pages/AdminLogin";
 import Admin from "./pages/Admin";
 import ProductManager from "./pages/ProductManager";
 import OrderManger from "./pages/OrderManager";
+import ChangePassword from "./pages/ChangePassword";
 import { CartProvider } from "./providers/CartContext";
 import { UserProvider } from "./providers/UserContext";
 import axios from "axios";
@@ -40,6 +41,7 @@ function App() {
             <Route path="admin" element={<Admin />} />
             <Route path="product" element={<ProductManager/>} />
             <Route path="order" element={<OrderManger/>} />
+            <Route path="change-password" element={<ChangePassword/>} />
           </Route>
         </Routes>
       </CartProvider>
