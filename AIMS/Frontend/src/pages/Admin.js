@@ -18,7 +18,7 @@ const Admin = () => {
     axios
       .get("user/all")
       .then((response) => {
-        setUsers(response.data);
+        setUsers(response.data.data);
       })
       .catch((error) => {
         console.log(error);
@@ -46,7 +46,50 @@ const Admin = () => {
     setSelectedRole(e.target.value);
   };
 
-  const handleDelteUser = (id) => {
+  const handelResetPassword = (user) => {
+    const newUser = {
+        id: user.id,
+        username: user.username,
+        password: "123456",
+        role: user.role,
+        blockStatus: user.blockStatus,
+    };
+    
+    axios
+      .put(`user/update/${user.id}`, newUser)
+      .then((response) => {
+        fetchUsers();
+        toast.success("Password reset successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+      }
+      );
+  }
+
+  const handleBlockStatus = (user) => {
+    const newUser = {
+      id: user.id,
+      username: user.username,
+      password: user.password,
+      role: user.role,
+      blockStatus: !user.blockStatus,
+    };
+    axios
+      .put(`user/update/${user.id}`, newUser)
+      .then((response) => {
+        fetchUsers();
+        toast.success("Block status updated successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+      }
+      ); 
+  }
+
+
+
+  const handleDeleteUser = (id) => {
     axios
       .delete(`user/delete?userId=${id}`)
       .then((response) => {
@@ -138,7 +181,9 @@ const Admin = () => {
           <tr>
             <th className="px-4 py-2">Id</th>
             <th className="px-4 py-2">UserName</th>
+            <th className="px-4 py-2">Password</th>
             <th className="px-4 py-2">Role</th>
+            <th className="px-4 py-2">Block Status</th>
             <th className="px-4 py-2">Action</th>
           </tr>
         </thead>
@@ -148,10 +193,18 @@ const Admin = () => {
               <tr key={user.id}>
                 <td className="border px-4 py-2">{user.id}</td>
                 <td className="border px-4 py-2">{user.username}</td>
+                <td className="border px-4 py-2">{user.password}</td>
                 <td className="border px-4 py-2">{user.role}</td>
+                <td className="border px-4 py-2">
+                  {user.blockStatus ? "Blocked" : "Active"}
+                </td>
 
                 <td className="border px-4 py-2 flex justify-around">
-                  <button className="border px-2 py-1" onClick={()=>handleDelteUser(user.id)}>Delete</button>
+                  <button className="border rounded-2xl px-2 py-1" onClick={()=>handelResetPassword(user)}>Reset Password</button>
+                  <button className="border rounded-2xl px-2 py-1" onClick={()=>handleBlockStatus(user)}>
+                    {user.blockStatus ? "Unblock" : "Block"}
+                  </button>
+                  <button className="border rounded-2xl px-2 py-1" onClick={()=>handleDeleteUser(user.id)}>Delete</button>
                 </td>
               </tr>
             );

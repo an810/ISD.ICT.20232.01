@@ -14,7 +14,7 @@ const Login = () => {
     axios
       .get(`user/login?username=${userName}&password=${password}&role=admin`)
       .then((response) => {
-        if(response.status) {
+        if(response.data.status) {
             toast.success("Logged in successfully");
             navigate("/admin");
             setIsAuthen("admin");

@@ -10,7 +10,7 @@ public interface UserService {
     User createUser(String username, String password, String role);
     void deleteUser(String userId);
     User changePassword(String userId, String currentPassword, String newPassword);
-    User updateUser(User newUser);
+    User updateUser(String id, User newUser);
     List<User> getAllUsers();
     void login(String username, String password, String role);
 }

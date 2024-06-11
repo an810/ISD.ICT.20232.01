@@ -23,6 +23,7 @@ public class OrderServiceImpl implements OrderService {
         this.cartService = cartService;
     }
 
+    @Override
     public Order createOrder(String cartId, DeliveryInfo deliveryInfo) {
         List<CartItem> cartItems = cartService.getAllCartItems(cartId);
         List<OrderItem> orderItems = cartItems.stream()
@@ -39,6 +40,7 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(order);
     }
 
+    @Override
     public Order getOrder(String orderId) {
         Order order = orderRepository.findById(orderId).orElse(null);
         if (order != null) {
@@ -48,6 +50,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
     public Order updateStatusOrder(String orderId, String status) {
         Order order = orderRepository.findById(orderId).orElse(null);
         if (order != null) {
@@ -56,6 +59,11 @@ public class OrderServiceImpl implements OrderService {
         } else {
             throw new OrderNotFoundException("Order not found");
         }
+    }
+
+    @Override
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
     }
 
 }

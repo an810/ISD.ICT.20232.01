@@ -50,9 +50,9 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<AIMSResponse<User>> updateUser(@RequestBody User newUser) {
-        User user = userService.updateUser(newUser);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<AIMSResponse<User>> updateUser(@PathVariable String id, @RequestBody User newUser) {
+        User user = userService.updateUser(id, newUser);
         AIMSResponse<User> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Update user successfully", user);
         return ResponseEntity.ok(response);
     }

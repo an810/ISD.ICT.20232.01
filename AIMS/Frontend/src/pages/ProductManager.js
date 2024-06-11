@@ -62,7 +62,7 @@ const ProductManager = () => {
     setModalIsOpen(false);
   };
 
-  const handleDeleteBook = (id) => {
+  const handleDeleteProduct = (id) => {
     axios
       .delete(`product/delete/${id}`)
       .then((response) => {
@@ -78,7 +78,7 @@ const ProductManager = () => {
     <div className="p-6">
       <h1 className="text-2xl mb-4">Product</h1>
 
-      <button onClick={openModal} className="border px-4 py-2 mb-4">
+      <button onClick={openModal} className="border-2 rounded-2xl px-4 py-2 mr-2">
         Add product
       </button>
 
@@ -169,13 +169,24 @@ const ProductManager = () => {
                 {product.rushDeliverySupport ? "Yes" : "No"}  
               </td>
               <td className="border px-4 py-2">
-                <button className="border px-2 py-1 mr-2">Edit</button>
+                <button 
+                  className="border-2 rounded-2xl px-4 py-2 mr-2"
+                  // onClick={() => handleEditProduct(product)}
+                >
+                  Edit</button>
                 <button
-                  className="border px-2 py-1"
-                  onClick={() => handleDeleteBook(product.id)}
+                  className="border-2 rounded-2xl px-4 py-2 mr-2"
+                  onClick={() => handleDeleteProduct(product.id)}
                 >
                   Delete
                 </button>
+                <button 
+                  className="border-2 rounded-2xl px-4 py-2"
+                  // onClick={() => handleUpdatePrice(product.id)}
+                >
+                  Update Price
+                </button>
+      
               </td>
             </tr>
           ))}

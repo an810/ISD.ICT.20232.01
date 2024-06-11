@@ -24,11 +24,13 @@ public class CartServiceImpl implements CartService {
         this.productRepository = productRepository;
     }
 
+    @Override
     public Cart getCart(String cartId) {
         // Ensure the cart is properly initialized
         return cartRepository.findById(cartId).orElse(new Cart(cartId, new ArrayList<>(), 0));
     }
 
+    @Override
     public Cart addCartProduct(String cartId, String productId, int quantity) {
         Cart cart = getCart(cartId);
         Product product = productRepository.findById(productId)
@@ -54,6 +56,7 @@ public class CartServiceImpl implements CartService {
         return cartRepository.save(cart);
     }
 
+    @Override
     public Cart removeCartProduct(String cartId, String productId) {
         Cart cart = getCart(cartId);
         cart.getListCartItem().removeIf(item -> item.getProduct().getId().equals(productId));
@@ -63,6 +66,7 @@ public class CartServiceImpl implements CartService {
         return cartRepository.save(cart);
     }
 
+    @Override
     public Cart clearCart(String cartId) {
         Cart cart = getCart(cartId);
         cart.getListCartItem().clear();
@@ -70,6 +74,7 @@ public class CartServiceImpl implements CartService {
         return cartRepository.save(cart);
     }
 
+    @Override
     public List<CartItem> getAllCartItems(String cartId) {
         Cart cart = getCart(cartId);
         return cart.getListCartItem();
