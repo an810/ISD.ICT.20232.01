@@ -41,9 +41,9 @@ const ProductManager = () => {
   };
   const fetchBooks = () => {
     axios
-      .get("/home/all")
+      .get("/product/all")
       .then((response) => {
-        setProducts(response.data);
+        setProducts(response.data.data);
         console.log(response.data);
       })
       .catch((error) => {
@@ -148,6 +148,11 @@ const ProductManager = () => {
           <tr>
             <th className="px-4 py-2">Id</th>
             <th className="px-4 py-2">Product Name</th>
+            <th className="px-4 py-2">Type</th>
+            <th className="px-4 py-2">Import Price</th>
+            <th className="px-4 py-2">Price</th>
+            <th className="px-4 py-2">Quantity</th>
+            <th className="px-4 py-2">Rush Delivery Support</th>
             <th className="px-4 py-2">Action</th>
           </tr>
         </thead>
@@ -156,6 +161,13 @@ const ProductManager = () => {
             <tr key={product.id}>
               <td className="border px-4 py-2">{product.id}</td>
               <td className="border px-4 py-2">{product.title}</td>
+              <td className="border px-4 py-2">{product.type}</td>
+              <td className="border px-4 py-2">{product.importPrice}</td>
+              <td className="border px-4 py-2">{product.sellPrice}</td>
+              <td className="border px-4 py-2">{product.quantity}</td>
+              <td className="border px-4 py-2">
+                {product.rushDeliverySupport ? "Yes" : "No"}  
+              </td>
               <td className="border px-4 py-2">
                 <button className="border px-2 py-1 mr-2">Edit</button>
                 <button
