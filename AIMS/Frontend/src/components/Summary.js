@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { CartContext } from "../providers/CartContext";
 const Summary = (props) => {
   const {totalPrice,shippingPrice} = useContext(CartContext);
-
+  
   function convertToVND(number) {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
   }

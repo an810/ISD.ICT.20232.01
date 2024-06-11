@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { UserContext } from '../providers/UserContext';
+import { setItemsInLocalStorage } from '../utils';
 const Login = () => {
     const {setIsAuthen} = useContext(UserContext);
     const [userName, setUserName] = useState('');
@@ -16,6 +17,7 @@ const Login = () => {
                 toast.success('Logged in successfully');
                 navigate('/product');
                 setIsAuthen("product_manager");
+                setItemsInLocalStorage('isAuthen', "product_manager");
             }
         }).catch((error) => {
             toast.error('Error logging in');

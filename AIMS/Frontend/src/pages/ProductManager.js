@@ -15,7 +15,6 @@ const ProductManager = () => {
     quantity: "",
   });
 
-  // Handle form input changes
   const handleInputChange = (event) => {
     setFormData({
       ...formData,
@@ -23,11 +22,8 @@ const ProductManager = () => {
     });
   };
 
-  // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    // Submit form data to server
     axios
       .post("product/add", formData)
       .then((response) => {
@@ -44,7 +40,6 @@ const ProductManager = () => {
       .get("/product/all")
       .then((response) => {
         setProducts(response.data.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
@@ -78,70 +73,76 @@ const ProductManager = () => {
     <div className="p-6">
       <h1 className="text-2xl mb-4">Product</h1>
 
-      <button onClick={openModal} className="border-2 rounded-2xl px-4 py-2 mr-2">
+      <button
+        onClick={openModal}
+        className="border-2 rounded-2xl px-4 py-2 mr-2"
+      >
         Add product
       </button>
 
       <Modal
-  isOpen={modalIsOpen}
-  onRequestClose={closeModal}
-  contentLabel="Add Product"
-  className="m-4 p-4 border-2 border-gray-300 rounded-md bg-gray-50 mt-40"
->
-  <h2 className="mb-4 font-bold">Add Product</h2>
-  <form onSubmit={handleSubmit}>
-    <label className="block mb-2">
-      Title
-      <input
-        type="text"
-        name="title"
-        className="border px-2 py-1 w-full"
-        value={formData.title}
-        onChange={handleInputChange}
-        required
-      />
-    </label>
-    <label className="block mb-2">
-      Import Price
-      <input
-        type="number"
-        name="importPrice"
-        className="border px-2 py-1 w-full"
-        value={formData.importPrice}
-        onChange={handleInputChange}
-        required
-      />
-    </label>
-    <label className="block mb-2">
-      Sell Price
-      <input
-        type="number"
-        name="sellPrice"
-        className="border px-2 py-1 w-full"
-        value={formData.sellPrice}
-        onChange={handleInputChange}
-        required
-      />
-    </label>
-    <label className="block mb-2">
-      Quantity
-      <input
-        type="number"
-        name="quantity"
-        className="border px-2 py-1 w-full"
-        value={formData.quantity}
-        onChange={handleInputChange}
-        required
-      />
-    </label>
-    <button onClick={()=>setModalIsOpen(false)} className="border px-4 py-2">
-      Cancel
-    </button>
-    <button type="submit" className="border px-4 py-2">
-      Add Product
-    </button>
-  </form>
-</Modal>
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Add Product"
+        className="m-4 p-4 border-2 border-gray-300 rounded-md bg-gray-50 mt-40"
+      >
+        <h2 className="mb-4 font-bold">Add Product</h2>
+        <form onSubmit={handleSubmit}>
+          <label className="block mb-2">
+            Title
+            <input
+              type="text"
+              name="title"
+              className="border px-2 py-1 w-full"
+              value={formData.title}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+          <label className="block mb-2">
+            Import Price
+            <input
+              type="number"
+              name="importPrice"
+              className="border px-2 py-1 w-full"
+              value={formData.importPrice}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+          <label className="block mb-2">
+            Sell Price
+            <input
+              type="number"
+              name="sellPrice"
+              className="border px-2 py-1 w-full"
+              value={formData.sellPrice}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+          <label className="block mb-2">
+            Quantity
+            <input
+              type="number"
+              name="quantity"
+              className="border px-2 py-1 w-full"
+              value={formData.quantity}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+          <button
+            onClick={() => setModalIsOpen(false)}
+            className="border px-4 py-2"
+          >
+            Cancel
+          </button>
+          <button type="submit" className="border px-4 py-2">
+            Add Product
+          </button>
+        </form>
+      </Modal>
 
       <table className="w-full table-auto">
         <thead>
@@ -166,27 +167,27 @@ const ProductManager = () => {
               <td className="border px-4 py-2">{product.sellPrice}</td>
               <td className="border px-4 py-2">{product.quantity}</td>
               <td className="border px-4 py-2">
-                {product.rushDeliverySupport ? "Yes" : "No"}  
+                {product.rushDeliverySupport ? "Yes" : "No"}
               </td>
               <td className="border px-4 py-2">
-                <button 
+                <button
                   className="border-2 rounded-2xl px-4 py-2 mr-2"
                   // onClick={() => handleEditProduct(product)}
                 >
-                  Edit</button>
+                  Edit
+                </button>
                 <button
                   className="border-2 rounded-2xl px-4 py-2 mr-2"
                   onClick={() => handleDeleteProduct(product.id)}
                 >
                   Delete
                 </button>
-                <button 
+                <button
                   className="border-2 rounded-2xl px-4 py-2"
                   // onClick={() => handleUpdatePrice(product.id)}
                 >
                   Update Price
                 </button>
-      
               </td>
             </tr>
           ))}

@@ -24,6 +24,7 @@ const Admin = () => {
         console.log(error);
       });
   };
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -34,6 +35,7 @@ const Admin = () => {
       navigate("/");
     }
   }, [isAuthen, navigate]);
+
   const openModal = () => {
     setModalIsOpen(true);
   };

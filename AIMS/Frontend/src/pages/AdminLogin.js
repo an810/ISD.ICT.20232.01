@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { UserContext } from "../providers/UserContext";
+import { setItemsInLocalStorage } from "../utils";
 const Login = () => {
   const {setIsAuthen} = useContext(UserContext);
 
@@ -18,6 +19,7 @@ const Login = () => {
             toast.success("Logged in successfully");
             navigate("/admin");
             setIsAuthen("admin");
+            setItemsInLocalStorage("isAuthen", "admin");
         }
       })
       .catch((error) => {

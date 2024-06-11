@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import ItemCard from "../components/ItemCard";
 import axios from "axios";
-import { toast } from "react-toastify";
 const Home = () => {
     const [productData, setProductData] = useState([]);
 
@@ -10,7 +9,6 @@ const Home = () => {
         .then((response) => {
             if(response.status) {
                 setProductData(response.data.data);
-                toast.success(response.data.message);   
             }
         }).catch((error) => {
             console.error("Error fetching data: ", error);

@@ -4,12 +4,15 @@ import { UserContext } from "../providers/UserContext";
 import { CartContext } from "../providers/CartContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { removeItemFromLocalStorage } from "../utils";
 const Header = () => {
   const { item } = useContext(CartContext);
   const { isAuthen, setIsAuthen } = useContext(UserContext);
+  console.log(isAuthen);
   const navigate = useNavigate();
   const handleLogout = () => {
     setIsAuthen(false);
+    removeItemFromLocalStorage("isAuthen");
     navigate("/");
     toast.success("Logged out successfully");
   };
@@ -43,11 +46,18 @@ const Header = () => {
               </button>
             </Link>
           ) : isAuthen === "product_manager" ? (
-            <Link to="/product" className="flex items-center">
-              <button className="mr-4">
-                <span>Product</span>
-              </button>
-            </Link>
+            <>
+              <Link to="/product" className="flex items-center">
+                <button className="mr-4">
+                  <span>Product</span>
+                </button>
+              </Link>
+              <Link to="/order" className="flex items-center">
+                <button className="mr-4">
+                  <span>Order History</span>
+                </button>
+              </Link>
+            </>
           ) : (
             <Link to="login" className="flex items-center">
               <button className="mr-4">

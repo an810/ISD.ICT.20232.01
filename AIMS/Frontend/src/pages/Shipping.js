@@ -68,8 +68,8 @@ const Shipping = () => {
       )
       .then((response) => {
         setIsShippingData(true);
-        toast.success("Shipping fee is " + response.data);
-        setShippingPrice(response.data);
+        toast.success("Shipping fee is " + response.data.data);
+        setShippingPrice(response.data.data);
       })
       .catch((error) => {
         toast.error("Error placing order");
@@ -94,7 +94,7 @@ const Shipping = () => {
       }
     }
     axios
-      .post(`place-order?cartId=${cartId}`, {
+      .post(`order/place-order?cartId=${cartId}`, {
         receiverName: formData.name,
         phoneNumber: formData.phone,
         address: formData.address,
@@ -108,8 +108,9 @@ const Shipping = () => {
         toast.success("Order placed successfully");
         navigate("/payment", {
           state: {
-            orderId: response.data.orderId,
-            totalAmount: response.data.totalAmount,
+            orderId: response.data.data.orderId,
+            totalAmount: response.data.data.totalAmount,
+            formData : formData
           },
         });
       })
@@ -218,12 +219,6 @@ const Shipping = () => {
                   Submit data
                 </button>
               )}
-              <button
-                type="submit"
-                className="bg-black text-white px-20 py-2 rounded-xl mr-4"
-              >
-                Continue
-              </button>
 
               <button
                 className="bg-black text-white px-20 py-2 rounded-xl mr-4"

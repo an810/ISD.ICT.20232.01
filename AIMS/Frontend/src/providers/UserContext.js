@@ -1,15 +1,19 @@
-import {createContext, useEffect, useState} from "react";
-import axios from "axios";
-import { getItemFromLocalStorage, removeItemFromLocalStorage } from '../utils';
-
+import {createContext, useState, useEffect} from "react";
+import { getItemFromLocalStorage } from "../utils";
 export const UserContext = createContext({});
 
 export function UserProvider({children}) {
-  const [user,setUser] = useState(null);
   const [isAuthen, setIsAuthen] = useState(false);
 
+  useEffect(()=>{
+    const isAuthen = getItemFromLocalStorage("isAuthen");
+    if(isAuthen){
+      setIsAuthen(isAuthen);
+    }
+  },[])
+
   return (
-    <UserContext.Provider value={{user,setUser, isAuthen, setIsAuthen}}>
+    <UserContext.Provider value={{isAuthen, setIsAuthen}}>
       {children}
     </UserContext.Provider>
   );
