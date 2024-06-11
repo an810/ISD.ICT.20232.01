@@ -5,6 +5,7 @@ import com.aims.entity.product.CD;
 import com.aims.entity.product.DVD;
 import com.aims.entity.product.Product;
 import com.aims.exception.PriceInflationException;
+import com.aims.exception.ProductDeleteSizeException;
 import com.aims.exception.ProductNotAvailableException;
 import com.aims.repository.BookRepository;
 import com.aims.repository.CDRepository;
@@ -104,6 +105,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void deleteListProduct(List<String> ids) {
+        if (ids.size() > 10)
+            throw new ProductDeleteSizeException("Number of products to delete must be less than 10 at once.");
+        for (String id : ids) {
+            if (productRepository.existsById(id))
+                productRepository.deleteById(id);
+            else throw new ProductNotAvailableException("Product not found");
+        }
+    }
+
+    @Override
     public Product updatePrice(String productId, int newPrice) {
         Product product = productRepository.findById(productId).orElse(null);
         if (product != null) {
@@ -118,14 +130,5 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    @Override
-    public boolean checkAvailableProduct(String productId, int quantity) {
-        Product product = productRepository.findById(productId).orElse(null);
-        if (product != null) {
-            return product.getQuantity() >= quantity;
-        } else {
-            throw new ProductNotAvailableException("Product not found");
-        }
-    }
 
 }

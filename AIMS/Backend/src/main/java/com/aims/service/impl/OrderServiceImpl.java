@@ -53,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order updateStatusOrder(String orderId, String status) {
         Order order = orderRepository.findById(orderId).orElse(null);
-        if (order != null) {
+        if (order != null && order.getStatus().equals(Constants.ORDER_STATUS_PENDING)) {
             order.setStatus(status);
             return orderRepository.save(order);
         } else {

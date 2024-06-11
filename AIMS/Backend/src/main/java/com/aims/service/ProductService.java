@@ -23,8 +23,8 @@ public interface ProductService {
     Product updateDVD(String id, DVD product);
 
     void deleteProduct(String id);
+    void deleteListProduct(List<String> ids);
 
     Product updatePrice(String productId, int newPrice);
 
-    boolean checkAvailableProduct(String productId, int quantity);
 }

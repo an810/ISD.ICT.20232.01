@@ -84,6 +84,13 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/delete-list")
+    public ResponseEntity<AIMSResponse<Void>> deleteListProduct(@RequestParam List<String> ids) {
+        productService.deleteListProduct(ids);
+        AIMSResponse<Void> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Delete list product successfully");
+        return ResponseEntity.ok(response);
+    }
+
     @PutMapping("/update-price/{id}")
     public ResponseEntity<AIMSResponse<Product>> updatePrice(@PathVariable String id, @RequestParam int newPrice) {
         Product newProduct = productService.updatePrice(id, newPrice);
@@ -91,11 +98,5 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/check-availability/{id}")
-    public ResponseEntity<AIMSResponse<Boolean>> checkAvailableProduct(@PathVariable String id, @RequestParam int quantity) {
-        Boolean avail = productService.checkAvailableProduct(id, quantity);
-        AIMSResponse<Boolean> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Check availability successfully", avail);
-        return ResponseEntity.ok(response);
-    }
 
 }
