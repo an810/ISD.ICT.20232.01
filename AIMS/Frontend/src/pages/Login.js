@@ -21,7 +21,6 @@ const Login = () => {
             }
         }).catch((error) => {
             toast.error('Error logging in');
-            console.log(error);
         });
     }
 

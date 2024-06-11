@@ -19,7 +19,6 @@ const Result = () => {
   const vnp_TxnRef = queryParams.get('vnp_TxnRef');
   const vnp_SecureHash = queryParams.get('vnp_SecureHash');
   
-  console.log(vnp_ResponseCode)
   return (
     <div>
       <div className="flex px-40 justify-between shadow-sm py-10">

@@ -104,7 +104,6 @@ const Shipping = () => {
         shippingFees: shippingPrice,
       })
       .then((response) => {
-        console.log(response.data);
         toast.success("Order placed successfully");
         navigate("/payment", {
           state: {

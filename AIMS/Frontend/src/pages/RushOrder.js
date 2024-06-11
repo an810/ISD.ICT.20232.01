@@ -49,11 +49,9 @@ const RushOrder = () => {
       [id]: value,
     });
 
-    console.log(rushOrderData);
   };
 
   const handleRushOrder = () => {
-    console.log(rushOrderData);
   };
 
   return (
