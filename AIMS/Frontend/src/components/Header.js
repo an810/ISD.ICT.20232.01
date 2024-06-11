@@ -8,7 +8,6 @@ const Header = () => {
   const { item } = useContext(CartContext);
   const { isAuthen, setIsAuthen } = useContext(UserContext);
   const navigate = useNavigate();
-  console.log(isAuthen)
   const handleLogout = () => {
     setIsAuthen(false);
     navigate("/");

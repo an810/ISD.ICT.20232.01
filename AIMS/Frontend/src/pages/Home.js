@@ -1,13 +1,17 @@
 import React, {useState, useEffect} from "react";
 import ItemCard from "../components/ItemCard";
 import axios from "axios";
+import { toast } from "react-toastify";
 const Home = () => {
     const [productData, setProductData] = useState([]);
 
     useEffect(() => {
-        axios.get("/home/all")
+        axios.get("/product/all")
         .then((response) => {
-            setProductData(response.data);
+            if(response.status) {
+                setProductData(response.data.data);
+                toast.success(response.data.message);   
+            }
         }).catch((error) => {
             console.error("Error fetching data: ", error);
         });
