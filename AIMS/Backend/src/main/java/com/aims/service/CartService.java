@@ -13,6 +13,5 @@ public interface CartService {
     Cart addCartProduct(String cartId, String productId, int quantity);
     Cart removeCartProduct(String cartId, String productId);
     Cart clearCart(String cartId);
-    List<Product> checkCartProducts(String cartId);
     List<CartItem> getAllCartItems(String cartId);
 }

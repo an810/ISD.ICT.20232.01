@@ -16,6 +16,6 @@ public class RefundTransaction {
     private String id;
     private String message;
     private String errorCode;
-    private double amount;
+    private long amount;
     private String transactionContent;
 }

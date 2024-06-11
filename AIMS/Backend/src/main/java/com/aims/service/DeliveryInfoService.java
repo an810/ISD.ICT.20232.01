@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 public interface DeliveryInfoService {
     DeliveryInfo create(DeliveryInfo deliveryInfo);
     DeliveryInfo getDeliveryInfo(String id);
-    Double calculateShippingFee(String province, boolean isRushDelivery);
+    Integer calculateShippingFee(String province, boolean isRushDelivery);
 }
