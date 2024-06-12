@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void login(String username, String password, String role) {
+    public User login(String username, String password, String role) {
         User user = userRepository.findAll().stream()
                 .filter(u -> u.getUsername().equals(username))
                 .findFirst()
@@ -92,14 +92,13 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             if (user.getRole().equals(role)) {
                 if (user.getPassword().equals(password)) {
-                    return;
+                    return user;
                 } else {
                     throw new IncorrectPasswordException("Incorrect password");
                 }
             } else {
                 throw new IncorrectRoleException("Incorrect role");
             }
-
         } else {
             throw new UserNotFoundException("User not found");
         }

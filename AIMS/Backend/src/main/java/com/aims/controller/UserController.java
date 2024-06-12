@@ -22,9 +22,9 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public ResponseEntity<AIMSResponse<Void>> login(@RequestParam String username, @RequestParam String password, @RequestParam String role) {
-        userService.login(username, password, role);
-        AIMSResponse<Void> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Login successfully");
+    public ResponseEntity<AIMSResponse<User>> login(@RequestParam String username, @RequestParam String password, @RequestParam String role) {
+        User user = userService.login(username, password, role);
+        AIMSResponse<User> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Login successfully", user);
         return ResponseEntity.ok(response);
     }
 

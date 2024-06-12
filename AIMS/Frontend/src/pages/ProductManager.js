@@ -6,7 +6,6 @@ Modal.setAppElement("#root");
 
 const ProductManager = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [productType, setProductType] = useState("book");
   const [products, setProducts] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
@@ -14,6 +13,7 @@ const ProductManager = () => {
     sellPrice: "",
     quantity: "",
     isRushDeliverySupport: "",
+    type: "book",
   });
 
   const handleInputChange = (event) => {
@@ -23,13 +23,20 @@ const ProductManager = () => {
     });
   };
 
+  const handleProductTypeChange = (event) => {
+    setFormData({
+      ...formData,
+      type: event.target.value,
+    });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("product/add", formData)
+      .post(`product/add-${formData.type}`, formData)
       .then((response) => {
         fetchBooks();
-        toast.success("Product added successfully");
+        toast.success("Product added successfully: ", response.data.message);
         closeModal();
       })
       .catch((error) => {
@@ -63,7 +70,7 @@ const ProductManager = () => {
       .delete(`product/delete/${id}`)
       .then((response) => {
         fetchBooks();
-        toast.success("Book deleted successfully");
+        toast.success("Product deleted successfully: ", response.data.message);
       })
       .catch((error) => {
         console.error("Error deleting book: ", error);
@@ -92,8 +99,8 @@ const ProductManager = () => {
         <label className="block mb-4">
             Product
             <select
-              value={productType}
-              onChange={(e)=>setProductType(e.target.value)}
+              value={formData.type}
+              onChange={handleProductTypeChange}
               className="border px-2 py-1 w-full"
             >
               <option value="book">Book</option>
@@ -169,7 +176,7 @@ const ProductManager = () => {
             </select>
           </label>
 
-          {productType === "book" && (
+          {formData.type === "book" && (
             <>
               <label className="block mb-2">
                 Author
@@ -251,7 +258,7 @@ const ProductManager = () => {
             </>
           )}
 
-          {productType === "cd" && (
+          {formData.type === "cd" && (
             <>
               <label className="block mb-2">
                 Artist
@@ -312,7 +319,7 @@ const ProductManager = () => {
           )}
 
 {
-            productType === "dvd" && (
+            formData.type === "dvd" && (
               <>
               <label className="block mb-2">
                 Form

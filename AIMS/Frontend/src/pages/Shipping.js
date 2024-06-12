@@ -42,6 +42,7 @@ const Shipping = () => {
   function handleRushOrder(e) {
     e.preventDefault();
     for (const key in formData) {
+      if (key === "instructions") continue; 
       if (formData[key] === "") {
         toast.error(
           `${key.charAt(0).toUpperCase() + key.slice(1)} is required`
@@ -59,7 +60,8 @@ const Shipping = () => {
 
   const getShippingPrice = (e) => {
     e.preventDefault();
-    for (const key in formData) {      
+    for (const key in formData) {    
+      if (key === "instructions") continue; 
       if (formData[key] === "") {
         toast.error(
           `${key.charAt(0).toUpperCase() + key.slice(1)} is required`
@@ -95,6 +97,7 @@ const Shipping = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     for (const key in formData) {
+      if (key === "instructions") continue; 
       if (formData[key] === "") {
         toast.error(
           `${key.charAt(0).toUpperCase() + key.slice(1)} is required`

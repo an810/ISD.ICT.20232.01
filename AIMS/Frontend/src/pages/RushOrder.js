@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { processString } from "../utils";
 import { CartContext } from "../providers/CartContext";
+
 const RushOrder = () => {
   const { cartId, setShippingPrice, shippingPrice } = useContext(CartContext);
   const { state } = useLocation();
@@ -15,16 +16,12 @@ const RushOrder = () => {
     toTime: "",
     instructions: state.formData.instructions,
   });
-  
+
   const getShippingPrice = (e) => {
     e.preventDefault();
-    for (const key in rushOrderData) {
-      if (rushOrderData[key] === "") {
-        toast.error(
-          `${key.charAt(0).toUpperCase() + key.slice(1)} is required`
-        );
-        return;
-      }
+    if (rushOrderData.fromTime === "") {
+      toast.error("From Time is required");
+      return;
     }
     axios
       .get(
@@ -34,8 +31,8 @@ const RushOrder = () => {
       )
       .then((response) => {
         setIsShippingData(true);
-        toast.success("Shipping fee is " + response.data);
-        setShippingPrice(response.data);
+        toast.success("Shipping fee is " + response.data.data);
+        setShippingPrice(response.data.data);
       })
       .catch((error) => {
         toast.error("Error placing order");
@@ -44,14 +41,24 @@ const RushOrder = () => {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
+    let newToTime = rushOrderData.toTime;
+
+    if (id === "fromTime") {
+      const [hours, minutes] = value.split(":").map(Number);
+      const endTime = new Date();
+      endTime.setHours(hours + 2, minutes);
+      newToTime = endTime.toTimeString().slice(0, 5);
+    }
+
     setRushOrderData({
       ...rushOrderData,
       [id]: value,
+      toTime: newToTime,
     });
-
   };
 
   const handleRushOrder = () => {
+    // Implement the rush order handling logic
   };
 
   return (
@@ -65,15 +72,14 @@ const RushOrder = () => {
       <div className="px-40">
         <div className="flex justify-between">
           <div>
-            <div className=" font-bold my-10 text-xl">Rush Delivery Form</div>
-
+            <div className="font-bold my-10 text-xl">Rush Delivery Form</div>
             <div>
               <div className="text-lg font-bold mb-2">Time</div>
               <div className="flex">
                 <input
                   className="border rounded px-4"
                   id="fromTime"
-                  type="date"
+                  type="time"
                   value={rushOrderData.fromTime}
                   onChange={handleChange}
                 />
@@ -81,13 +87,12 @@ const RushOrder = () => {
                 <input
                   className="border rounded px-4"
                   id="toTime"
-                  type="date"
+                  type="time"
                   value={rushOrderData.toTime}
-                  onChange={handleChange}
+                  readOnly
                 />
               </div>
             </div>
-
             <div className="flex flex-col">
               <label htmlFor="instructions" className="text-lg font-bold mb-2">
                 Shipping Instructions
@@ -119,7 +124,6 @@ const RushOrder = () => {
               Submit data
             </button>
           )}
-
           <Link to="/shipping">
             <div className="bg-black text-white px-20 py-2 rounded-xl mr-4">
               Place Normal Order
