@@ -12,6 +12,7 @@ const Shipping = () => {
   const { cartId, setShippingPrice, shippingPrice } = useContext(CartContext);
   const navigate = useNavigate();
   const [isShippingData, setIsShippingData] = useState(false);
+  const [initialProvince, setInitialProvince] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -26,6 +27,12 @@ const Shipping = () => {
       ...formData,
       province: val,
     });
+
+    if (isShippingData && val !== initialProvince) {
+      setIsShippingData(false);
+      setInitialProvince(val);
+      toast.info("Province changed, please submit data again.");
+    }
   }
 
   useEffect(() => {
@@ -43,7 +50,7 @@ const Shipping = () => {
       }
     }
 
-    if(formData.province !== "Hà Nội") {
+    if (formData.province !== "Hà Nội") {
       toast.error("Rush delivery is only available in Hanoi");
       return;
     } else { }
@@ -52,7 +59,7 @@ const Shipping = () => {
 
   const getShippingPrice = (e) => {
     e.preventDefault();
-    for (const key in formData) {
+    for (const key in formData) {      
       if (formData[key] === "") {
         toast.error(
           `${key.charAt(0).toUpperCase() + key.slice(1)} is required`
@@ -68,6 +75,7 @@ const Shipping = () => {
       )
       .then((response) => {
         setIsShippingData(true);
+        setInitialProvince(formData.province);
         toast.success("Shipping fee is " + response.data.data);
         setShippingPrice(response.data.data);
       })
@@ -75,6 +83,7 @@ const Shipping = () => {
         toast.error("Error placing order");
       });
   };
+
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({
@@ -109,7 +118,7 @@ const Shipping = () => {
           state: {
             orderId: response.data.data.orderId,
             totalAmount: response.data.data.totalAmount,
-            formData : formData
+            formData: formData
           },
         });
       })

@@ -50,11 +50,8 @@ const Admin = () => {
 
   const handelResetPassword = (user) => {
     const newUser = {
-        id: user.id,
-        username: user.username,
-        password: "123456",
-        role: user.role,
-        blockStatus: user.blockStatus,
+        ...user,
+        password: "123456"
     };
     
     axios
@@ -71,10 +68,7 @@ const Admin = () => {
 
   const handleBlockStatus = (user) => {
     const newUser = {
-      id: user.id,
-      username: user.username,
-      password: user.password,
-      role: user.role,
+      ...user,
       blockStatus: !user.blockStatus,
     };
     axios

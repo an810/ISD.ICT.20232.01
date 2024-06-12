@@ -13,6 +13,7 @@ const ProductManager = () => {
     importPrice: "",
     sellPrice: "",
     quantity: "",
+    isRushDeliverySupport: "",
   });
 
   const handleInputChange = (event) => {
@@ -144,6 +145,28 @@ const ProductManager = () => {
               onChange={handleInputChange}
               required
             />
+          </label>
+          <label className="block mb-2">
+            ImageURL
+            <input
+              type="number"
+              name="quantity"
+              className="border px-2 py-1 w-full"
+              value={formData.imageURL}
+              onChange={handleInputChange}
+              required
+            />
+          </label>
+          <label className="block mb-2">
+            Rush Delivery Support
+            <select
+              value={formData.rushDeliverySupport}
+              onChange={handleInputChange}
+              className="border px-2 py-1 w-full"
+            >
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
           </label>
 
           {productType === "book" && (

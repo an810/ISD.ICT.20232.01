@@ -20,7 +20,7 @@ const Login = () => {
                 setItemsInLocalStorage('isAuthen', "product_manager");
             }
         }).catch((error) => {
-            toast.error('Error logging in');
+            toast.error('Error logging in: ', error);
         });
     }
 

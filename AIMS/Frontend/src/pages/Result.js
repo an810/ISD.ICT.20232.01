@@ -18,6 +18,19 @@ const Result = () => {
   const vnp_TransactionStatus = queryParams.get('vnp_TransactionStatus');
   const vnp_TxnRef = queryParams.get('vnp_TxnRef');
   const vnp_SecureHash = queryParams.get('vnp_SecureHash');
+
+  // // clear cart if the result is successful
+  // if (vnp_ResponseCode === "00") {
+  //   axios
+  //     .post(`cart/${cartId}/clear`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.data);
+  //     });
+  // }
+
   
   return (
     <div>
