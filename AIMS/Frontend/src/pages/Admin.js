@@ -50,10 +50,10 @@ const Admin = () => {
 
   const handelResetPassword = (user) => {
     const newUser = {
-        ...user,
-        password: "123456"
+      ...user,
+      password: "123456",
     };
-    
+
     axios
       .put(`user/update/${user.id}`, newUser)
       .then((response) => {
@@ -62,9 +62,8 @@ const Admin = () => {
       })
       .catch((error) => {
         console.log(error);
-      }
-      );
-  }
+      });
+  };
 
   const handleBlockStatus = (user) => {
     const newUser = {
@@ -79,11 +78,8 @@ const Admin = () => {
       })
       .catch((error) => {
         console.log(error);
-      }
-      ); 
-  }
-
-
+      });
+  };
 
   const handleDeleteUser = (id) => {
     axios
@@ -95,7 +91,7 @@ const Admin = () => {
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   const handleCreateNewUser = (e) => {
     e.preventDefault();
@@ -107,6 +103,22 @@ const Admin = () => {
         setModalIsOpen(false);
         fetchUsers();
         toast.success("User created successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const changeUserRole = (role, username, password, id) => {
+    axios
+      .put(`user/update/${id}`, {
+        username: username,
+        password: password,
+        role: role,
+      })
+      .then((response) => {
+        fetchUsers();
+        toast.success("Role updated successfully");
       })
       .catch((error) => {
         console.log(error);
@@ -190,17 +202,49 @@ const Admin = () => {
                 <td className="border px-4 py-2">{user.id}</td>
                 <td className="border px-4 py-2">{user.username}</td>
                 <td className="border px-4 py-2">{user.password}</td>
-                <td className="border px-4 py-2">{user.role}</td>
+                <td className="border px-4 py-2">
+                  <label className="block mb-4">
+                    <select
+                      value={user.role}
+                      onChange={(e) =>
+                        changeUserRole(
+                          e.target.value,
+                          user.username,
+                          user.password,
+                          user.id
+                        )
+                      }
+                      className="border px-2 py-1 w-full"
+                    >
+                      <option value="admin">Admin</option>
+                      <option value="product_manager">Product Manager</option>
+                    </select>
+                  </label>
+                </td>
+
                 <td className="border px-4 py-2">
                   {user.blockStatus ? "Blocked" : "Active"}
                 </td>
 
                 <td className="border px-4 py-2 flex justify-around">
-                  <button className="border rounded-2xl px-2 py-1" onClick={()=>handelResetPassword(user)}>Reset Password</button>
-                  <button className="border rounded-2xl px-2 py-1" onClick={()=>handleBlockStatus(user)}>
+                  <button
+                    className="border rounded-2xl px-2 py-1"
+                    onClick={() => handelResetPassword(user)}
+                  >
+                    Reset Password
+                  </button>
+                  <button
+                    className="border rounded-2xl px-2 py-1"
+                    onClick={() => handleBlockStatus(user)}
+                  >
                     {user.blockStatus ? "Unblock" : "Block"}
                   </button>
-                  <button className="border rounded-2xl px-2 py-1" onClick={()=>handleDeleteUser(user.id)}>Delete</button>
+                  <button
+                    className="border rounded-2xl px-2 py-1"
+                    onClick={() => handleDeleteUser(user.id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             );
