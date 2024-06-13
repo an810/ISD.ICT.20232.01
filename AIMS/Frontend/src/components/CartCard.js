@@ -1,5 +1,22 @@
+import axios from "axios";
+import { useContext } from "react";
+import { CartContext } from "../providers/CartContext";
+import { toast } from "react-toastify";
 const CartCard = (props) => {
   const { product } = props;
+  const { cartId, setItem, setTotalPrice } = useContext(CartContext);
+  const handleChangeQuantity = (qty) => {
+    axios
+      .post(`/cart/${cartId}/add?productId=${product.product.id}&quantity=${qty}`)
+      .then((response) => {
+        setItem(response.data.data.listCartItem);
+        setTotalPrice(response.data.data.totalPrice);
+        toast.success("Added to cart");
+      })
+      .catch((error) => {
+        console.error("Error adding to cart");
+      });
+  }
 
   return (
     <div className="border rounded shadow-md flex-row w-fit flex mb-4">
@@ -26,7 +43,11 @@ const CartCard = (props) => {
             Stock: {product.product.quantity}
           </p>
         </div>
-        <div className="ml-40 mr-10">Quantity: {product.quantity}</div>
+        <div className="flex justify-end ml-40 mr-10 items-center">
+          <button className="border px-2 py-1 bg-white rounded" onClick={()=>handleChangeQuantity(-1)}>-</button>
+          <div className="px-4">{product.quantity}</div>
+          <button className="border bg-white px-2 py-1 rounded" onClick={()=>handleChangeQuantity(1)}>+</button>
+        </div>
       </div>
     </div>
   );

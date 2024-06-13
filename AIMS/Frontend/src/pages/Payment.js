@@ -8,7 +8,6 @@ const Payment = () => {
   const navigate = useNavigate();
   const { orderId, totalAmount, formData } = state;
   const [url, setUrl] = useState("");
-
   function handlePayOrder() {
     if (method === "") {
       toast.error("Please select a payment method");

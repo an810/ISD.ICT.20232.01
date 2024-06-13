@@ -7,12 +7,13 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { RegionDropdown } from "react-country-region-selector";
 import { processString } from "../utils";
-
+import {setItemsInLocalStorage} from "../utils";  
 const Shipping = () => {
   const { cartId, setShippingPrice, shippingPrice } = useContext(CartContext);
   const navigate = useNavigate();
   const [isShippingData, setIsShippingData] = useState(false);
   const [initialProvince, setInitialProvince] = useState("");
+  
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -116,6 +117,7 @@ const Shipping = () => {
         shippingFees: shippingPrice,
       })
       .then((response) => {
+        setItemsInLocalStorage('orderId', response.data.data.orderId);
         toast.success("Order placed successfully");
         navigate("/payment", {
           state: {

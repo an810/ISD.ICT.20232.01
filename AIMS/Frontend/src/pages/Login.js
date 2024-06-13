@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { UserContext } from '../providers/UserContext';
 import { setItemsInLocalStorage } from '../utils';
 const Login = () => {
-    const {setIsAuthen} = useContext(UserContext);
+    const {setIsAuthen, setUserId} = useContext(UserContext);
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -14,10 +14,13 @@ const Login = () => {
         e.preventDefault();
         axios.get(`user/login?username=${userName}&password=${password}&role=product_manager`).then((response) => {
             if(response.status === 200) {
+                console.log(response)
                 toast.success('Logged in successfully');
                 navigate('/product');
                 setIsAuthen("product_manager");
+                setUserId(response.data.data.id);
                 setItemsInLocalStorage('isAuthen', "product_manager");
+                setItemsInLocalStorage('userId', response.data.data.id);
             }
         }).catch((error) => {
             toast.error('Error logging in: ', error);

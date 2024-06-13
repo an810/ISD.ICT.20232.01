@@ -11,6 +11,7 @@ const Header = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
     setIsAuthen(false);
+    removeItemFromLocalStorage("userId");
     removeItemFromLocalStorage("isAuthen");
     navigate("/");
     toast.success("Logged out successfully");

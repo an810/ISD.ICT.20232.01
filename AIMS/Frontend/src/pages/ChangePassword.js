@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
-
+import { UserContext } from "../providers/UserContext";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const ChangePassword = () => {
+  const navigate = useNavigate();
+  const {userId} = useContext(UserContext);
   const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const handleChangePassword = (e) => {
     e.preventDefault();
 
@@ -14,14 +17,14 @@ const ChangePassword = () => {
       return;
     }
 
-    // Send a request to the server to change the password
     axios
-      .post(`user/change-password?userId=123&currentPassword=${oldPassword}&newPassword=${password}`)
+      .put(`user/change-password?userId=${userId}&currentPassword=${oldPassword}&newPassword=${password}`)
       .then((response) => {
-        console.log(response.data);
+        toast.success("Password changed successfully");
+        navigate("/");
       })
       .catch((error) => {
-        console.error(error);
+        toast.error("Error changing password");
       });
   };
 
