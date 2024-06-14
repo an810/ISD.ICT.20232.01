@@ -4,8 +4,13 @@ import { CartContext } from "../providers/CartContext";
 import { toast } from "react-toastify";
 const CartCard = (props) => {
   const { product } = props;
+  console.log(product);
   const { cartId, setItem, setTotalPrice } = useContext(CartContext);
   const handleChangeQuantity = (qty) => {
+    if(product.quantity + qty > product.product.quantity || product.quantity + qty < 1){
+      toast.error("Out of stock");
+      return;
+    }
     axios
       .post(`/cart/${cartId}/add?productId=${product.product.id}&quantity=${qty}`)
       .then((response) => {

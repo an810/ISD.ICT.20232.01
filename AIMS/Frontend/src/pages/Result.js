@@ -32,7 +32,6 @@ const Result = () => {
       createdAt : vnp_PayDate,
     }).then((response) => {
       console.log(response.data);
-      // removeItemFromLocalStorage("orderId");
     }).catch((error) => {
       console.log(error.data);
     });
