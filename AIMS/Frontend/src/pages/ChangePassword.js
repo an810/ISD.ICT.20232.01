@@ -87,6 +87,9 @@ const ChangePassword = () => {
             </div>
           </div>
 
+          <button className="underline" onClick={()=> navigate('/')}>
+            Back
+          </button>
           <div>
             <button
               type="submit"
