@@ -123,6 +123,7 @@ const ProductManager = () => {
         handleProductTypeChange={handleProductTypeChange}
         handleSubmit={handleSubmit}
         formData={formData}
+        setModalIsOpen={setModalIsOpen}
       />
 
       <table className="w-full table-auto">
@@ -180,13 +181,35 @@ const ProductManager = () => {
 
 const PriceEditPopup = (props) => {
   const { isOpen, onRequestClose, editProductId } = props;
+  const [sellPrice, setSellPrice] = useState("");
+  const [newPrice, setNewPrice] = useState("");
 
-  // useEffect(() => { 
-  //   // GET PRICE
-  // }
+  const handleInputChange = (event) => {
+    setNewPrice(event.target.value);
+  }
+
+  useEffect(() => { 
+    // GET PRICE
+    if (!editProductId) return;
+    axios.get(`product/${editProductId}`).then((response) => {
+      setSellPrice(response.data.data.sellPrice);
+      setNewPrice(response.data.data.sellPrice);
+    });
+  }, [editProductId]);
+  
+
   const handleEditPrice = (e) => {
     e.preventDefault();
     //POST edit product
+    axios.put(`product/update-price/${editProductId}?newPrice=${newPrice}`)
+    .then((response) => {
+      // fetchBooks();
+      toast.success("Price updated successfully: ", response.data.message);
+      onRequestClose();
+    })
+    .catch((error) => {
+      toast.error("Error updating price: ", error);
+    });
   }
   return (
     <Modal
@@ -199,30 +222,23 @@ const PriceEditPopup = (props) => {
 
       <form onSubmit={handleEditPrice}>
         <label className="block mb-2">
-          Title
-          <input
-            type="text"
-            name="title"
-            className="border px-2 py-1 w-full"
-            // value={formData.title}
-            // onChange={handleInputChange}
-            required
-          />
-        </label>
-        <label className="block mb-2">
-          Import Price
+          Selling Price
           <input
             type="number"
-            name="importPrice"
+            name="newPrice"
             className="border px-2 py-1 w-full"
-            // value={formData.importPrice}
-            // onChange={handleInputChange}
+            value={newPrice}
+            onChange={handleInputChange}
             required
           />
         </label>
+        
       </form>
       <button onClick={onRequestClose} className="border px-4 py-2">
         Cancel
+      </button>
+      <button onClick={handleEditPrice} type="submit" className="border px-4 py-2">
+        Update
       </button>
     </Modal>
   );

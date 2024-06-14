@@ -7,6 +7,7 @@ import { useEffect } from "react";
 const Result = () => {
   const location = useLocation();
   const orderId = getItemFromLocalStorage("orderId");
+  const order = {};
   const queryParams = new URLSearchParams(location.search);
   const vnp_Amount = queryParams.get('vnp_Amount');
   // const vnp_BankCode = queryParams.get('vnp_BankCode');
@@ -18,6 +19,7 @@ const Result = () => {
   // const vnp_TmnCode = queryParams.get('vnp_TmnCode');
   const vnp_TransactionNo = queryParams.get('vnp_TransactionNo');
   const vnp_TransactionStatus = queryParams.get('vnp_TransactionStatus');
+  const vnp_TxnRef = queryParams.get('vnp_TxnRef');
   // const vnp_TxnRef = queryParams.get('vnp_TxnRef');
   // const vnp_SecureHash = queryParams.get('vnp_SecureHash');
   
@@ -30,17 +32,23 @@ const Result = () => {
       transactionContent : vnp_OrderInfo,
       message: vnp_TransactionStatus,
       createdAt : vnp_PayDate,
+      vnpTxnRef : vnp_TxnRef
     }).then((response) => {
       console.log(response.data);
     }).catch((error) => {
       console.log(error.data);
     });
 
+    // get order by orderId
+    axios.get(`order/${orderId}`).then((response) => {
+      order = response.data.data;
+    }).catch((error) => {
+      console.log(error.data);
+    });
+
     const invoice = {
       invoiceId: 'INV12345',
-      order: {
-        // Các thuộc tính của order
-      },
+      order,
       paymentTransaction: {
         transactionId: 'TRANS67890',
         orderId: 'ORD54321',
@@ -49,7 +57,8 @@ const Result = () => {
         transactionNum: 'TXN789',
         transactionContent: 'Payment for order #ORD54321',
         message: 'Transaction successful',
-        createdAt: '2023-06-14T10:30:00Z'
+        createdAt: '2023-06-14T10:30:00Z',
+        vnpTxnRef: 'TXNREF123'
       }
     };
 

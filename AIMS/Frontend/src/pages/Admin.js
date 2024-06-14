@@ -96,7 +96,7 @@ const Admin = () => {
         toast.success("User created successfully");
       })
       .catch((error) => {
-        console.log(error);
+        toast.error("Error creating user", error);
       });
   };
 

@@ -6,12 +6,16 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { processString } from "../utils";
 import { CartContext } from "../providers/CartContext";
+import { useNavigate } from "react-router-dom";
+import { setItemsInLocalStorage } from "../utils";
 
 const RushOrder = () => {
   const { cartId, setShippingPrice, shippingPrice } = useContext(CartContext);
   const { state } = useLocation();
+  const navigate = useNavigate();
   const [isShippingData, setIsShippingData] = useState(false);
   const [rushOrderData, setRushOrderData] = useState({
+    ...state.formData,
     fromTime: "",
     toTime: "",
     instructions: state.formData.instructions,
@@ -59,6 +63,31 @@ const RushOrder = () => {
 
   const handleRushOrder = () => {
     // Implement the rush order handling logic
+    axios
+      .post(`order/place-order?cartId=${cartId}`, {
+        receiverName: rushOrderData.name,
+        phoneNumber: rushOrderData.phone,
+        address: rushOrderData.address,
+        province: rushOrderData.province,
+        rushDelivery: true,
+        instruction: rushOrderData.instructions,
+        shippingFees: shippingPrice,
+        rushDeliveryTime: rushOrderData.fromTime
+      })
+      .then((response) => {
+        setItemsInLocalStorage('orderId', response.data.data.orderId);
+        toast.success("Order placed successfully");
+        navigate("/payment", {
+          state: {
+            orderId: response.data.data.orderId,
+            totalAmount: response.data.data.totalAmount,
+            formData: rushOrderData
+          },
+        });
+      })
+      .catch((error) => {
+        toast.error("Error placing order");
+      });
   };
 
   return (
