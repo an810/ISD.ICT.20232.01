@@ -21,9 +21,9 @@ const Login = () => {
                 setUserId(response.data.data.id);
                 setItemsInLocalStorage('isAuthen', "product_manager");
                 setItemsInLocalStorage('userId', response.data.data.id);
-            }
+            } 
         }).catch((error) => {
-            toast.error('Error logging in: ', error);
+            toast.error(error.response.data.message);
         });
     }
 

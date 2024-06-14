@@ -6,9 +6,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 Modal.setAppElement("#root");
 const Admin = () => {
-  const navigate = useNavigate();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const { isAuthen } = useContext(UserContext);
   const [users, setUsers] = useState([]);
   const [selectedRole, setSelectedRole] = useState("");
   const [username, setUsername] = useState([]);
@@ -28,13 +26,6 @@ const Admin = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
-
-  useEffect(() => {
-    if (!isAuthen) {
-      toast.error("You are not authorized to view this page");
-      navigate("/");
-    }
-  }, [isAuthen, navigate]);
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -203,7 +194,7 @@ const Admin = () => {
                 <td className="border px-4 py-2">{user.username}</td>
                 <td className="border px-4 py-2">{user.password}</td>
                 <td className="border px-4 py-2">
-                  <label className="block mb-4">
+                  <label className="block">
                     <select
                       value={user.role}
                       onChange={(e) =>
@@ -228,19 +219,19 @@ const Admin = () => {
 
                 <td className="border px-4 py-2 flex justify-around">
                   <button
-                    className="border rounded-2xl px-2 py-1"
+                    className="border rounded-2xl px-2 py-1 h-12"
                     onClick={() => handelResetPassword(user)}
                   >
                     Reset Password
                   </button>
                   <button
-                    className="border rounded-2xl px-2 py-1"
+                    className="border rounded-2xl px-2 py-1 h-12"
                     onClick={() => handleBlockStatus(user)}
                   >
                     {user.blockStatus ? "Unblock" : "Block"}
                   </button>
                   <button
-                    className="border rounded-2xl px-2 py-1"
+                    className="border rounded-2xl px-2 py-1  h-12"
                     onClick={() => handleDeleteUser(user.id)}
                   >
                     Delete
