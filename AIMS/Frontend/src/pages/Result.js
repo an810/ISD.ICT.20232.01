@@ -26,13 +26,13 @@ const Result = () => {
   useEffect(() => {
     axios.post("payment/save-payment-transaction",{
       orderId: orderId,
-      errorCode: vnp_ResponseCode,
-      transactionNum : vnp_TransactionNo,
-      amount : vnp_Amount,
-      transactionContent : vnp_OrderInfo,
-      message: vnp_TransactionStatus,
-      createdAt : vnp_PayDate,
-      vnpTxnRef : vnp_TxnRef
+      vnp_ResponseCode: vnp_ResponseCode,
+      vnp_TransactionNo : vnp_TransactionNo,
+      vnp_Amount : vnp_Amount,
+      vnp_OrderInfo : vnp_OrderInfo,
+      vnp_TransactionStatus: vnp_TransactionStatus,
+      vnp_PayDate : vnp_PayDate,
+      vnp_TxnRef : vnp_TxnRef
     }).then((response) => {
       console.log(response.data);
     }).catch((error) => {
