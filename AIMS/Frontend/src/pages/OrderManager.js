@@ -46,6 +46,17 @@ const OrderManager = () => {
       });
   };
 
+  const handleViewOrder = (id) => {
+    axios
+      .get(`order/${id}`)
+      .then((response) => {
+        console.log(response.data.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching order: ", error);
+      });
+  };
+
   return (
     <div className="p-6">
       <h1 className="text-2xl mb-4">Order</h1>
@@ -81,6 +92,12 @@ const OrderManager = () => {
                       onClick={() => handleRejectOrder(order.orderId)}
                     >
                       Reject
+                    </button>
+                    <button
+                      className="border-2 rounded-2xl px-4 py-2 mr-2"
+                      onClick={() => handleViewOrder(order.orderId)}
+                    >
+                      View
                     </button>
                   </>
                 )}

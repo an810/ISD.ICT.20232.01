@@ -39,7 +39,7 @@ const ItemCard = (props) => {
   return (
     <div className="bg-gray-100 rounded-lg shadow-md p-4">
       <img
-        src={product.image ? product.image : "https://via.placeholder.com/150"}
+        src={product.imageURL ? product.imageURL : "https://via.placeholder.com/150"}
         alt={product.name}
         className="w-full rounded-lg h-60"
       />
