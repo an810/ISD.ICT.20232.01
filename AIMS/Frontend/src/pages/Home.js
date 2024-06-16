@@ -1,13 +1,15 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import ItemCard from "../components/ItemCard";
 import axios from "axios";
 const Home = () => {
     const [productData, setProductData] = useState([]);
 
-    React.useEffect(() => {
-        axios.get("/home/all")
+    useEffect(() => {
+        axios.get("/product/all")
         .then((response) => {
-            setProductData(response.data);
+            if(response.status) {
+                setProductData(response.data.data);
+            }
         }).catch((error) => {
             console.error("Error fetching data: ", error);
         });

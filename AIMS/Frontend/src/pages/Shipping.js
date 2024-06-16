@@ -5,13 +5,15 @@ import { CartContext } from "../providers/CartContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
+import { RegionDropdown } from "react-country-region-selector";
+import { processString } from "../utils";
+import {setItemsInLocalStorage} from "../utils";  
 const Shipping = () => {
-  const { cartId, setShippingPrice } = useContext(CartContext);
-
+  const { cartId, setShippingPrice, shippingPrice } = useContext(CartContext);
   const navigate = useNavigate();
   const [isShippingData, setIsShippingData] = useState(false);
-
+  const [initialProvince, setInitialProvince] = useState("");
+  
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -21,20 +23,70 @@ const Shipping = () => {
     instructions: "",
   });
 
-  useEffect(() => { 
+  function selectRegion(val) {
+    setFormData({
+      ...formData,
+      province: val,
+    });
+
+    if (isShippingData && val !== initialProvince) {
+      setIsShippingData(false);
+      setInitialProvince(val);
+      toast.info("Province changed, please submit data again.");
+    }
+  }
+
+  useEffect(() => {
     setShippingPrice(0);
   }, [setShippingPrice]);
-  
+
+  function handleRushOrder(e) {
+    e.preventDefault();
+    for (const key in formData) {
+      if (key === "instructions") continue; 
+      if (formData[key] === "") {
+        toast.error(
+          `${key.charAt(0).toUpperCase() + key.slice(1)} is required`
+        );
+        return;
+      }
+    }
+
+    if (formData.province !== "Hà Nội") {
+      toast.error("Rush delivery is only available in Hanoi");
+      return;
+    } else { }
+    navigate("/rush-order", { state: { formData: formData } });
+  }
+
   const getShippingPrice = (e) => {
     e.preventDefault();
-    axios.get(`delivery-info/shipping-fee?province=${formData.province}&isRushDelivery=false`).then((response) => {
-      setIsShippingData(true);
-      toast.success("Shipping fee is " + response.data);
-      setShippingPrice(response.data);
-    }).catch((error) => {
-      toast.error("Error placing order");
-    });
-  }
+    for (const key in formData) {    
+      if (key === "instructions") continue; 
+      if (formData[key] === "") {
+        toast.error(
+          `${key.charAt(0).toUpperCase() + key.slice(1)} is required`
+        );
+        return;
+      }
+    }
+    axios
+      .get(
+        `delivery-info/shipping-fee?province=${processString(
+          formData.province
+        )}&isRushDelivery=false`
+      )
+      .then((response) => {
+        setIsShippingData(true);
+        setInitialProvince(formData.province);
+        toast.success("Shipping fee is " + response.data.data);
+        setShippingPrice(response.data.data);
+      })
+      .catch((error) => {
+        toast.error("Error placing order");
+      });
+  };
+
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({
@@ -45,18 +97,35 @@ const Shipping = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    for (const key in formData) {
+      if (key === "instructions") continue; 
+      if (formData[key] === "") {
+        toast.error(
+          `${key.charAt(0).toUpperCase() + key.slice(1)} is required`
+        );
+        return;
+      }
+    }
     axios
-      .post(`place-order?cartId=${cartId}`, {
+      .post(`order/place-order?cartId=${cartId}`, {
         receiverName: formData.name,
         phoneNumber: formData.phone,
         address: formData.address,
         province: formData.province,
         rushDelivery: false,
         instruction: formData.instructions,
+        shippingFees: shippingPrice,
       })
       .then((response) => {
+        setItemsInLocalStorage('orderId', response.data.data.orderId);
         toast.success("Order placed successfully");
-        navigate("/payment");
+        navigate("/payment", {
+          state: {
+            orderId: response.data.data.orderId,
+            totalAmount: response.data.data.totalAmount,
+            formData: formData
+          },
+        });
       })
       .catch((error) => {
         toast.error("Error placing order");
@@ -72,7 +141,7 @@ const Shipping = () => {
       </div>
       <div className="px-40">
         <form onSubmit={handleSubmit} className="flex justify-between">
-          <div className="flex flex-col">
+          <div className="flex flex-col mr-10">
             <div className="font-bold my-10 text-xl">Delivery Form</div>
 
             <label htmlFor="name" className="text-lg font-bold mb-2">
@@ -84,6 +153,7 @@ const Shipping = () => {
               value={formData.name}
               onChange={handleChange}
               className="border border-gray-300 px-4 py-2 mb-4 rounded-xl"
+              required
             />
 
             <label htmlFor="phone" className="text-lg font-bold mb-2">
@@ -95,6 +165,7 @@ const Shipping = () => {
               value={formData.phone}
               onChange={handleChange}
               className="border border-gray-300 px-4 py-2 mb-4 rounded-xl"
+              required
             />
 
             <label htmlFor="email" className="text-lg font-bold mb-2">
@@ -106,17 +177,20 @@ const Shipping = () => {
               value={formData.email}
               onChange={handleChange}
               className="border border-gray-300 px-4 py-2 mb-4 rounded-xl"
+              required
             />
 
             <label htmlFor="province" className="text-lg font-bold mb-2">
               Province
             </label>
-            <input
-              type="text"
-              id="province"
+
+            <RegionDropdown
+              country={"Vietnam"}
               value={formData.province}
-              onChange={handleChange}
+              onChange={(val) => selectRegion(val)}
               className="border border-gray-300 px-4 py-2 mb-4 rounded-xl"
+              defaultOptionLabel={"Select a province"}
+              required
             />
 
             <label htmlFor="address" className="text-lg font-bold mb-2">
@@ -128,6 +202,7 @@ const Shipping = () => {
               value={formData.address}
               onChange={handleChange}
               className="border border-gray-300 px-4 py-2 mb-4 rounded-xl"
+              required
             />
 
             <label htmlFor="instructions" className="text-lg font-bold mb-2">
@@ -151,25 +226,23 @@ const Shipping = () => {
                 </button>
               ) : (
                 <button
-                  onClick = {getShippingPrice}
+                  onClick={getShippingPrice}
                   className="bg-black text-white px-20 py-2 rounded-xl mr-4"
                 >
                   Submit data
                 </button>
               )}
+
               <button
-                type="submit"
                 className="bg-black text-white px-20 py-2 rounded-xl mr-4"
+                onClick={handleRushOrder}
               >
-                Continue
+                Place Rush Order
               </button>
-              <Link to="/rush-order">
-                <div className="bg-black text-white px-20 py-2 rounded-xl mr-4">
-                  Place Rush Order
-                </div>
-              </Link>
               <Link to="/">
-                <div className="px-20 py-2 rounded-xl border">Cancel all</div>
+                <button className="px-20 py-2 rounded-xl border">
+                  Cancel all
+                </button>
               </Link>
             </div>
           </div>

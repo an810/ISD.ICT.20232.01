@@ -8,13 +8,11 @@ export const CartProvider = ({ children }) => {
     const [item, setItem] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
     const [shippingPrice, setShippingPrice] = useState(0);
-    
     useEffect(() => {
       axios.get("/cart/" + cartId)
         .then((response) => { 
-          console.log(response.data)
-          setItem(response.data.listCartItem);
-          setTotalPrice(response.data.totalPrice);
+          setItem(response.data.data.listCartItem);
+          setTotalPrice(response.data.data.totalPrice);
         })
         .catch((error) => {
           console.error("Error getting cart: ", error);

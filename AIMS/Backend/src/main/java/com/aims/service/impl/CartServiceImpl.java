@@ -1,8 +1,8 @@
 package com.aims.service.impl;
 
-import com.aims.entity.Cart.Cart;
-import com.aims.entity.Cart.CartItem;
-import com.aims.entity.Product.Product;
+import com.aims.entity.cart.Cart;
+import com.aims.entity.cart.CartItem;
+import com.aims.entity.product.Product;
 import com.aims.exception.ProductNotAvailableException;
 import com.aims.repository.CartRepository;
 import com.aims.repository.ProductRepository;
@@ -24,11 +24,13 @@ public class CartServiceImpl implements CartService {
         this.productRepository = productRepository;
     }
 
+    @Override
     public Cart getCart(String cartId) {
         // Ensure the cart is properly initialized
         return cartRepository.findById(cartId).orElse(new Cart(cartId, new ArrayList<>(), 0));
     }
 
+    @Override
     public Cart addCartProduct(String cartId, String productId, int quantity) {
         Cart cart = getCart(cartId);
         Product product = productRepository.findById(productId)
@@ -49,20 +51,22 @@ public class CartServiceImpl implements CartService {
         }
 
         cart.setTotalPrice(cart.getListCartItem().stream()
-                .mapToDouble(item -> item.getProduct().getSellPrice() * item.getQuantity())
+                .mapToInt(item -> item.getProduct().getSellPrice() * item.getQuantity())
                 .sum());
         return cartRepository.save(cart);
     }
 
+    @Override
     public Cart removeCartProduct(String cartId, String productId) {
         Cart cart = getCart(cartId);
         cart.getListCartItem().removeIf(item -> item.getProduct().getId().equals(productId));
         cart.setTotalPrice(cart.getListCartItem().stream()
-                .mapToDouble(item -> item.getProduct().getSellPrice() * item.getQuantity())
+                .mapToInt(item -> item.getProduct().getSellPrice() * item.getQuantity())
                 .sum());
         return cartRepository.save(cart);
     }
 
+    @Override
     public Cart clearCart(String cartId) {
         Cart cart = getCart(cartId);
         cart.getListCartItem().clear();
@@ -70,19 +74,7 @@ public class CartServiceImpl implements CartService {
         return cartRepository.save(cart);
     }
 
-    public List<Product> checkCartProducts(String cartId) {
-        Cart cart = getCart(cartId);
-        List<Product> products = new ArrayList<>();
-        for (CartItem item : cart.getListCartItem()) {
-            Product product = productRepository.findById(item.getProduct().getId())
-                    .orElseThrow(() -> new ProductNotAvailableException("Product not found"));
-            if (product.getQuantity() < item.getQuantity()) {
-                products.add(product);
-            }
-        }
-        return products;
-    }
-
+    @Override
     public List<CartItem> getAllCartItems(String cartId) {
         Cart cart = getCart(cartId);
         return cart.getListCartItem();
