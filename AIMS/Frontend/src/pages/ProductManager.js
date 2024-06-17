@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import ProductPopUp from "../components/ProductPopUp";
+import EditPriceModal from "../components/EditPriceModal";
 
 const ProductManager = () => {
   const [products, setProducts] = useState([]);
@@ -39,6 +40,16 @@ const ProductManager = () => {
   const [priceModalIsOpen, setPriceModalIsOpen] = useState(false);
   const [editProductId, setEditProductId] = useState(null);
   const [newPrice, setNewPrice] = useState("");
+
+  const openPriceModal = (productId) => {
+    setEditProductId(productId);
+    setPriceModalIsOpen(true);
+  };
+
+  const closePriceModal = () => {
+    setPriceModalIsOpen(false);
+    setNewPrice("");
+  };
 
   useEffect(() => {
     fetchProducts();
@@ -142,15 +153,7 @@ const ProductManager = () => {
     setModalIsOpen(true);
   };
 
-  const openPriceModal = (productId) => {
-    setEditProductId(productId);
-    setPriceModalIsOpen(true);
-  };
-
-  const closePriceModal = () => {
-    setPriceModalIsOpen(false);
-    setNewPrice("");
-  };
+  
 
   const handlePriceChange = (event) => {
     setNewPrice(event.target.value);
@@ -237,13 +240,24 @@ const ProductManager = () => {
                 <button onClick={() => openPriceModal(product.id)} className="px-2 py-1 bg-blue-500 text-white rounded-md">
                   Edit Price
                 </button>
+                {priceModalIsOpen && (
+                  <EditPriceModal
+                    isOpen={priceModalIsOpen}
+                    onRequestClose={closePriceModal}
+                    productId={editProductId}
+                    fetchProducts={fetchProducts} // Pass fetchProducts function to update product list
+                    currentPrice={product.sellPrice}
+                  />
+                )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
+    
   );
+
 };
 
 export default ProductManager;
