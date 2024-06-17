@@ -28,6 +28,13 @@ public class CartController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/new")
+    public ResponseEntity<AIMSResponse<Cart>> createCart() {
+        Cart cart = cartService.createCart();
+        AIMSResponse<Cart> response = new AIMSResponse<>(Constants.SUCCESS_CODE, "Create new cart successfully", cart);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/{cartId}/add")
     public ResponseEntity<AIMSResponse<Cart>> addCartProduct(@PathVariable String cartId, @RequestParam String productId, @RequestParam int quantity) {
         Cart cart = cartService.addCartProduct(cartId, productId, quantity);

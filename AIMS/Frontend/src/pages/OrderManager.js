@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import axios from "axios";
 import { toast } from "react-toastify";
+import OrderDetailPopup from "../components/OrderDetailPopup";
+
 Modal.setAppElement("#root");
 
 const OrderManager = () => {
   const [orders, setOrders] = useState([]);
-  console.log(orders);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const fetchBooks = () => {
     axios
       .get("/order/all")
@@ -50,11 +54,17 @@ const OrderManager = () => {
     axios
       .get(`order/${id}`)
       .then((response) => {
-        console.log(response.data.data);
+        setSelectedOrder(response.data.data);
+        setIsModalOpen(true);
       })
       .catch((error) => {
         console.error("Error fetching order: ", error);
       });
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedOrder(null);
   };
 
   return (
@@ -106,6 +116,14 @@ const OrderManager = () => {
           ))}
         </tbody>
       </table>
+
+      {selectedOrder && (
+        <OrderDetailPopup
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          order={selectedOrder}
+        />
+      )}
     </div>
   );
 };

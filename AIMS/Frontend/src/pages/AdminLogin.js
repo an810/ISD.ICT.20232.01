@@ -21,6 +21,7 @@ const Login = () => {
             navigate("/admin");
             setIsAuthen("admin");
             setItemsInLocalStorage("isAuthen", "admin");
+            setItemsInLocalStorage("userId", response.data.data.id);
         }
       })
       .catch((error) => {

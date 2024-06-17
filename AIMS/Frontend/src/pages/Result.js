@@ -50,15 +50,14 @@ const Result = () => {
         const invoice = {
           order,
           paymentTransaction: {
-            transactionId: "TRANS67890",
-            orderId: "ORD54321",
-            errorCode: "00",
-            amount: 100000,
-            transactionNum: "TXN789",
-            transactionContent: "Payment for order #ORD54321",
-            message: "Transaction successful",
-            createdAt: "2023-06-14T10:30:00Z",
-            vnpTxnRef: "TXNREF123",
+            orderId: orderId,
+            vnp_ResponseCode: vnp_ResponseCode,
+            vnp_TransactionNo: vnp_TransactionNo,
+            vnp_Amount: vnp_Amount,
+            vnp_OrderInfo: vnp_OrderInfo,
+            vnp_TransactionStatus: vnp_TransactionStatus,
+            vnp_PayDate: vnp_PayDate,
+            vnp_TxnRef: vnp_TxnRef,
           },
         };
 
@@ -79,6 +78,15 @@ const Result = () => {
           .catch((error) => {
             console.log(error.data);
           });
+
+        axios
+        .post(`cart/${cartId}/clear`)
+        .then((response) => {
+          console.log("clear cart success", cartId);
+        })
+        .catch((error) => {
+          console.log(error.data);
+        });
       })
       .catch((error) => {
         console.log(error.data);

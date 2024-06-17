@@ -25,6 +25,11 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public Cart createCart() {
+        return cartRepository.save(new Cart());
+    }
+
+    @Override
     public Cart getCart(String cartId) {
         // Ensure the cart is properly initialized
         return cartRepository.findById(cartId).orElse(new Cart(cartId, new ArrayList<>(), 0));

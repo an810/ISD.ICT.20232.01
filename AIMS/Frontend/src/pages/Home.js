@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ItemCard from "../components/ItemCard";
 import axios from "axios";
 import ProductDetailModal from "../components/ProductDetailModal";
+import { setItemsInLocalStorage } from "../utils";
 
 const Home = () => {
   const [productData, setProductData] = useState([]);
@@ -19,6 +20,17 @@ const Home = () => {
       }).catch((error) => {
         console.error("Error fetching data: ", error);
       });
+    
+    axios.get("/cart/new")
+      .then((response) => {
+        if(response.status) {
+          console.log("cart id: ", response.data.data.id);
+          setItemsInLocalStorage("cartId", response.data.data.id);
+        }
+      }).catch((error) => {
+        console.error("Error fetching data: ", error);
+      });
+    console.log("cart id: ", localStorage.getItem("cartId"));
   }, []);
 
   const handleSort = (type) => {
@@ -89,7 +101,7 @@ const Home = () => {
       </div>
       <div className="mt-20 grid grid-cols-4 gap-8 px-10">
         {filteredProducts.map((product) => (
-          <ItemCard key={product.id} product={product} onClick={() => handleClickItemCard(product)} />
+          <ItemCard key={product.id} product={product} onViewDetail={handleClickItemCard} />
         ))}
       </div>
       <ProductDetailModal
