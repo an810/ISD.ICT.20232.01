@@ -90,6 +90,9 @@ public class UserServiceImpl implements UserService {
                 .findFirst()
                 .orElse(null);
         if (user != null) {
+            if (user.getBlockStatus()) {
+                throw new UserNotFoundException("User is blocked");
+            }
             if (user.getRole().equals(role)) {
                 if (user.getPassword().equals(password)) {
                     return user;
