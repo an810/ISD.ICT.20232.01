@@ -4,9 +4,11 @@ import com.aims.entity.cart.CartItem;
 import com.aims.entity.delivery.DeliveryInfo;
 import com.aims.entity.order.Order;
 import com.aims.entity.order.OrderItem;
+import com.aims.entity.product.Product;
 import com.aims.exception.AIMSException;
 import com.aims.exception.OrderNotFoundException;
 import com.aims.repository.OrderRepository;
+import com.aims.repository.ProductRepository;
 import com.aims.service.OrderService;
 import com.aims.utils.Constants;
 import org.springframework.stereotype.Service;
@@ -16,11 +18,13 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
     private final CartServiceImpl cartService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, CartServiceImpl cartService) {
+    public OrderServiceImpl(OrderRepository orderRepository, CartServiceImpl cartService, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
         this.cartService = cartService;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -55,6 +59,12 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(orderId).orElse(null);
         if (order != null && order.getStatus().equals(Constants.ORDER_STATUS_PENDING)) {
             order.setStatus(status);
+            if (status.equals(Constants.ORDER_STATUS_PROCESSING)) {
+                // update the quantity of product by subtracting the quantity of product in the order
+                order.getListOrderItem().forEach(orderItem -> {
+                    updateQuantityProduct(orderItem.getProduct().getId(), orderItem.getQuantity());
+                });
+            }
             return orderRepository.save(order);
         } else {
             throw new OrderNotFoundException("Order not found");
@@ -66,4 +76,13 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findAll();
     }
 
+    private void updateQuantityProduct(String productId, int quantity) {
+        Product product = productRepository.findById(productId).orElse(null);
+        if (product != null) {
+            product.setQuantity(product.getQuantity() - quantity);
+            productRepository.save(product);
+        } else {
+            throw new AIMSException("Product not found");
+        }
+    }
 }

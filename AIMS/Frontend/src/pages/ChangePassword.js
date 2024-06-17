@@ -16,7 +16,7 @@ const ChangePassword = () => {
       alert("Passwords do not match!");
       return;
     }
-
+    console.log(userId);
     axios
       .put(`user/change-password?userId=${userId}&currentPassword=${oldPassword}&newPassword=${password}`)
       .then((response) => {

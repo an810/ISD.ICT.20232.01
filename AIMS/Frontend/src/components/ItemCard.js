@@ -2,8 +2,9 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { CartContext } from "../providers/CartContext";
 import { toast } from "react-toastify";
+
 const ItemCard = (props) => {
-  const { product } = props;
+  const { product, onViewDetail } = props;  // Receive onViewDetail as a prop
   const { cartId, setItem, setTotalPrice } = useContext(CartContext);
   const [qty, setQty] = useState(1);
 
@@ -18,6 +19,7 @@ const ItemCard = (props) => {
       setQty(qty - 1);
     }
   };
+
   const handleAddToCart = () => {
     if (product.quantity < qty) {
       toast.error("Out of stock");
@@ -39,25 +41,23 @@ const ItemCard = (props) => {
   return (
     <div className="bg-gray-100 rounded-lg shadow-md p-4">
       <img
-        src={product.image ? product.image : "https://via.placeholder.com/150"}
-        alt={product.name}
+        src={product.imageURL ? product.imageURL : "https://via.placeholder.com/150"}
+        alt={product.title}
         className="w-full rounded-lg h-60"
       />
-      <div className="flex justify-between mt-6 items-center	">
+      <div className="flex justify-between mt-6 items-center">
         <div>
           <span className="flex flex-col">
-            <h2 className="text-xl font-semibold mb-2 max-w-24 text-ellipsis overflow-hidden	whitespace-nowrap">
+            <h2 className="text-xl font-semibold mb-2 max-w-24 text-ellipsis overflow-hidden whitespace-nowrap">
               {product.title}
             </h2>
-            <p className="text-gray-600 text-sm mb-2">{product.cat}</p>
+            <p className="text-gray-600 text-sm mb-2">{product.category}</p>
           </span>
           <p className="text-gray-600 mb-2">${product.sellPrice}</p>
           <p className="text-gray-600 text-xs mb-4 italic">
             Stock:{" "}
             <div>
-              {product.quantity
-                ? "Available(" + product.quantity + ")"
-                : "Out of stock"}
+              {product.quantity ? "Available(" + product.quantity + ")" : "Out of stock"}
             </div>
           </p>
         </div>
@@ -77,12 +77,20 @@ const ItemCard = (props) => {
               +
             </button>
           </div>
+          <div className="flex flex-col space-y-2">
           <button
-            className=" text-white font-semibold py-2 px-4 rounded-3xl bg-gray-500 h-10"
+            className="text-white font-semibold py-2 px-4 rounded-3xl bg-gray-500 h-10 mb-2"
             onClick={handleAddToCart}
           >
             Add to Cart
           </button>
+          <button
+            className="text-white font-semibold py-2 px-4 rounded-3xl bg-blue-500 h-10"
+            onClick={() => onViewDetail(product)}  // Call onViewDetail with the product
+          >
+            View Detail
+          </button>
+          </div>
         </div>
       </div>
     </div>

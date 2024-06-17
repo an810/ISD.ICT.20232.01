@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import axios from "axios";
 import { toast } from "react-toastify";
+import OrderDetailPopup from "../components/OrderDetailPopup";
+
 Modal.setAppElement("#root");
 
 const OrderManager = () => {
   const [orders, setOrders] = useState([]);
-  console.log(orders);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const fetchBooks = () => {
     axios
       .get("/order/all")
@@ -46,6 +50,23 @@ const OrderManager = () => {
       });
   };
 
+  const handleViewOrder = (id) => {
+    axios
+      .get(`order/${id}`)
+      .then((response) => {
+        setSelectedOrder(response.data.data);
+        setIsModalOpen(true);
+      })
+      .catch((error) => {
+        console.error("Error fetching order: ", error);
+      });
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedOrder(null);
+  };
+
   return (
     <div className="p-6">
       <h1 className="text-2xl mb-4">Order</h1>
@@ -82,6 +103,12 @@ const OrderManager = () => {
                     >
                       Reject
                     </button>
+                    <button
+                      className="border-2 rounded-2xl px-4 py-2 mr-2"
+                      onClick={() => handleViewOrder(order.orderId)}
+                    >
+                      View
+                    </button>
                   </>
                 )}
               </td>
@@ -89,6 +116,14 @@ const OrderManager = () => {
           ))}
         </tbody>
       </table>
+
+      {selectedOrder && (
+        <OrderDetailPopup
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          order={selectedOrder}
+        />
+      )}
     </div>
   );
 };

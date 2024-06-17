@@ -28,8 +28,8 @@ const CartCard = (props) => {
       <div className="flex items-center	">
         <img
           src={
-            product.product.image
-              ? product.product.image
+            product.product.imageURL
+              ? product.product.imageURL
               : "https://via.placeholder.com/150"
           }
           alt={product.name}

@@ -1,174 +1,241 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
+import axios from "axios";
 import ProductPopUp from "../components/ProductPopUp";
-import Modal from "react-modal";
-Modal.setAppElement("#root");
+
 const ProductManager = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [priceModelIsOpen, setPriceModelIsOpen] = useState(false);
-  const [editProductId, setEditProductId] = useState(null);
   const [products, setProducts] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [formData, setFormData] = useState({
+    type: "book",
     title: "",
     importPrice: "",
     sellPrice: "",
     quantity: "",
-    isRushDeliverySupport: "",
-    type: "book",
+    imageURL: "",
+    rushDeliverySupport: "true",
+    // Book specific fields
+    author: "",
+    coverType: "",
+    publisher: "",
+    publishDate: "",
+    numOfPages: "",
+    language: "",
+    bookCategory: "",
+    // CD specific fields
+    artist: "",
+    recordLabel: "",
+    musicType: "",
+    releasedDate: "",
+    form: "",
+    // DVD specific fields
+    discType: "",
+    director: "",
+    runtime: "",
+    movieCategory: "",
   });
+  const [isEdit, setIsEdit] = useState(false);
+  const [currentProductId, setCurrentProductId] = useState(null);
+  const [priceModalIsOpen, setPriceModalIsOpen] = useState(false);
+  const [editProductId, setEditProductId] = useState(null);
+  const [newPrice, setNewPrice] = useState("");
 
-  const handleInputChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleProductTypeChange = (event) => {
-    setFormData({
-      ...formData,
-      type: event.target.value,
-    });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    axios
-      .post(`product/add-${formData.type}`, formData)
-      .then((response) => {
-        fetchBooks();
-        toast.success("Product added successfully: ", response.data.message);
-        closeModal();
-      })
-      .catch((error) => {
-        console.error("Error adding product: ", error);
-      });
-  };
-
-  const fetchBooks = () => {
-    axios
-      .get("/product/all")
-      .then((response) => {
-        setProducts(response.data.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
-  };
   useEffect(() => {
-    fetchBooks();
+    fetchProducts();
   }, []);
 
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get("/product/all");
+      setProducts(response.data.data);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+      toast.error("Failed to fetch products. Please try again later.");
+    }
+  };
+
   const openModal = () => {
+    setIsEdit(false);
     setModalIsOpen(true);
   };
 
   const closeModal = () => {
     setModalIsOpen(false);
-  };
-
-  const handleDeleteProduct = (id) => {
-    axios
-      .delete(`product/delete/${id}`)
-      .then((response) => {
-        fetchBooks();
-        toast.success("Product deleted successfully: ", response.data.message);
-      })
-      .catch((error) => {
-        toast.error("Error deleting product");
-      });
-  };
-
-  const handleUpdatePrice = (id) => {
-    setEditProductId(id);
-    setPriceModelIsOpen(true);
-  };
-
-  const handleEditProduct = (product) => {
     setFormData({
-      title: product.title,
-      importPrice: product.importPrice,
-      sellPrice: product.sellPrice,
-      quantity: product.quantity,
-      isRushDeliverySupport: product.rushDeliverySupport,
-      type: product.type,
-      isEdit: true,
+      type: "book",
+      title: "",
+      importPrice: "",
+      sellPrice: "",
+      quantity: "",
+      imageURL: "",
+      rushDeliverySupport: "true",
+      author: "",
+      coverType: "",
+      publisher: "",
+      publishDate: "",
+      numOfPages: "",
+      language: "",
+      bookCategory: "",
+      artist: "",
+      recordLabel: "",
+      musicType: "",
+      releasedDate: "",
+      form: "",
+      discType: "",
+      director: "",
+      runtime: "",
+      movieCategory: "",
     });
-    openModal();
+  };
+
+  const handleProductTypeChange = (event) => {
+    setFormData({ ...formData, type: event.target.value });
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.post(`/product/add-${formData.type}`, formData);
+      toast.success("Product added successfully!");
+      closeModal();
+      fetchProducts();
+    } catch (error) {
+      console.error("Failed to add product:", error);
+      toast.error("Failed to add product. Please try again.");
+    }
+  };
+
+  const handleEditProduct = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.put(`/product/update-${formData.type}/${currentProductId}`, formData);
+      toast.success("Product updated successfully!");
+      closeModal();
+      fetchProducts();
+    } catch (error) {
+      console.error("Failed to update product:", error);
+      toast.error("Failed to update product. Please try again.");
+    }
+  };
+
+  const handleDeleteProduct = async (productId) => {
+    try {
+      await axios.delete(`/product/delete/${productId}`);
+      toast.success("Product deleted successfully!");
+      fetchProducts();
+    } catch (error) {
+      console.error("Failed to delete product:", error);
+      toast.error("Failed to delete product. Please try again.");
+    }
+  };
+
+  const handleEditClick = (product) => {
+    setIsEdit(true);
+    setCurrentProductId(product.id);
+    setFormData(product);
+    console.log("editing product: ", product);
+    setModalIsOpen(true);
+  };
+
+  const openPriceModal = (productId) => {
+    setEditProductId(productId);
+    setPriceModalIsOpen(true);
+  };
+
+  const closePriceModal = () => {
+    setPriceModalIsOpen(false);
+    setNewPrice("");
+  };
+
+  const handlePriceChange = (event) => {
+    setNewPrice(event.target.value);
+  };
+
+  const handleEditPrice = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.put(`/product/update-price/${editProductId}?newPrice=${newPrice}`);
+      toast.success("Price updated successfully!");
+      closePriceModal();
+      fetchProducts();
+    } catch (error) {
+      console.error("Error updating price:", error);
+      toast.error("Error updating price. Please try again.");
+    }
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl mb-4">Product</h1>
-
-      <button
-        onClick={openModal}
-        className="border-2 rounded-2xl px-4 py-2 mr-2"
-      >
-        Add product
+    <div>
+      <button onClick={openModal} className="px-4 py-2 bg-blue-500 text-white rounded-md mb-4">
+        Add Product
       </button>
 
-      <PriceEditPopup
-        editProductId={editProductId}
-        isOpen={priceModelIsOpen}
-        onRequestClose={() => {
-          setPriceModelIsOpen(false);
-        }}
-      />
       <ProductPopUp
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
-        handleInputChange={handleInputChange}
+        formData={formData}
         handleProductTypeChange={handleProductTypeChange}
         handleSubmit={handleSubmit}
-        formData={formData}
+        handleInputChange={handleInputChange}
         setModalIsOpen={setModalIsOpen}
+        isEdit={isEdit}
+        handleEditProduct={handleEditProduct}
       />
 
-      <table className="w-full table-auto">
+      {priceModalIsOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={closePriceModal}>&times;</span>
+            <form onSubmit={handleEditPrice}>
+              <h2>Edit Price</h2>
+              <input
+                type="number"
+                value={newPrice}
+                onChange={handlePriceChange}
+                placeholder="New Price"
+                required
+              />
+              <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded-md">
+                Update Price
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      <table className="min-w-full bg-white border">
         <thead>
           <tr>
-            <th className="px-4 py-2">Id</th>
-            <th className="px-4 py-2">Product Name</th>
-            <th className="px-4 py-2">Type</th>
-            <th className="px-4 py-2">Import Price</th>
-            <th className="px-4 py-2">Price</th>
-            <th className="px-4 py-2">Quantity</th>
-            <th className="px-4 py-2">Rush Delivery Support</th>
-            <th className="px-4 py-2">Action</th>
+            <th className="py-2 px-4 border-b">Type</th>
+            <th className="py-2 px-4 border-b">Title</th>
+            <th className="py-2 px-4 border-b">Import Price</th>
+            <th className="py-2 px-4 border-b">Sell Price</th>
+            <th className="py-2 px-4 border-b">Quantity</th>
+            <th className="py-2 px-4 border-b">Actions</th>
           </tr>
         </thead>
         <tbody>
           {products.map((product) => (
             <tr key={product.id}>
-              <td className="border px-4 py-2">{product.id}</td>
-              <td className="border px-4 py-2">{product.title}</td>
-              <td className="border px-4 py-2">{product.type}</td>
-              <td className="border px-4 py-2">{product.importPrice}</td>
-              <td className="border px-4 py-2">{product.sellPrice}</td>
-              <td className="border px-4 py-2">{product.quantity}</td>
-              <td className="border px-4 py-2">
-                {product.rushDeliverySupport ? "Yes" : "No"}
-              </td>
-              <td className="border px-4 py-2">
-                <button
-                  className="border-2 rounded-2xl px-4 py-2 mr-2"
-                  onClick={() => handleEditProduct(product)}
-                >
+              <td className="py-2 px-4 border-b">{product.type}</td>
+              <td className="py-2 px-4 border-b">{product.title}</td>
+              <td className="py-2 px-4 border-b">{product.importPrice}</td>
+              <td className="py-2 px-4 border-b">{product.sellPrice}</td>
+              <td className="py-2 px-4 border-b">{product.quantity}</td>
+              <td className="py-2 px-4 border-b">
+                <button onClick={() => handleEditClick(product)} className="px-2 py-1 bg-yellow-500 text-white rounded-md mr-2">
                   Edit
                 </button>
-                <button
-                  className="border-2 rounded-2xl px-4 py-2 mr-2"
-                  onClick={() => handleDeleteProduct(product.id)}
-                >
+                <button onClick={() => handleDeleteProduct(product.id)} className="px-2 py-1 bg-red-500 text-white rounded-md mr-2">
                   Delete
                 </button>
-                <button
-                  className="border-2 rounded-2xl px-4 py-2"
-                  onClick={() => handleUpdatePrice(product.id)}
-                >
-                  Update Price
+                <button onClick={() => openPriceModal(product.id)} className="px-2 py-1 bg-blue-500 text-white rounded-md">
+                  Edit Price
                 </button>
               </td>
             </tr>
@@ -176,71 +243,6 @@ const ProductManager = () => {
         </tbody>
       </table>
     </div>
-  );
-};
-
-const PriceEditPopup = (props) => {
-  const { isOpen, onRequestClose, editProductId } = props;
-  const [sellPrice, setSellPrice] = useState("");
-  const [newPrice, setNewPrice] = useState("");
-
-  const handleInputChange = (event) => {
-    setNewPrice(event.target.value);
-  }
-
-  useEffect(() => { 
-    // GET PRICE
-    if (!editProductId) return;
-    axios.get(`product/${editProductId}`).then((response) => {
-      setSellPrice(response.data.data.sellPrice);
-      setNewPrice(response.data.data.sellPrice);
-    });
-  }, [editProductId]);
-  
-
-  const handleEditPrice = (e) => {
-    e.preventDefault();
-    //POST edit product
-    axios.put(`product/update-price/${editProductId}?newPrice=${newPrice}`)
-    .then((response) => {
-      // fetchBooks();
-      toast.success("Price updated successfully: ", response.data.message);
-      onRequestClose();
-    })
-    .catch((error) => {
-      toast.error("Error updating price: ", error);
-    });
-  }
-  return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      contentLabel="Add Product"
-      className="m-4 p-4 border-2 border-gray-300 rounded-md bg-gray-50 overflow-y-scroll h-4/5	"
-    >
-      <h2 className="mb-4 font-bold">Edit price</h2>
-
-      <form onSubmit={handleEditPrice}>
-        <label className="block mb-2">
-          Selling Price
-          <input
-            type="number"
-            name="newPrice"
-            className="border px-2 py-1 w-full"
-            value={newPrice}
-            onChange={handleInputChange}
-            required
-          />
-        </label>
-        
-      </form>
-      <button onClick={onRequestClose} className="border px-4 py-2">
-        Cancel
-      </button>
-      <button onClick={handleEditPrice} type="submit" className="border px-4 py-2">
-        Update
-      </button>
-    </Modal>
   );
 };
 

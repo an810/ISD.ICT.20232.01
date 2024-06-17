@@ -1,5 +1,6 @@
 import Modal from "react-modal";
 import { toast } from "react-toastify";
+import axios from "axios";
 Modal.setAppElement("#root");
 
 const ProductPopUp = (props) => {
@@ -11,21 +12,19 @@ const ProductPopUp = (props) => {
     handleSubmit,
     handleInputChange,
     setModalIsOpen,
+    isEdit,
+    handleEditProduct,
   } = props;
-
-  const handleEditProduct = () => {
-    //POST 1 cái gì đấy
-  }
 
   return (
     <Modal
       isOpen={modalIsOpen}
       onRequestClose={closeModal}
-      contentLabel="Add Product"
-      className="m-4 p-4 border-2 border-gray-300 rounded-md bg-gray-50 overflow-y-scroll h-4/5	"
+      contentLabel={isEdit ? "Edit Product" : "Add Product"}
+      className="m-4 p-4 border-2 border-gray-300 rounded-md bg-gray-50 overflow-y-scroll h-4/5"
     >
-      <h2 className="mb-4 font-bold">Add Product</h2>
-      <form onSubmit={handleSubmit}>
+      <h2 className="mb-4 font-bold">{isEdit ? "Edit Product" : "Add Product"}</h2>
+      <form onSubmit={isEdit ? handleEditProduct : handleSubmit}>
         <label className="block mb-4">
           Product
           <select
@@ -85,8 +84,8 @@ const ProductPopUp = (props) => {
         <label className="block mb-2">
           ImageURL
           <input
-            type="number"
-            name="quantity"
+            type="text"
+            name="imageURL"
             className="border px-2 py-1 w-full"
             value={formData.imageURL}
             onChange={handleInputChange}
@@ -96,6 +95,7 @@ const ProductPopUp = (props) => {
         <label className="block mb-2">
           Rush Delivery Support
           <select
+            name="rushDeliverySupport"
             value={formData.rushDeliverySupport}
             onChange={handleInputChange}
             className="border px-2 py-1 w-full"
@@ -294,48 +294,12 @@ const ProductPopUp = (props) => {
               />
             </label>
             <label className="block mb-2">
-              Studio
+              Movie Category
               <input
                 type="text"
-                name="studio"
+                name="movieCategory"
                 className="border px-2 py-1 w-full"
-                value={formData.studio}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-
-            <label className="block mb-2">
-              Subtitles
-              <input
-                type="text"
-                name="subtitles"
-                className="border px-2 py-1 w-full"
-                value={formData.subtitles}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-
-            <label className="block mb-2">
-              Release Date
-              <input
-                type="date"
-                name="releasedDate"
-                className="border px-2 py-1 w-full"
-                value={formData.releasedDate}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-
-            <label className="block mb-2">
-              Film Type
-              <input
-                type="text"
-                name="filmType"
-                className="border px-2 py-1 w-full"
-                value={formData.filmType}
+                value={formData.movieCategory}
                 onChange={handleInputChange}
                 required
               />
@@ -343,25 +307,21 @@ const ProductPopUp = (props) => {
           </>
         )}
 
-        <button
-          onClick={() => setModalIsOpen(false)}
-          className="border px-4 py-2"
-        >
-          Cancel
-        </button>
-
-        {formData.isEdit ? (
+        <div className="flex justify-end mt-4">
           <button
-            onClick={() => handleEditProduct(false)}
-            className="border px-4 py-2"
+            type="button"
+            onClick={closeModal}
+            className="mr-2 px-4 py-2 bg-gray-500 text-white rounded-md"
           >
-            Edit product
+            Cancel
           </button>
-        ) : (
-          <button type="submit" className="border px-4 py-2">
-            Add Product
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-500 text-white rounded-md"
+          >
+            {isEdit ? "Update" : "Add"}
           </button>
-        )}
+        </div>
       </form>
     </Modal>
   );
