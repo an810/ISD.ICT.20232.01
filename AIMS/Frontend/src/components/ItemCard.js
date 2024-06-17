@@ -40,7 +40,7 @@ const ItemCard = (props) => {
     <div className="bg-gray-100 rounded-lg shadow-md p-4">
       <img
         src={product.imageURL ? product.imageURL : "https://via.placeholder.com/150"}
-        alt={product.name}
+        alt={product.title}
         className="w-full rounded-lg h-60"
       />
       <div className="flex justify-between mt-6 items-center	">
@@ -49,7 +49,7 @@ const ItemCard = (props) => {
             <h2 className="text-xl font-semibold mb-2 max-w-24 text-ellipsis overflow-hidden	whitespace-nowrap">
               {product.title}
             </h2>
-            <p className="text-gray-600 text-sm mb-2">{product.cat}</p>
+            <p className="text-gray-600 text-sm mb-2">{product.category}</p>
           </span>
           <p className="text-gray-600 mb-2">${product.sellPrice}</p>
           <p className="text-gray-600 text-xs mb-4 italic">
@@ -87,6 +87,8 @@ const ItemCard = (props) => {
       </div>
     </div>
   );
+
+
 };
 
 export default ItemCard;

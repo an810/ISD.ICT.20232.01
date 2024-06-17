@@ -15,6 +15,16 @@ const ProductPopUp = (props) => {
 
   const handleEditProduct = () => {
     //POST 1 cái gì đấy
+    // axios
+    //   .put(`product/update-${formData.type}/${formData.id}`, formData)
+    //   .then((response) => {
+    //     fetchBooks();
+    //     toast.success("Product updated successfully: ", response.data.message);
+    //     closeModal();
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error updating product: ", error);
+    //   });
   }
 
   return (
