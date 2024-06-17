@@ -40,10 +40,12 @@ const ProductManager = () => {
   const [priceModalIsOpen, setPriceModalIsOpen] = useState(false);
   const [editProductId, setEditProductId] = useState(null);
   const [newPrice, setNewPrice] = useState("");
+  const [currentPrice, setCurrentPrice] = useState("");
 
-  const openPriceModal = (productId) => {
-    setEditProductId(productId);
+  const openPriceModal = (product) => {
+    setEditProductId(product.id);
     setPriceModalIsOpen(true);
+    setCurrentPrice(product.sellPrice);
   };
 
   const closePriceModal = () => {
@@ -224,6 +226,7 @@ const ProductManager = () => {
         </thead>
         <tbody>
           {products.map((product) => (
+            console.log(product),
             <tr key={product.id}>
               <td className="py-2 px-4 border-b">{product.type}</td>
               <td className="py-2 px-4 border-b">{product.title}</td>
@@ -237,7 +240,7 @@ const ProductManager = () => {
                 <button onClick={() => handleDeleteProduct(product.id)} className="px-2 py-1 bg-red-500 text-white rounded-md mr-2">
                   Delete
                 </button>
-                <button onClick={() => openPriceModal(product.id)} className="px-2 py-1 bg-blue-500 text-white rounded-md">
+                <button onClick={() => openPriceModal(product)} className="px-2 py-1 bg-blue-500 text-white rounded-md">
                   Edit Price
                 </button>
                 {priceModalIsOpen && (
@@ -245,8 +248,8 @@ const ProductManager = () => {
                     isOpen={priceModalIsOpen}
                     onRequestClose={closePriceModal}
                     productId={editProductId}
-                    fetchProducts={fetchProducts} // Pass fetchProducts function to update product list
-                    currentPrice={product.sellPrice}
+                    fetchProducts={fetchProducts} 
+                    currentPrice={currentPrice}
                   />
                 )}
               </td>

@@ -7,7 +7,7 @@ Modal.setAppElement("#root");
 
 const EditPriceModal = ({ isOpen, onRequestClose, productId, fetchProducts, currentPrice }) => {
   const [newPrice, setNewPrice] = useState("");
-
+console.log(currentPrice);
   const handlePriceChange = (event) => {
     setNewPrice(event.target.value);
   };
