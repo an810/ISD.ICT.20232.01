@@ -6,7 +6,7 @@ import { getItemFromLocalStorage, removeItemFromLocalStorage } from "../utils";
 import { useEffect, useState, useContext } from "react";
 import { CartContext } from "../providers/CartContext";
 const Result = () => {
-  const { cartId } = useContext(CartContext);
+  const { cartId, setItem } = useContext(CartContext);
   const location = useLocation();
   const [order, setOrder] = useState({});
   const orderId = getItemFromLocalStorage("orderId");
@@ -42,6 +42,7 @@ const Result = () => {
           .get(`order/${orderId}`)
           .then((response) => {
             setOrder(response.data.data);
+            setItem([]);
           })
           .catch((error) => {
             console.log(error.data);
