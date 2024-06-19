@@ -20,8 +20,8 @@ const Home = () => {
       }).catch((error) => {
         console.error("Error fetching data: ", error);
       });
-    
-    axios.get("/cart/new")
+    if (!localStorage.getItem("cartId")) {
+      axios.get("/cart/new")
       .then((response) => {
         if(response.status) {
           console.log("cart id: ", response.data.data.id);
@@ -30,6 +30,7 @@ const Home = () => {
       }).catch((error) => {
         console.error("Error fetching data: ", error);
       });
+    }
     console.log("cart id: ", localStorage.getItem("cartId"));
   }, []);
 

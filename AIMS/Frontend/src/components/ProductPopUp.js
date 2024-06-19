@@ -66,7 +66,7 @@ const ProductPopUp = (props) => {
             name="sellPrice"
             className="border px-2 py-1 w-full"
             value={formData.sellPrice}
-            onChange={handleInputChange}
+            // onChange={handleInputChange}
             required
           />
         </label>
