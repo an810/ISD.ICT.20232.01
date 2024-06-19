@@ -23,40 +23,41 @@ Managing Group 1 project in the ITSS Software Development course in the 2023.2 s
 
 ## Report Content:
 <details>
-    <summary>From 20/05/2024 ~ to 26/05/2024</summary>
+    <summary>Contribution</summary>
     <br>
 
 <details>
-    <summary>Leader: Mai Đức An </summary>
+    <summary>Leader: Mai Đức An - 60% </summary>
     <br>
-    - design entities: https://github.com/an810/ISD.ICT.20232.01/commit/e37e280ae661c06c29596d0912f0f9f8b0b8f681 <br>
-    - CRUD product: https://github.com/an810/ISD.ICT.20232.01/commit/21356cd2f1dbd50c3f3da24c7c89c0b1fe9f4e5e <br>
-    - add check-cart api: https://github.com/an810/ISD.ICT.20232.01/commit/0c7dbfd739e00c668e79571c3969e0a33f32487f <br>
-    - complete place order api: https://github.com/an810/ISD.ICT.20232.01/commit/f7c20c76e697fa5b9f80c6dd711b93a0a0681e48 <br>
+    - Code Backend for all Usecases (17/17)
+    - Code Frontend for Usecases ( 8/17): View Order Detail, View Product Detail, Search/ Sort Product, Change Block Status, Change Order Status, Change User's Role, Update Price, CRUD Product 
+    - Prepare SDD Report 
 </details>
 
 <details>
-    <summary>Member: Vũ Đức An </summary>
+    <summary>Member: Vũ Đức An - 5% </summary>
     <br>
-    - 
+    - Prepare Usecase Specification
+    - Create database connection
 </details>
 
 <details>
-    <summary>Member: Đỗ Hoàng Anh </summary>
+    <summary>Member: Đỗ Hoàng Anh - 30% </summary>
     <br>
-    - 
+    - Code Frontend all remaining Usecases (9/17)
+    - Prepare Test Plan Report, Video demo, Slide
 </details>
 
 <details>
-    <summary>Member: Nguyễn Hải Anh </summary>
+    <summary>Member: Nguyễn Hải Anh - 0% </summary>
     <br>
-    - 
+    - No contribution
 </details>
 
 <details>
-    <summary>Member: Nguyễn Quốc Anh </summary>
+    <summary>Member: Nguyễn Quốc Anh - 5% </summary>
     <br>
-    - 
+    - Prepare Usecase Specification
 </details>
 
 
