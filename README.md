@@ -38,6 +38,12 @@ Managing Group 1 project in the ITSS Software Development course in the 2023.2 s
     <summary>Member: Vũ Đức An - 5% </summary>
     <br>
     - Prepare Usecase Specification <br>
+    - Design Database Schema/Relation <br>
+    - Deploy Database Cloud/Sample <br>
+    - Fix User Interface (homepage) <br>
+    - Identify Couplings <br>
+    - Identify Cohesions <br>
+    - Identify SOLID <br>
     - Create database connection <br>
 </details>
 
