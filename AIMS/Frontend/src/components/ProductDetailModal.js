@@ -34,7 +34,7 @@ const ProductDetailModal = ({ isOpen, onRequestClose, product }) => {
         setItem(response.data.data.listCartItem);
         setTotalPrice(response.data.data.totalPrice);
         toast.success("Added to cart");
-        onRequestClose(); // Close modal after successful add to cart
+        onRequestClose(); 
       })
       .catch((error) => {
         toast.error("Error adding to cart");

@@ -1,4 +1,3 @@
-import Summary from "../components/Summary";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
@@ -12,18 +11,13 @@ const Result = () => {
   const orderId = getItemFromLocalStorage("orderId");
   const queryParams = new URLSearchParams(location.search);
   const vnp_Amount = queryParams.get("vnp_Amount");
-  // const vnp_BankCode = queryParams.get('vnp_BankCode');
-  // const vnp_BankTranNo = queryParams.get('vnp_BankTranNo');
-  // const vnp_CardType = queryParams.get('vnp_CardType');
   const vnp_OrderInfo = queryParams.get("vnp_OrderInfo");
   const vnp_PayDate = queryParams.get("vnp_PayDate");
   const vnp_ResponseCode = queryParams.get("vnp_ResponseCode");
-  // const vnp_TmnCode = queryParams.get('vnp_TmnCode');
   const vnp_TransactionNo = queryParams.get("vnp_TransactionNo");
   const vnp_TransactionStatus = queryParams.get("vnp_TransactionStatus");
   const vnp_TxnRef = queryParams.get("vnp_TxnRef");
-  // const vnp_TxnRef = queryParams.get('vnp_TxnRef');
-  // const vnp_SecureHash = queryParams.get('vnp_SecureHash');
+
 
   useEffect(() => {
     axios
@@ -83,7 +77,7 @@ const Result = () => {
         axios
         .post(`cart/${cartId}/clear`)
         .then((response) => {
-          console.log("clear cart success", cartId);
+          return;
         })
         .catch((error) => {
           console.log(error.data);
@@ -103,6 +97,7 @@ const Result = () => {
     order,
     vnp_TxnRef,
     cartId,
+    setItem,
   ]);
 
   return (
