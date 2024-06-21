@@ -14,7 +14,6 @@ const Login = () => {
         e.preventDefault();
         axios.get(`user/login?username=${userName}&password=${password}&role=product_manager`).then((response) => {
             if(response.status === 200) {
-                console.log(response)
                 toast.success('Logged in successfully');
                 navigate('/product');
                 setIsAuthen("product_manager");

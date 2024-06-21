@@ -12,17 +12,8 @@ const CartCard = (props) => {
       toast.error("Out of stock");
       return;
     }
-    if (qty < 1) {
-      axios
-        .delete(`/cart/${cartId}/remove?productId=${product.product.id}`)
-        .then((response) => {
-          setItem(response.data.data.listCartItem);
-          setTotalPrice(response.data.data.totalPrice);
-          toast.success("Removed from cart");
-        })
-        .catch((error) => {
-          console.error("Error removing from cart", error);
-        });
+    if (product.quantity + qty < 1) {
+      handleRemoveFromCart();
     } else {
       axios
         .post(

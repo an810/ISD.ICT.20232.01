@@ -7,7 +7,6 @@ Modal.setAppElement("#root");
 
 const EditPriceModal = ({ isOpen, onRequestClose, productId, fetchProducts, currentPrice }) => {
   const [newPrice, setNewPrice] = useState("");
-console.log(currentPrice);
   const handlePriceChange = (event) => {
     setNewPrice(event.target.value);
   };
@@ -18,9 +17,8 @@ console.log(currentPrice);
       await axios.put(`/product/update-price/${productId}?newPrice=${newPrice}`);
       toast.success("Price updated successfully!");
       onRequestClose();
-      fetchProducts(); // Refresh product list after price update
+      fetchProducts();
     } catch (error) {
-      console.error("Error updating price:", error);
       toast.error("Error updating price. Please try again.");
     }
   };

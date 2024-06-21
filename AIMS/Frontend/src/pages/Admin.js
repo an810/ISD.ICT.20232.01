@@ -1,7 +1,5 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
-import { UserContext } from "../providers/UserContext";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 Modal.setAppElement("#root");

@@ -1,6 +1,4 @@
 import Modal from "react-modal";
-import { toast } from "react-toastify";
-import axios from "axios";
 Modal.setAppElement("#root");
 
 const ProductPopUp = (props) => {
@@ -11,7 +9,6 @@ const ProductPopUp = (props) => {
     handleProductTypeChange,
     handleSubmit,
     handleInputChange,
-    setModalIsOpen,
     isEdit,
     handleEditProduct,
   } = props;
@@ -66,7 +63,6 @@ const ProductPopUp = (props) => {
             name="sellPrice"
             className="border px-2 py-1 w-full"
             value={formData.sellPrice}
-            // onChange={handleInputChange}
             required
           />
         </label>

@@ -16,7 +16,6 @@ const Login = () => {
       .get(`user/login?username=${userName}&password=${password}&role=admin`)
       .then((response) => {
         if(response.data.status) {
-            console.log(response)
             toast.success("Logged in successfully");
             navigate("/admin");
             setIsAuthen("admin");

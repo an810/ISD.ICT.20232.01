@@ -151,7 +151,6 @@ const ProductManager = () => {
     setIsEdit(true);
     setCurrentProductId(product.id);
     setFormData(product);
-    console.log("editing product: ", product);
     setModalIsOpen(true);
   };
 
@@ -226,7 +225,6 @@ const ProductManager = () => {
         </thead>
         <tbody>
           {products.map((product) => (
-            console.log(product),
             <tr key={product.id}>
               <td className="py-2 px-4 border-b">{product.type}</td>
               <td className="py-2 px-4 border-b">{product.title}</td>
