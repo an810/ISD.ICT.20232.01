@@ -62,3 +62,7 @@ export const setItemsInLocalStorage = (key, value) => {
     }
     localStorage.removeItem(key);
   };
+
+  export const convertToVND = (number) => {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+  }

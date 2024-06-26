@@ -4,6 +4,7 @@ import axios from "axios";
 import { getItemFromLocalStorage, removeItemFromLocalStorage } from "../utils";
 import { useEffect, useState, useContext } from "react";
 import { CartContext } from "../providers/CartContext";
+import { convertToVND } from "../utils";
 const Result = () => {
   const { cartId, setItem } = useContext(CartContext);
   const location = useLocation();
@@ -17,7 +18,10 @@ const Result = () => {
   const vnp_TransactionNo = queryParams.get("vnp_TransactionNo");
   const vnp_TransactionStatus = queryParams.get("vnp_TransactionStatus");
   const vnp_TxnRef = queryParams.get("vnp_TxnRef");
+  const vnp_BankCode = queryParams.get("vnp_BankCode");
+  const vnp_BankTranNo = queryParams.get("vnp_BankTranNo");
 
+  console.log(vnp_BankCode, vnp_Amount, vnp_OrderInfo, vnp_PayDate, orderId, vnp_BankTranNo);
 
   useEffect(() => {
     axios
@@ -75,13 +79,13 @@ const Result = () => {
           });
 
         axios
-        .post(`cart/${cartId}/clear`)
-        .then((response) => {
-          return;
-        })
-        .catch((error) => {
-          console.log(error.data);
-        });
+          .post(`cart/${cartId}/clear`)
+          .then((response) => {
+            return;
+          })
+          .catch((error) => {
+            console.log(error.data);
+          });
       })
       .catch((error) => {
         console.log(error.data);
@@ -118,6 +122,16 @@ const Result = () => {
               <div className="text-2xl mt-10">
                 {vnp_ResponseCode === "00" ? "Sucessfull" : "Failed"}
               </div>
+              {vnp_ResponseCode === "00" ? (
+                <>
+                  <div className="mt-10">Amount: {convertToVND(vnp_Amount/100)}</div>
+                  <div className="mt-10">{vnp_OrderInfo}</div>
+                  <div className="mt-10">Date: {vnp_PayDate}</div>
+                  <div className="mt-10">Code: {vnp_BankTranNo}</div>
+                </>
+              ) : (
+                <> </>
+              )}
             </div>
 
             <div className="flex mt-40">
